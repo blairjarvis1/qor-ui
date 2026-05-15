@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Membership — Queen of Retreats</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      background: var(--sand);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ──────────────────────────────────────────────── */
+    .su-header {
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      position: relative;
+    }
+    .su-header__logo {
+      font-family: var(--serif);
+      font-size: 24px;
+      color: var(--ink);
+    }
+    .su-header__back {
+      position: absolute;
+      left: var(--s7);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s2);
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stone);
+      transition: color var(--dur-fast);
+    }
+    .su-header__back svg { transition: transform var(--dur-fast); }
+    .su-header__back:hover { color: var(--ink); }
+    .su-header__back:hover svg { transform: translateX(-3px); }
+    .su-header__right {
+      position: absolute;
+      right: var(--s7);
+      font-size: var(--t-sm);
+      color: var(--stone);
+      display: flex;
+      align-items: center;
+      gap: var(--s5);
+    }
+    .su-header__right a { color: var(--sage); font-weight: 500; }
+    .su-header__right a:hover { text-decoration: underline; }
+    .su-header__skip-ob {
+      display: none;
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stone);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: color var(--dur-fast);
+    }
+    .su-header__skip-ob:hover { color: var(--ink); }
+    .su-header__skip-ob.is-visible { display: block; }
+
+    /* ── Split layout ────────────────────────────────────────── */
+    .su-layout {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    /* ── Brand panel ─────────────────────────────────────────── */
+    .su-brand {
+      position: relative;
+      background: var(--ink);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: var(--s10);
+    }
+    .su-brand__img {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.45;
+    }
+    .su-brand__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(10,12,10,0.0) 0%, rgba(10,12,10,0.22) 50%, rgba(10,12,10,0.60) 100%);
+    }
+    .su-brand__content { position: relative; z-index: 2; }
+    .su-brand__eyebrow {
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: var(--s4);
+    }
+    .su-brand__headline {
+      font-family: var(--serif);
+      font-size: clamp(28px, 2.6vw, 40px);
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: var(--s7);
+      letter-spacing: -0.01em;
+    }
+    .su-brand__headline em { font-style: italic; color: rgba(255,255,255,0.75); }
+    .su-brand__benefits {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s3);
+      margin-bottom: var(--s8);
+    }
+    .su-brand__benefit {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--s3);
+      font-size: var(--t-sm);
+      color: rgba(255,255,255,0.8);
+      line-height: 1.5;
+    }
+    .su-brand__benefit svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; color: var(--sage-mid); }
+    .su-brand__quote { padding-top: var(--s6); border-top: 1px solid rgba(255,255,255,0.15); }
+    .su-brand__quote-text {
+      font-family: var(--serif);
+      font-size: var(--t-md);
+      font-style: italic;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.55;
+      margin-bottom: var(--s3);
+    }
+    .su-brand__quote-attr {
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* ── Right panel ─────────────────────────────────────────── */
+    .su-right {
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Progress bar (onboarding only) */
+    .su-progress {
+      height: 3px;
+      background: var(--cloud);
+      flex-shrink: 0;
+      display: none;
+    }
+    .su-progress.is-visible { display: block; }
+    .su-progress__fill {
+      height: 100%;
+      background: var(--sage);
+      transition: width 0.45s var(--ease-out);
+      width: 0%;
+    }
+
+    /* Scrollable content area */
+    .su-right__scroll {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--s7) var(--s9);
+    }
+    .su-right__scroll.ob-mode {
+      align-items: flex-start;
+      padding: var(--s8) var(--s9) var(--s10);
+    }
+
+    /* ── View toggling ───────────────────────────────────────── */
+    .su-view { display: none; width: 100%; }
+    .su-view.is-active { display: block; }
+    .su-view--center { max-width: 400px; margin: 0 auto; }
+
+    /* ── Sign-up form ────────────────────────────────────────── */
+    .su-form__eyebrow {
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: var(--s3);
+    }
+    .su-form__title {
+      font-family: var(--serif);
+      font-size: clamp(26px, 2.2vw, 34px);
+      color: var(--ink);
+      line-height: 1.1;
+      margin-bottom: var(--s2);
+      letter-spacing: -0.01em;
+    }
+    .su-form__sub {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      line-height: 1.55;
+      margin-bottom: var(--s7);
+    }
+    .su-social { display: flex; flex-direction: column; gap: var(--s3); margin-bottom: var(--s6); }
+    .su-social-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--s3);
+      padding: 11px var(--s5);
+      border-radius: var(--r-md);
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      font-size: var(--t-sm);
+      font-weight: 500;
+      color: var(--charcoal);
+      cursor: pointer;
+      transition: border-color var(--dur-fast), background var(--dur-fast);
+    }
+    .su-social-btn:hover { border-color: var(--border-mid); background: var(--parchment); }
+    .su-divider {
+      display: flex;
+      align-items: center;
+      gap: var(--s4);
+      margin: 0 0 var(--s6);
+    }
+    .su-divider::before, .su-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .su-divider span {
+      font-size: var(--t-xs);
+      color: var(--mist);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .su-fields { display: flex; flex-direction: column; gap: var(--s4); margin-bottom: var(--s5); }
+    .form-input--error { border-color: var(--error) !important; box-shadow: 0 0 0 3px rgba(176,48,48,0.1) !important; }
+    .su-field-error { font-size: var(--t-xs); color: var(--error); margin-top: 5px; display: none; }
+    .su-field-error.is-visible { display: block; }
+    .su-pw-strength { margin-top: var(--s2); display: none; }
+    .su-pw-strength.is-visible { display: block; }
+    .su-pw-bar { height: 3px; border-radius: 2px; background: var(--cloud); margin-bottom: 5px; overflow: hidden; }
+    .su-pw-bar__fill { height: 100%; border-radius: 2px; transition: width 0.3s ease, background 0.3s ease; width: 0%; }
+    .su-pw-label { font-size: 11px; color: var(--stone); }
+    .su-terms {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--s3);
+      margin-bottom: var(--s6);
+    }
+    .su-terms input[type="checkbox"] { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; accent-color: var(--sage); cursor: pointer; }
+    .su-terms label { font-size: var(--t-xs); color: var(--stone); line-height: 1.55; cursor: pointer; }
+    .su-terms a { color: var(--sage); font-weight: 500; }
+    .su-submit {
+      width: 100%;
+      padding: 14px var(--s6);
+      background: var(--sage);
+      color: var(--white);
+      border: none;
+      border-radius: var(--r-md);
+      font-family: var(--ui);
+      font-size: var(--t-sm);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background var(--dur-fast);
+      margin-bottom: var(--s5);
+    }
+    .su-submit:hover { background: #4e6349; }
+    .su-signin-link { text-align: center; font-size: var(--t-sm); color: var(--stone); }
+    .su-signin-link a { color: var(--sage); font-weight: 500; }
+
+    /* Mode toggling */
+    #view-form[data-mode="signin"] .su-register-only { display: none !important; }
+    #view-form[data-mode="signin"] #su-forgot-link { display: block !important; }
+    #view-form[data-mode="signin"] #su-pw-strength { display: none !important; }
+    .su-error-banner {
+      display: none;
+      margin-bottom: var(--s5);
+      padding: var(--s3) var(--s4);
+      background: var(--error-bg);
+      border: 1px solid #e8b4b4;
+      border-radius: var(--r-md);
+      font-size: var(--t-sm);
+      color: var(--error);
+      align-items: flex-start;
+      gap: var(--s2);
+    }
+    .su-error-banner.is-hidden { display: none !important; }
+    .su-trust {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--s5);
+      margin-top: var(--s7);
+      padding-top: var(--s6);
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .su-trust__item { display: flex; align-items: center; gap: var(--s2); font-size: var(--t-xs); color: var(--stone); }
+    .su-trust__item svg { color: var(--sage-mid); }
+
+    /* ── Success view ────────────────────────────────────────── */
+    .su-success { text-align: center; }
+    .su-success__icon {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: var(--sage-light);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto var(--s5);
+    }
+    .su-success__eyebrow { font-family: var(--ui); font-size: var(--t-xs); font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sage); margin-bottom: var(--s3); }
+    .su-success__title { font-family: var(--serif); font-size: clamp(26px, 2.2vw, 34px); color: var(--ink); line-height: 1.1; margin-bottom: var(--s3); letter-spacing: -0.01em; }
+    .su-success__name { color: var(--sage); }
+    .su-success__sub { font-size: var(--t-sm); color: var(--stone); line-height: 1.6; margin-bottom: var(--s7); }
+    .su-success__actions { display: flex; flex-direction: column; gap: var(--s3); }
+    .su-success__primary {
+      width: 100%; padding: 14px var(--s6);
+      background: var(--sage); color: var(--white);
+      border: none; border-radius: var(--r-md);
+      font-family: var(--ui); font-size: var(--t-sm); font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; transition: background var(--dur-fast);
+      display: flex; align-items: center; justify-content: center; gap: var(--s2);
+    }
+    .su-success__primary:hover { background: #4e6349; }
+    .su-success__secondary {
+      width: 100%; padding: 13px var(--s6);
+      background: transparent; color: var(--stone);
+      border: 1.5px solid var(--border); border-radius: var(--r-md);
+      font-family: var(--ui); font-size: var(--t-sm); font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; transition: all var(--dur-fast);
+      text-decoration: none; display: flex; align-items: center; justify-content: center;
+    }
+    .su-success__secondary:hover { border-color: var(--border-mid); color: var(--ink); }
+    .su-success__skip { font-size: var(--t-xs); color: var(--mist); text-align: center; margin-top: var(--s3); }
+    .su-success__skip a { color: var(--stone); text-decoration: underline; text-underline-offset: 2px; }
+
+    /* ── Onboarding step views ───────────────────────────────── */
+    .ob-step__counter {
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: var(--s3);
+    }
+    .ob-step__title {
+      font-family: var(--serif);
+      font-size: clamp(22px, 2vw, 30px);
+      color: var(--ink);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin-bottom: var(--s2);
+    }
+    .ob-step__sub {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      line-height: 1.6;
+      margin-bottom: var(--s5);
+      max-width: 480px;
+    }
+    .ob-section-label {
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: var(--s4);
+      margin-top: var(--s5);
+    }
+    .ob-section-label:first-of-type { margin-top: 0; }
+    .ob-multi-note { font-size: var(--t-xs); color: var(--mist); text-transform: none; letter-spacing: 0; font-weight: 400; margin-left: var(--s2); }
+
+    /* Cards */
+    .ob-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--s3);
+      margin-bottom: var(--s6);
+    }
+    .ob-cards--3 { grid-template-columns: repeat(3, 1fr); }
+    .ob-card {
+      background: var(--parchment);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--s4) var(--s3);
+      cursor: pointer;
+      transition: border-color var(--dur-fast), background var(--dur-fast), transform var(--dur-fast);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: var(--s2);
+      user-select: none;
+    }
+    .ob-card:hover { border-color: var(--sage-mid); transform: translateY(-1px); }
+    .ob-card.is-selected { border-color: var(--sage); background: var(--sage-pale); box-shadow: 0 0 0 3px rgba(99,122,94,0.1); }
+    .ob-card__emoji { font-size: 24px; line-height: 1; }
+    .ob-card__label { font-size: var(--t-sm); font-weight: 500; color: var(--ink); line-height: 1.3; }
+    .ob-card__desc { font-size: 11px; color: var(--stone); line-height: 1.4; }
+
+    /* Experience cards */
+    .ob-exp-cards { display: flex; flex-direction: column; gap: var(--s3); margin-bottom: var(--s6); }
+    .ob-exp-card {
+      background: var(--parchment);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--s5) var(--s6);
+      cursor: pointer;
+      transition: border-color var(--dur-fast), background var(--dur-fast);
+      display: flex;
+      align-items: center;
+      gap: var(--s4);
+      user-select: none;
+    }
+    .ob-exp-card:hover { border-color: var(--sage-mid); }
+    .ob-exp-card.is-selected { border-color: var(--sage); background: var(--sage-pale); box-shadow: 0 0 0 3px rgba(99,122,94,0.1); }
+    .ob-exp-card__emoji { font-size: 28px; flex-shrink: 0; }
+    .ob-exp-card__label { font-size: var(--t-base); font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+    .ob-exp-card__desc { font-size: var(--t-sm); color: var(--stone); line-height: 1.4; }
+
+    /* Chips */
+    .ob-chips { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s6); }
+    .ob-chip {
+      padding: 7px 14px;
+      border-radius: var(--r-pill);
+      border: 1.5px solid var(--border);
+      background: var(--parchment);
+      font-size: var(--t-sm);
+      color: var(--charcoal);
+      cursor: pointer;
+      transition: border-color var(--dur-fast), background var(--dur-fast), color var(--dur-fast);
+      user-select: none;
+    }
+    .ob-chip:hover { border-color: var(--sage-mid); }
+    .ob-chip.is-selected { background: var(--sage); border-color: var(--sage); color: var(--white); }
+
+    /* Data note */
+    .ob-data-note {
+      display: flex;
+      align-items: center;
+      gap: var(--s2);
+      font-size: var(--t-xs);
+      color: var(--mist);
+      margin-bottom: var(--s4);
+    }
+    .ob-data-note svg { color: var(--sage-mid); flex-shrink: 0; }
+
+    /* Onboarding step navigation */
+    .ob-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: var(--s5);
+      border-top: 1px solid var(--border);
+      margin-top: var(--s2);
+    }
+    .ob-nav__back {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s2);
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stone);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: color var(--dur-fast);
+      visibility: hidden;
+    }
+    .ob-nav__back.is-visible { visibility: visible; }
+    .ob-nav__back:hover { color: var(--ink); }
+    .ob-nav__right { display: flex; align-items: center; gap: var(--s4); }
+    .ob-nav__skip {
+      font-size: var(--t-sm);
+      color: var(--mist);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: color var(--dur-fast);
+    }
+    .ob-nav__skip:hover { color: var(--stone); }
+    .ob-nav__continue {
+      padding: 11px var(--s7);
+      background: var(--sage);
+      color: var(--white);
+      border: none;
+      border-radius: var(--r-md);
+      font-family: var(--ui);
+      font-size: var(--t-sm);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background var(--dur-fast);
+      display: flex;
+      align-items: center;
+      gap: var(--s2);
+    }
+    .ob-nav__continue:hover { background: #4e6349; }
+
+    /* ── Completion view ─────────────────────────────────────── */
+    .ob-complete { text-align: center; }
+    .ob-complete__icon {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: var(--sage-pale); border: 1.5px solid var(--sage-light);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto var(--s6);
+    }
+    .ob-complete__eyebrow { font-family: var(--ui); font-size: var(--t-xs); font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sage); margin-bottom: var(--s3); }
+    .ob-complete__title { font-family: var(--serif); font-size: clamp(24px, 2.2vw, 32px); color: var(--ink); line-height: 1.1; margin-bottom: var(--s3); letter-spacing: -0.01em; }
+    .ob-complete__sub { font-size: var(--t-sm); color: var(--stone); line-height: 1.65; margin-bottom: var(--s6); max-width: 380px; margin-left: auto; margin-right: auto; }
+    .ob-complete__tags { display: flex; flex-wrap: wrap; gap: var(--s2); justify-content: center; margin-bottom: var(--s7); }
+    .ob-complete__tag { padding: 5px 12px; border-radius: var(--r-pill); background: var(--sage-light); font-size: var(--t-sm); color: var(--sage); font-weight: 500; }
+    .ob-complete__actions { display: flex; flex-direction: column; gap: var(--s3); max-width: 340px; margin: 0 auto; }
+    .ob-complete__primary {
+      padding: 14px var(--s7); background: var(--sage); color: var(--white);
+      border: none; border-radius: var(--r-md);
+      font-family: var(--ui); font-size: var(--t-sm); font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
+      transition: background var(--dur-fast); text-decoration: none;
+      display: flex; align-items: center; justify-content: center; gap: var(--s2);
+    }
+    .ob-complete__primary:hover { background: #4e6349; }
+    .ob-complete__secondary {
+      padding: 13px var(--s7); background: transparent; color: var(--stone);
+      border: 1.5px solid var(--border); border-radius: var(--r-md);
+      font-family: var(--ui); font-size: var(--t-sm); font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
+      transition: all var(--dur-fast); text-decoration: none;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ob-complete__secondary:hover { border-color: var(--border-mid); color: var(--ink); }
+
+    /* ── Responsive ──────────────────────────────────────────── */
+    @media (max-width: 1100px) {
+      .su-right__scroll { padding: var(--s6) var(--s7); }
+      .su-right__scroll.ob-mode { padding: var(--s6) var(--s7) var(--s9); }
+      .ob-cards { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .su-layout { grid-template-columns: 1fr; }
+      .su-brand { display: none; }
+      html, body { overflow: auto; height: auto; }
+      .su-right { min-height: calc(100dvh - 60px); }
+    }
+    @media (max-width: 480px) {
+      .su-right__scroll { padding: var(--s5); }
+      .su-header__right span { display: none; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ──────────────────────────────────────────────────── -->
+  <header class="site-header is-scrolled" style="position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border)">
+    <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;padding:0 48px">
+
+      <!-- Nav links — left -->
+      <nav style="display:flex;align-items:center;gap:32px">
+        <a href="#" style="font-family:var(--ui);font-size:var(--t-sm);font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--stone)">Retreats</a>
+        <a href="#" style="font-family:var(--ui);font-size:var(--t-sm);font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--stone)">Destinations</a>
+        <a href="#" style="font-family:var(--ui);font-size:var(--t-sm);font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--stone)">Inspiration</a>
+        <a href="#" style="font-family:var(--ui);font-size:var(--t-sm);font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--stone)">About</a>
+      </nav>
+
+      <!-- Logo — centre -->
+      <a href="index.html" style="font-family:var(--serif);font-size:26px;color:var(--ink);white-space:nowrap">Queen of Retreats</a>
+
+      <!-- Actions — right -->
+      <div style="display:flex;align-items:center;gap:8px;justify-content:flex-end">
+        <button class="btn btn--ghost" style="color:var(--charcoal);gap:6px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Search
+        </button>
+        <a href="#" class="btn btn--ghost" onclick="switchMode('signin');return false;" style="color:var(--ink);gap:6px;border-radius:0;padding-bottom:10px;border-bottom:2px solid var(--ink)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Sign In
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ── LAYOUT ──────────────────────────────────────────────────── -->
+  <div class="su-layout">
+
+    <!-- ── Brand panel ───────────────────────────────────────────── -->
+    <div class="su-brand">
+      <img class="su-brand__img" src="images/general/01.jpg" alt="">
+      <div class="su-brand__overlay"></div>
+      <div class="su-brand__content">
+        <div class="su-brand__eyebrow">Queen of Retreats</div>
+        <div class="su-brand__headline">The world's finest <em>retreat experiences,</em> curated for you</div>
+        <ul class="su-brand__benefits">
+          <li class="su-brand__benefit">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            Save and shortlist retreats
+          </li>
+          <li class="su-brand__benefit">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            Faster booking and enquiry
+          </li>
+          <li class="su-brand__benefit">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+            Member-only retreats and early releases
+          </li>
+          <li class="su-brand__benefit">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Direct access to retreat specialists
+          </li>
+        </ul>
+        <div class="su-brand__quote">
+          <div class="su-brand__quote-text">"The most thoughtful, genuinely curated retreat platform I've found — and I've looked."</div>
+          <div class="su-brand__quote-attr">Sarah M. — QoR Member since 2024</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Right panel ────────────────────────────────────────────── -->
+    <div class="su-right">
+
+      <!-- Progress bar (onboarding) -->
+      <div class="su-progress" id="su-progress">
+        <div class="su-progress__fill" id="su-progress-fill"></div>
+      </div>
+
+      <div class="su-right__scroll" id="su-scroll">
+
+        <!-- ── VIEW: SIGN-UP FORM ──────────────────────────────────── -->
+        <div class="su-view su-view--center is-active" id="view-form">
+
+          <div class="su-form__eyebrow" id="su-eyebrow">Create Your Membership</div>
+          <h1 class="su-form__title" id="su-title">Join Queen of Retreats</h1>
+          <p class="su-form__sub" id="su-sub">A membership built around your wellbeing journey — from first search to final booking.</p>
+
+          <div class="su-social">
+            <button class="su-social-btn" onclick="socialSignUp('google')">
+              <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              Continue with Google
+            </button>
+            <button class="su-social-btn" onclick="socialSignUp('apple')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              Continue with Apple
+            </button>
+          </div>
+
+          <div class="su-divider"><span id="su-divider-label">or sign up with email</span></div>
+
+          <div class="su-error-banner is-hidden" id="su-error">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span id="su-error-text">Please check your details and try again.</span>
+          </div>
+
+          <div class="su-fields">
+            <div class="form-group su-register-only" id="su-name-group">
+              <label class="form-label" for="su-name">Full name</label>
+              <input class="form-input" type="text" id="su-name" placeholder="Your name" autocomplete="name">
+              <span class="su-field-error" id="su-name-err">Please enter your name</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="su-email">Email address</label>
+              <input class="form-input" type="email" id="su-email" placeholder="your@email.com" autocomplete="email">
+              <span class="su-field-error" id="su-email-err">Please enter a valid email address</span>
+            </div>
+            <div class="form-group">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s2)">
+                <label class="form-label" for="su-password" style="margin-bottom:0" id="su-pw-label">Create Password</label>
+                <a href="#" class="su-signin-only" id="su-forgot-link" style="display:none;font-size:var(--t-xs);color:var(--sage);font-weight:500" onclick="showForgotPassword(event)">Forgot password?</a>
+              </div>
+              <input class="form-input" type="password" id="su-password" placeholder="Minimum 8 characters" autocomplete="new-password" oninput="checkPasswordStrength(this.value)">
+              <span class="su-field-error" id="su-pw-err">Password must be at least 8 characters</span>
+              <div class="su-pw-strength su-register-only" id="su-pw-strength">
+                <div class="su-pw-bar"><div class="su-pw-bar__fill" id="su-pw-fill"></div></div>
+                <span class="su-pw-label" id="su-pw-label-txt">Weak</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="su-terms su-register-only" id="su-terms-wrap">
+            <input type="checkbox" id="su-terms">
+            <label for="su-terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>, and I'm happy to receive occasional updates about retreats and member benefits.</label>
+          </div>
+
+          <button class="su-submit" id="su-submit-btn" onclick="handleFormSubmit()">Create Membership</button>
+          <p class="su-signin-link" id="su-bottom-link">Already a member? <a href="#" onclick="switchMode('signin');return false;">Sign in</a></p>
+
+          <div class="su-trust">
+            <span class="su-trust__item">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Secure &amp; encrypted
+            </span>
+            <span class="su-trust__item">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              No spam, ever
+            </span>
+            <span class="su-trust__item">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Free to join
+            </span>
+          </div>
+
+        </div><!-- /view-form -->
+
+        <!-- ── VIEW: SUCCESS ───────────────────────────────────────── -->
+        <div class="su-view su-view--center" id="view-success">
+          <div class="su-success">
+            <div class="su-success__icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="2.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div class="su-success__eyebrow">Membership Created</div>
+            <h1 class="su-success__title">Welcome, <span class="su-success__name" id="success-name">—</span></h1>
+            <p class="su-success__sub">You're in. Now let's make your experience feel like it was built just for you.</p>
+            <div class="su-success__actions">
+              <button class="su-success__primary" onclick="startOnboarding()">
+                Personalise my experience
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+              <a href="account-bookings.html" class="su-success__secondary">Go to my account</a>
+            </div>
+            <p class="su-success__skip" style="margin-top:var(--s4)"><a href="listings.html">Skip — start exploring retreats</a></p>
+          </div>
+        </div><!-- /view-success -->
+
+        <!-- ── OB STEP 1: Retreat Intent ───────────────────────────── -->
+        <div class="su-view" id="ob-1">
+          <div class="ob-step__counter">Step 1 of 5 — What are you looking for?</div>
+          <h2 class="ob-step__title">Help us tailor retreats to you</h2>
+          <p class="ob-step__sub">We'll surface retreats that match your intentions — not just a generic list.</p>
+          <div class="ob-section-label">Choose all that apply <span class="ob-multi-note">— you can change this later</span></div>
+          <div class="ob-cards">
+            <div class="ob-card" data-group="ob1" data-val="rest"><span class="ob-card__emoji">🌿</span><span class="ob-card__label">Rest &amp; Reset</span><span class="ob-card__desc">Slow down and restore</span></div>
+            <div class="ob-card" data-group="ob1" data-val="fitness"><span class="ob-card__emoji">🏃</span><span class="ob-card__label">Fitness &amp; Movement</span><span class="ob-card__desc">Yoga, hiking, surfing</span></div>
+            <div class="ob-card" data-group="ob1" data-val="healing"><span class="ob-card__emoji">💛</span><span class="ob-card__label">Healing &amp; Recovery</span><span class="ob-card__desc">Detox, mental health</span></div>
+            <div class="ob-card" data-group="ob1" data-val="growth"><span class="ob-card__emoji">🌸</span><span class="ob-card__label">Personal Growth</span><span class="ob-card__desc">Coaching, discovery</span></div>
+            <div class="ob-card" data-group="ob1" data-val="adventure"><span class="ob-card__emoji">🧗</span><span class="ob-card__label">Adventure</span><span class="ob-card__desc">Wild places, challenge</span></div>
+            <div class="ob-card" data-group="ob1" data-val="creative"><span class="ob-card__emoji">🎨</span><span class="ob-card__label">Creative &amp; Cultural</span><span class="ob-card__desc">Art, writing, music</span></div>
+            <div class="ob-card" data-group="ob1" data-val="spiritual"><span class="ob-card__emoji">🧘</span><span class="ob-card__label">Spiritual &amp; Mindful</span><span class="ob-card__desc">Meditation, silence</span></div>
+            <div class="ob-card" data-group="ob1" data-val="unsure"><span class="ob-card__emoji">🤷</span><span class="ob-card__label">Not Sure Yet</span><span class="ob-card__desc">Help me figure it out</span></div>
+          </div>
+          <div class="ob-nav">
+            <button class="ob-nav__back" onclick="obNav(-1)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Back</button>
+            <div class="ob-nav__right">
+              <button class="ob-nav__skip" onclick="obNav(1)">Skip</button>
+              <button class="ob-nav__continue" onclick="obNav(1)">Continue <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── OB STEP 2: Experience Level ────────────────────────── -->
+        <div class="su-view" id="ob-2">
+          <div class="ob-step__counter">Step 2 of 5 — Experience level</div>
+          <h2 class="ob-step__title">How experienced are you with retreats?</h2>
+          <p class="ob-step__sub">Helps us pitch recommendations at the right level — no wrong answers.</p>
+          <div class="ob-section-label">Choose one</div>
+          <div class="ob-exp-cards">
+            <div class="ob-exp-card" data-group="ob2" data-single data-val="first"><span class="ob-exp-card__emoji">🌱</span><div><div class="ob-exp-card__label">First time</div><div class="ob-exp-card__desc">I've never been on a retreat — I'm curious and open</div></div></div>
+            <div class="ob-exp-card" data-group="ob2" data-single data-val="occasional"><span class="ob-exp-card__emoji">✨</span><div><div class="ob-exp-card__label">Occasional</div><div class="ob-exp-card__desc">Done one or two — I know what I like but still exploring</div></div></div>
+            <div class="ob-exp-card" data-group="ob2" data-single data-val="experienced"><span class="ob-exp-card__emoji">🏅</span><div><div class="ob-exp-card__label">Experienced</div><div class="ob-exp-card__desc">Retreats are a regular part of my life — I know what I want</div></div></div>
+          </div>
+          <div class="ob-nav">
+            <button class="ob-nav__back is-visible" onclick="obNav(-1)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Back</button>
+            <div class="ob-nav__right">
+              <button class="ob-nav__skip" onclick="obNav(1)">Skip</button>
+              <button class="ob-nav__continue" onclick="obNav(1)">Continue <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── OB STEP 3: Preferences ─────────────────────────────── -->
+        <div class="su-view" id="ob-3">
+          <div class="ob-step__counter">Step 3 of 5 — Preferences</div>
+          <h2 class="ob-step__title">Your retreat preferences</h2>
+          <p class="ob-step__sub">The kind of experience and places that appeal to you.</p>
+          <div class="ob-section-label">Retreat type <span class="ob-multi-note">— choose as many as you like</span></div>
+          <div class="ob-chips">
+            <div class="ob-chip" data-group="ob3t" data-val="yoga">Yoga</div>
+            <div class="ob-chip" data-group="ob3t" data-val="meditation">Meditation</div>
+            <div class="ob-chip" data-group="ob3t" data-val="detox">Detox &amp; Cleanse</div>
+            <div class="ob-chip" data-group="ob3t" data-val="fitness">Fitness</div>
+            <div class="ob-chip" data-group="ob3t" data-val="ayurveda">Ayurveda</div>
+            <div class="ob-chip" data-group="ob3t" data-val="nutrition">Nutrition &amp; Health</div>
+            <div class="ob-chip" data-group="ob3t" data-val="mental">Mental Wellbeing</div>
+            <div class="ob-chip" data-group="ob3t" data-val="therapy">Therapy &amp; Healing</div>
+            <div class="ob-chip" data-group="ob3t" data-val="breathwork">Breathwork</div>
+            <div class="ob-chip" data-group="ob3t" data-val="hiking">Hiking &amp; Nature</div>
+            <div class="ob-chip" data-group="ob3t" data-val="surfing">Surfing</div>
+            <div class="ob-chip" data-group="ob3t" data-val="creative">Writing &amp; Creative</div>
+          </div>
+          <div class="ob-section-label">Destinations <span class="ob-multi-note">— choose any that appeal</span></div>
+          <div class="ob-chips">
+            <div class="ob-chip" data-group="ob3d" data-val="uk">🇬🇧 UK &amp; Ireland</div>
+            <div class="ob-chip" data-group="ob3d" data-val="europe">🌍 Europe</div>
+            <div class="ob-chip" data-group="ob3d" data-val="med">☀️ Mediterranean</div>
+            <div class="ob-chip" data-group="ob3d" data-val="asia">🌏 South &amp; SE Asia</div>
+            <div class="ob-chip" data-group="ob3d" data-val="americas">🌎 Americas</div>
+            <div class="ob-chip" data-group="ob3d" data-val="africa">🌍 Africa</div>
+            <div class="ob-chip" data-group="ob3d" data-val="open">Open to anywhere</div>
+          </div>
+          <div class="ob-section-label">How far will you travel?</div>
+          <div class="ob-chips">
+            <div class="ob-chip" data-group="ob3dist" data-single data-val="local">Same country</div>
+            <div class="ob-chip" data-group="ob3dist" data-single data-val="continent">Same continent</div>
+            <div class="ob-chip" data-group="ob3dist" data-single data-val="worldwide">Worldwide</div>
+            <div class="ob-chip" data-group="ob3dist" data-single data-val="unsure">Not sure yet</div>
+          </div>
+          <div class="ob-nav">
+            <button class="ob-nav__back is-visible" onclick="obNav(-1)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Back</button>
+            <div class="ob-nav__right">
+              <button class="ob-nav__skip" onclick="obNav(1)">Skip</button>
+              <button class="ob-nav__continue" onclick="obNav(1)">Continue <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── OB STEP 4: Travel Style ────────────────────────────── -->
+        <div class="su-view" id="ob-4">
+          <div class="ob-step__counter">Step 4 of 5 — Travel style</div>
+          <h2 class="ob-step__title">How do you prefer to travel?</h2>
+          <p class="ob-step__sub">Helps us suggest group sizes and retreat formats that suit you.</p>
+          <div class="ob-section-label">Choose all that apply</div>
+          <div class="ob-cards ob-cards--3">
+            <div class="ob-card" data-group="ob4" data-val="solo"><span class="ob-card__emoji">🧍</span><span class="ob-card__label">Solo</span><span class="ob-card__desc">I travel alone and enjoy the independence</span></div>
+            <div class="ob-card" data-group="ob4" data-val="couple"><span class="ob-card__emoji">💑</span><span class="ob-card__label">With a partner</span><span class="ob-card__desc">As a couple or close friend</span></div>
+            <div class="ob-card" data-group="ob4" data-val="group"><span class="ob-card__emoji">👥</span><span class="ob-card__label">With a group</span><span class="ob-card__desc">Friends, family, or a team</span></div>
+          </div>
+          <div class="ob-nav">
+            <button class="ob-nav__back is-visible" onclick="obNav(-1)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Back</button>
+            <div class="ob-nav__right">
+              <button class="ob-nav__skip" onclick="obNav(1)">Skip</button>
+              <button class="ob-nav__continue" onclick="obNav(1)">Continue <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── OB STEP 5: Goals ───────────────────────────────────── -->
+        <div class="su-view" id="ob-5">
+          <div class="ob-step__counter">Step 5 of 5 — Your goals</div>
+          <h2 class="ob-step__title">What's your main goal right now?</h2>
+          <p class="ob-step__sub">Completely optional — but the more you share, the better we can tailor things.</p>
+          <div class="ob-section-label">Choose any that resonate <span class="ob-multi-note">— optional</span></div>
+          <div class="ob-chips">
+            <div class="ob-chip" data-group="ob5" data-val="relax">Relaxation &amp; rest</div>
+            <div class="ob-chip" data-group="ob5" data-val="burnout">Burnout recovery</div>
+            <div class="ob-chip" data-group="ob5" data-val="performance">Performance &amp; focus</div>
+            <div class="ob-chip" data-group="ob5" data-val="connection">Human connection</div>
+            <div class="ob-chip" data-group="ob5" data-val="grief">Processing grief or loss</div>
+            <div class="ob-chip" data-group="ob5" data-val="anxiety">Managing anxiety</div>
+            <div class="ob-chip" data-group="ob5" data-val="direction">Finding direction</div>
+            <div class="ob-chip" data-group="ob5" data-val="body">Physical transformation</div>
+            <div class="ob-chip" data-group="ob5" data-val="spiritual">Spiritual exploration</div>
+            <div class="ob-chip" data-group="ob5" data-val="celebration">Celebration or milestone</div>
+            <div class="ob-chip" data-group="ob5" data-val="break">I just need a break</div>
+          </div>
+          <div class="ob-data-note">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            We use this only to personalise your experience — never shared or sold
+          </div>
+          <div class="ob-nav">
+            <button class="ob-nav__back is-visible" onclick="obNav(-1)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Back</button>
+            <div class="ob-nav__right">
+              <button class="ob-nav__skip" onclick="obComplete()">Skip</button>
+              <button class="ob-nav__continue" onclick="obComplete()">Finish <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── OB COMPLETE ────────────────────────────────────────── -->
+        <div class="su-view su-view--center" id="ob-complete">
+          <div class="ob-complete">
+            <div class="ob-complete__icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="2" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <div class="ob-complete__eyebrow">All done</div>
+            <h2 class="ob-complete__title">Your retreats, tailored to you</h2>
+            <p class="ob-complete__sub">We've saved your preferences. Everything on Queen of Retreats will now be shaped around you.</p>
+            <div class="ob-complete__tags" id="ob-tags"></div>
+            <div class="ob-complete__actions">
+              <a href="listings.html" class="ob-complete__primary">Start exploring retreats <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+              <a href="account-bookings.html" class="ob-complete__secondary">Go to my account</a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /su-right__scroll -->
+    </div><!-- /su-right -->
+
+  </div><!-- /su-layout -->
+
+  <script>
+
+    const OB_STEPS = ['ob-1','ob-2','ob-3','ob-4','ob-5'];
+    let obCurrent = 0; // index into OB_STEPS
+
+    function showView(id) {
+      document.querySelectorAll('.su-view').forEach(v => v.classList.remove('is-active'));
+      document.getElementById(id).classList.add('is-active');
+      document.getElementById('su-scroll').scrollTop = 0;
+    }
+
+    function setObMode(on) {
+      const scroll = document.getElementById('su-scroll');
+      const progress = document.getElementById('su-progress');
+      scroll.classList.toggle('ob-mode', on);
+      progress.classList.toggle('is-visible', on);
+    }
+
+    function updateProgress(step) {
+      // step: 1–5
+      document.getElementById('su-progress-fill').style.width = ((step / 5) * 100) + '%';
+    }
+
+    function startOnboarding() {
+      obCurrent = 0;
+      setObMode(true);
+      showView(OB_STEPS[0]);
+      updateProgress(1);
+    }
+
+    function obNav(dir) {
+      obCurrent += dir;
+      if (obCurrent < 0) obCurrent = 0;
+      showView(OB_STEPS[obCurrent]);
+      updateProgress(obCurrent + 1);
+    }
+
+    function obComplete() {
+      setObMode(false);
+      buildTags();
+      showView('ob-complete');
+    }
+
+    function skipOnboarding() {
+      window.location.href = 'account-bookings.html';
+    }
+
+    function buildTags() {
+      const labels = [];
+      document.querySelectorAll('.ob-card.is-selected, .ob-chip.is-selected, .ob-exp-card.is-selected').forEach(el => {
+        const labelEl = el.querySelector('.ob-card__label, .ob-exp-card__label') || el;
+        const text = (labelEl.textContent || el.textContent).trim().replace(/\s+/g, ' ');
+        if (text && text.length < 40) labels.push(text);
+      });
+      const container = document.getElementById('ob-tags');
+      container.innerHTML = labels.length
+        ? labels.slice(0, 8).map(t => `<span class="ob-complete__tag">${t}</span>`).join('')
+        : '<span class="ob-complete__tag">Retreat explorer</span>';
+    }
+
+    // ── Card / chip interaction ───────────────────────────────────
+    document.querySelectorAll('.ob-card, .ob-chip, .ob-exp-card').forEach(el => {
+      el.addEventListener('click', () => {
+        const group = el.dataset.group;
+        const isSingle = el.hasAttribute('data-single');
+        if (isSingle) {
+          document.querySelectorAll(`[data-group="${group}"]`).forEach(e => e.classList.remove('is-selected'));
+        }
+        el.classList.toggle('is-selected');
+      });
+    });
+
+    // ── Sign-up logic ─────────────────────────────────────────────
+    function socialSignUp(provider) {
+      document.getElementById('success-name').textContent = 'Member';
+      showView('view-success');
+    }
+
+    function checkPasswordStrength(val) {
+      const strengthEl = document.getElementById('su-pw-strength');
+      const fill = document.getElementById('su-pw-fill');
+      const label = document.getElementById('su-pw-label');
+      if (!val) { strengthEl.classList.remove('is-visible'); return; }
+      strengthEl.classList.add('is-visible');
+      let score = 0;
+      if (val.length >= 8) score++;
+      if (val.length >= 12) score++;
+      if (/[A-Z]/.test(val)) score++;
+      if (/[0-9]/.test(val)) score++;
+      if (/[^A-Za-z0-9]/.test(val)) score++;
+      const levels = [
+        { pct: '20%', color: '#B03030', text: 'Weak' },
+        { pct: '40%', color: '#B07828', text: 'Fair' },
+        { pct: '60%', color: '#B07828', text: 'Fair' },
+        { pct: '80%', color: '#3D6E4E', text: 'Good' },
+        { pct: '100%', color: '#3D6E4E', text: 'Strong' },
+      ];
+      const lvl = levels[Math.min(score, 4)];
+      fill.style.width = lvl.pct;
+      fill.style.background = lvl.color;
+      label.textContent = lvl.text;
+      label.style.color = lvl.color;
+    }
+
+    function switchMode(mode) {
+      const form = document.getElementById('view-form');
+      const eyebrow = document.getElementById('su-eyebrow');
+      const title = document.getElementById('su-title');
+      const sub = document.getElementById('su-sub');
+      const pwLabel = document.getElementById('su-pw-label');
+      const submitBtn = document.getElementById('su-submit-btn');
+      const bottomLink = document.getElementById('su-bottom-link');
+      const dividerLabel = document.getElementById('su-divider-label');
+
+      form.setAttribute('data-mode', mode);
+
+      if (mode === 'signin') {
+        dividerLabel.textContent = 'or sign in with email';
+        eyebrow.textContent = 'My Account';
+        title.textContent = 'Welcome back';
+        sub.textContent = 'Sign in to manage your bookings, saved retreats, and preferences';
+        pwLabel.textContent = 'Password';
+        submitBtn.textContent = 'Sign In';
+        bottomLink.innerHTML = 'Don\'t have an account? <a href="#" onclick="switchMode(\'register\');return false;">Create your membership — it\'s free</a>';
+        document.getElementById('su-password').placeholder = 'Enter your password';
+        document.getElementById('su-password').autocomplete = 'current-password';
+      } else {
+        eyebrow.textContent = 'Create Your Membership';
+        title.textContent = 'Join Queen of Retreats';
+        sub.textContent = 'A membership built around your wellbeing journey — from first search to final booking.';
+        pwLabel.textContent = 'Create Password';
+        submitBtn.textContent = 'Create Membership';
+        dividerLabel.textContent = 'or sign up with email';
+        bottomLink.innerHTML = 'Already a member? <a href="#" onclick="switchMode(\'signin\');return false;">Sign in</a>';
+        document.getElementById('su-password').placeholder = 'Minimum 8 characters';
+        document.getElementById('su-password').autocomplete = 'new-password';
+      }
+
+      // Scroll back to top of form
+      document.getElementById('su-scroll').scrollTop = 0;
+    }
+
+    function showForgotPassword(e) {
+      e.preventDefault();
+      alert('A password reset link will be sent to your email address.');
+    }
+
+    function handleFormSubmit() {
+      const mode = document.getElementById('view-form').getAttribute('data-mode') || 'register';
+      if (mode === 'signin') {
+        handleSignIn();
+      } else {
+        handleSignUp();
+      }
+    }
+
+    function handleSignIn() {
+      const email = document.getElementById('su-email');
+      const pw = document.getElementById('su-password');
+      let valid = true;
+      if (!email.value.trim() || !email.value.includes('@')) {
+        email.classList.add('form-input--error');
+        document.getElementById('su-email-err').style.display = 'block';
+        valid = false;
+      } else {
+        email.classList.remove('form-input--error');
+        document.getElementById('su-email-err').style.display = '';
+      }
+      if (!pw.value) {
+        pw.classList.add('form-input--error');
+        document.getElementById('su-pw-err').style.display = 'block';
+        valid = false;
+      } else {
+        pw.classList.remove('form-input--error');
+        document.getElementById('su-pw-err').style.display = '';
+      }
+      if (valid) window.location.href = 'account-bookings.html';
+    }
+
+    function handleSignUp() {
+      const name = document.getElementById('su-name');
+      const email = document.getElementById('su-email');
+      const pw = document.getElementById('su-password');
+      const terms = document.getElementById('su-terms');
+      let valid = true;
+
+      ['su-name','su-email','su-password'].forEach(id => document.getElementById(id).classList.remove('form-input--error'));
+      ['su-name-err','su-email-err','su-pw-err'].forEach(id => document.getElementById(id).classList.remove('is-visible'));
+      document.getElementById('su-error').classList.add('is-hidden');
+
+      if (!name.value.trim()) { name.classList.add('form-input--error'); document.getElementById('su-name-err').classList.add('is-visible'); valid = false; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) { email.classList.add('form-input--error'); document.getElementById('su-email-err').classList.add('is-visible'); valid = false; }
+      if (pw.value.length < 8) { pw.classList.add('form-input--error'); document.getElementById('su-pw-err').classList.add('is-visible'); valid = false; }
+      if (!terms.checked) {
+        const err = document.getElementById('su-error');
+        err.classList.remove('is-hidden'); err.style.display = 'flex';
+        document.getElementById('su-error-text').textContent = 'Please agree to the terms to continue.';
+        valid = false;
+      }
+      if (!valid) return;
+
+      document.getElementById('success-name').textContent = name.value.trim().split(' ')[0];
+      showView('view-success');
+    }
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Bookings — Queen of Retreats</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="account.css">
+  <link rel="stylesheet" href="contact-widget.css">
+  <style>
+    /* Cancelled booking card */
+    .cancelled-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      margin-bottom: var(--s4);
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+    }
+    .cancelled-card__img {
+      width: 200px;
+      flex-shrink: 0;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(30%);
+    }
+    .cancelled-card__body {
+      flex: 1;
+      padding: var(--s5) var(--s6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--s4);
+      justify-content: center;
+    }
+    .cancelled-card__top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    .cancelled-card__title {
+      font-family: var(--serif);
+      font-size: var(--t-lg);
+      color: var(--ink);
+    }
+    .cancelled-card__location {
+      font-size: var(--t-xs);
+      color: var(--stone);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 3px;
+    }
+    .cancelled-card__meta {
+      display: flex;
+      gap: var(--s6);
+      flex-wrap: wrap;
+    }
+    .cancelled-card__refund {
+      background: var(--sage-pale);
+      border-left: 1px solid var(--border);
+      flex-shrink: 0;
+      width: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--s6);
+      text-align: center;
+    }
+    .cancelled-card__refund-text {
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--sage);
+      line-height: 1.5;
+    }
+
+    /* Message host tertiary button */
+    .btn-msg-host {
+      border: none;
+      background: none;
+      color: var(--stone);
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color var(--dur-fast);
+    }
+    .btn-msg-host:hover { color: var(--ink); }
+
+    /* Enquiry card open/closed toggle */
+    .enquiry-card .msg-thread { display: none; }
+    .enquiry-card.is-open .msg-thread { display: block; }
+    .enquiry-card .enq-open-actions { display: none; }
+    .enquiry-card.is-open .enq-open-actions { display: flex; }
+    .enquiry-card.is-open .enq-closed-actions { display: none; }
+  </style>
+</head>
+<body>
+
+  <!-- ── ACCOUNT HEADER ───────────────────────────────────────────── -->
+  <header class="acct-header">
+    <div class="acct-header__inner">
+      <a href="index.html" class="acct-header__back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Back to main site
+      </a>
+      <a href="account-bookings.html" class="acct-header__logo">Queen of Retreats</a>
+      <div class="acct-header__help">
+        <span>Need help? (Mon–Fri, 9am–5pm)</span>
+        <span class="acct-header__help-sep">/</span>
+        <a href="#" onclick="openContact('dashboard'); return false;">Contact us</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── LAYOUT ───────────────────────────────────────────────────── -->
+  <div class="acct-layout" id="acct-layout">
+
+    <!-- Sidebar -->
+    <aside class="acct-sidebar" id="acct-sidebar">
+      <a href="account-bookings.html" class="acct-sidebar__user">
+        <div class="acct-avatar">SC</div>
+        <div>
+          <div class="acct-sidebar__name">Sarah Clarke</div>
+          <div class="acct-sidebar__email">sarah@email.com</div>
+        </div>
+      </a>
+      <nav class="acct-nav">
+        <span class="acct-nav__section">Retreats</span>
+        <a href="account-bookings.html" class="acct-nav__item is-active" title="My Bookings">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span class="acct-nav__label">My Bookings</span>
+          <span class="acct-nav__badge">3</span>
+        </a>
+        <a href="account-saved.html" class="acct-nav__item" title="Saved Retreats">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="acct-nav__label">Saved Retreats</span>
+          <span class="acct-nav__badge" style="background:var(--sage-light);color:var(--sage);">4</span>
+        </a>
+        <div class="acct-nav__divider"></div>
+        <a href="account-messages.html" class="acct-nav__item" title="Messages">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span class="acct-nav__label">Messages</span>
+          <span class="acct-nav__badge">3</span>
+        </a>
+
+        <div class="acct-nav__divider"></div>
+        <span class="acct-nav__section">Account</span>
+
+        <a href="account-details.html" class="acct-nav__item" title="Account Details">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span class="acct-nav__label">Account Details</span>
+        </a>
+        <a href="account-payment.html" class="acct-nav__item" title="Payment Methods">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          <span class="acct-nav__label">Payment Methods</span>
+        </a>
+        <a href="account-preferences.html" class="acct-nav__item" title="Your Preferences">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="8" cy="6" r="2" fill="currentColor" stroke="none"/><circle cx="16" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="10" cy="18" r="2" fill="currentColor" stroke="none"/></svg>
+          <span class="acct-nav__label">Your Preferences</span>
+        </a>
+        <a href="account-comms.html" class="acct-nav__item" title="Communications">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span class="acct-nav__label">Communications</span>
+        </a>
+
+        <div class="acct-nav__divider"></div>
+
+        <a href="index.html" class="acct-nav__item acct-nav__item--danger" title="Sign Out">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span class="acct-nav__label">Sign Out</span>
+        </a>
+
+        <div class="acct-nav__divider"></div>
+        <button class="acct-sidebar-collapse" id="sidebar-collapse-btn" title="Collapse navigation">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          <span class="acct-nav__label">Collapse</span>
+        </button>
+      </nav>
+    </aside>
+
+    <!-- Main content -->
+    <main class="acct-main">
+
+
+      <div class="acct-page-header">
+        <h1>Welcome back, Sarah</h1>
+        <p>Manage your bookings, enquiries and retreat history</p>
+      </div>
+
+      <!-- Stat bar -->
+      <div class="acct-stat-bar">
+        <div class="acct-stat">
+          <div class="acct-stat__value">3</div>
+          <div class="acct-stat__label">Upcoming retreats</div>
+        </div>
+        <div class="acct-stat">
+          <div class="acct-stat__value">3</div>
+          <div class="acct-stat__label">Active enquiries</div>
+        </div>
+        <div class="acct-stat">
+          <div class="acct-stat__value">4</div>
+          <div class="acct-stat__label">Retreats attended</div>
+        </div>
+        <div class="acct-stat">
+          <div class="acct-stat__value">4</div>
+          <div class="acct-stat__label">Saved retreats</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="acct-tabs" role="tablist">
+        <button class="acct-tab is-active" role="tab" onclick="showTab('upcoming', this)">
+          Upcoming <span class="acct-tab__count">3</span>
+        </button>
+        <button class="acct-tab" role="tab" onclick="showTab('enquiries', this)" style="display:none">
+          Enquiries <span class="acct-tab__count">3</span>
+        </button>
+        <button class="acct-tab" role="tab" onclick="showTab('past', this)">
+          Past <span class="acct-tab__count">4</span>
+        </button>
+        <button class="acct-tab" role="tab" id="tab-btn-cancelled" onclick="showTab('cancelled', this)" style="display:none">
+          Cancelled <span class="acct-tab__count" style="background:var(--error-bg);color:var(--error)">1</span>
+        </button>
+      </div>
+
+      <!-- ── TAB: UPCOMING ─────────────────────────────────────────── -->
+      <div id="tab-upcoming" class="tab-panel is-active" role="tabpanel">
+
+        <!-- Booking 1: 42 Acres -->
+        <article class="booking-card">
+          <div class="booking-card__inner">
+            <img class="booking-card__img" src="images/retreats/42 Acres/42+Acres+England+Yurt.webp" alt="42 Acres">
+            <div class="booking-card__body">
+              <div class="booking-card__top">
+                <div>
+                  <div class="booking-card__title">42 Acres</div>
+                  <div class="booking-card__location">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Frome, Somerset, UK
+                  </div>
+                </div>
+                <span class="badge badge--warning">Balance due 14 May</span>
+              </div>
+
+              <div class="booking-card__meta">
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Dates</span>
+                  <span class="booking-card__meta-value">14–21 Jun 2026 · 7 nights</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Guests</span>
+                  <span class="booking-card__meta-value">2 guests · Woodland Yurt</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Booking ref</span>
+                  <span class="booking-card__meta-value">QOR-2026-4271</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Total</span>
+                  <span class="booking-card__meta-value">£2,850 · £1,425 paid</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="booking-card__footer">
+            <div class="booking-card__next-step">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Balance of £1,425 due by 14 May 2026
+            </div>
+            <div class="booking-card__actions">
+              <button class="btn-msg-host" onclick="toggleEnquiry('enq-ananda')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Message host
+              </button>
+              <span style="width:1px;height:20px;background:var(--border);display:inline-block;flex-shrink:0"></span>
+              <a href="account-booking-detail.html" class="btn btn--secondary btn--sm">View details</a>
+              <button class="btn btn--primary btn--sm">Pay balance</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Booking 2: JOALI BEING -->
+        <article class="booking-card">
+          <div class="booking-card__inner">
+            <img class="booking-card__img" src="images/general/06.jpg" alt="JOALI BEING">
+            <div class="booking-card__body">
+              <div class="booking-card__top">
+                <div>
+                  <div class="booking-card__title">JOALI BEING</div>
+                  <div class="booking-card__location">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Muravandhoo Island, Maldives
+                  </div>
+                </div>
+                <span class="badge badge--success">Fully paid</span>
+              </div>
+
+              <div class="booking-card__meta">
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Dates</span>
+                  <span class="booking-card__meta-value">8–15 Aug 2026 · 7 nights</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Guests</span>
+                  <span class="booking-card__meta-value">1 guest · Ocean Pool Villa</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Booking ref</span>
+                  <span class="booking-card__meta-value">QOR-2026-5834</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Total</span>
+                  <span class="booking-card__meta-value">£8,200 · Paid in full</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="booking-card__footer">
+            <div class="booking-card__next-step">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              All set — travel information available 30 days before departure
+            </div>
+            <div class="booking-card__actions">
+              <button class="btn-msg-host">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Message host
+              </button>
+              <span style="width:1px;height:20px;background:var(--border);display:inline-block;flex-shrink:0"></span>
+              <a href="account-booking-detail.html" class="btn btn--secondary btn--sm">View details</a>
+              <button class="btn btn--ghost btn--sm">Download invoice</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Booking 3: Four Seasons Bali at Sayan -->
+        <article class="booking-card">
+          <div class="booking-card__inner">
+            <img class="booking-card__img" src="images/retreats/four-seasons/Four+Seasons+Bali+at+Sayan+meditation.webp" alt="Four Seasons Bali at Sayan">
+            <div class="booking-card__body">
+              <div class="booking-card__top">
+                <div>
+                  <div class="booking-card__title">Four Seasons Bali at Sayan</div>
+                  <div class="booking-card__location">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Near Ubud, Bali
+                  </div>
+                </div>
+                <span class="badge badge--success">Fully paid</span>
+              </div>
+
+              <div class="booking-card__meta">
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Dates</span>
+                  <span class="booking-card__meta-value">2–9 Oct 2026 · 7 nights</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Guests</span>
+                  <span class="booking-card__meta-value">2 guests · Sacred River Spa Villa</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Booking ref</span>
+                  <span class="booking-card__meta-value">QOR-2026-7102</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Total</span>
+                  <span class="booking-card__meta-value">£12,400 · Paid in full</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="booking-card__footer">
+            <div class="booking-card__next-step">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              All set — travel information available 30 days before departure
+            </div>
+            <div class="booking-card__actions">
+              <button class="btn-msg-host">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Message host
+              </button>
+              <span style="width:1px;height:20px;background:var(--border);display:inline-block;flex-shrink:0"></span>
+              <a href="account-booking-detail.html" class="btn btn--secondary btn--sm">View details</a>
+              <button class="btn btn--ghost btn--sm">Download invoice</button>
+            </div>
+          </div>
+        </article>
+
+      </div><!-- /tab-upcoming -->
+
+      <!-- ── TAB: ENQUIRIES ─────────────────────────────────────────── -->
+      <div id="tab-enquiries" class="tab-panel" role="tabpanel">
+
+        <!-- Enquiry 1: Ananda — open by default -->
+        <article class="enquiry-card is-open" id="enq-ananda">
+          <div class="enquiry-card__inner">
+            <img class="enquiry-card__img" src="images/retreats/ananda/ananda2.jpg" alt="Ananda in the Himalayas" onerror="this.src='images/general/14.jpg'">
+            <div class="enquiry-card__body">
+              <div class="enquiry-card__top">
+                <div>
+                  <div class="enquiry-card__title">Ananda in the Himalayas</div>
+                  <div class="enquiry-card__location">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Narendra Nagar, India
+                  </div>
+                </div>
+                <span class="badge badge--sage">Provider replied</span>
+              </div>
+              <div class="enquiry-card__meta">
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Requested dates</span>
+                  <span class="booking-card__meta-value">3–10 Oct 2026 · 7 nights</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Retreat type</span>
+                  <span class="booking-card__meta-value">Ayurveda &amp; Yoga</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Enquiry ref</span>
+                  <span class="booking-card__meta-value">ENQ-2026-0198</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Submitted</span>
+                  <span class="booking-card__meta-value">18 Apr 2026</span>
+                </div>
+              </div>
+              <div class="msg-thread">
+                <div class="msg-thread__header">
+                  <span class="msg-thread__title">Messages with Ananda</span>
+                  <span class="badge badge--sage" style="font-size:10px;">1 new reply</span>
+                </div>
+                <div class="msg-thread__messages">
+                  <div class="msg-row msg-row--outbound">
+                    <span class="msg-sender">You</span>
+                    <div class="msg-bubble msg-bubble--outbound">Hi, I'm interested in the 7-night Panchakarma programme. Do you have availability in early October? I'd also like to know if single rooms are available.</div>
+                    <span class="msg-time">18 Apr · 11:22</span>
+                  </div>
+                  <div class="msg-row msg-row--inbound">
+                    <span class="msg-sender">Ananda Retreats</span>
+                    <div class="msg-bubble msg-bubble--inbound">Thank you for your enquiry, Sarah. We do have availability for 3–10 October. Our Garden View single room is available at ₹62,000 per night inclusive of all treatments and meals. Shall I hold this for you?</div>
+                    <span class="msg-time">19 Apr · 09:15</span>
+                  </div>
+                </div>
+                <div class="msg-compose">
+                  <textarea class="msg-compose__input" rows="1" placeholder="Reply to Ananda…"></textarea>
+                  <button class="btn btn--primary btn--sm">Send</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="enquiry-card__footer">
+            <div class="booking-card__next-step">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Provider has replied — respond to confirm or request more information
+            </div>
+            <div class="booking-card__actions">
+              <div class="enq-closed-actions">
+                <button class="btn btn--secondary btn--sm" onclick="toggleEnquiry('enq-ananda')">View conversation</button>
+              </div>
+              <div class="enq-open-actions" style="gap:var(--s3)">
+                <button class="btn btn--ghost btn--sm" style="color:var(--error)">Withdraw</button>
+                <button class="btn btn--secondary btn--sm">Edit enquiry</button>
+                <button class="btn btn--primary btn--sm">Continue to book</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Enquiry 2: Kaliyoga — awaiting response, closed -->
+        <article class="enquiry-card" id="enq-kaliyoga">
+          <div class="enquiry-card__inner">
+            <img class="enquiry-card__img" src="images/general/11.jpg" alt="Kaliyoga">
+            <div class="enquiry-card__body">
+              <div class="enquiry-card__top">
+                <div>
+                  <div class="enquiry-card__title">Kaliyoga</div>
+                  <div class="enquiry-card__location">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Andalucía, Spain
+                  </div>
+                </div>
+                <span class="badge badge--neutral">Awaiting response</span>
+              </div>
+              <div class="enquiry-card__meta">
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Requested dates</span>
+                  <span class="booking-card__meta-value">15–22 Jan 2027 · 7 nights</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Retreat type</span>
+                  <span class="booking-card__meta-value">Yoga &amp; Detox</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Enquiry ref</span>
+                  <span class="booking-card__meta-value">ENQ-2026-0231</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Submitted</span>
+                  <span class="booking-card__meta-value">21 Apr 2026</span>
+                </div>
+              </div>
+              <div class="msg-thread">
+                <div class="msg-thread__header">
+                  <span class="msg-thread__title">Messages with Kaliyoga</span>
+                </div>
+                <div class="msg-thread__messages">
+                  <div class="msg-row msg-row--outbound">
+                    <span class="msg-sender">You</span>
+                    <div class="msg-bubble msg-bubble--outbound">Hello, I'd love to join the January yoga and detox programme. Could you let me know if there's availability for a solo traveller, and whether you offer airport transfers from Málaga?</div>
+                    <span class="msg-time">21 Apr · 14:05</span>
+                  </div>
+                </div>
+                <div class="msg-compose">
+                  <textarea class="msg-compose__input" rows="1" placeholder="Add a message…"></textarea>
+                  <button class="btn btn--primary btn--sm">Send</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="enquiry-card__footer">
+            <div class="booking-card__next-step">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--stone)" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Waiting for Kaliyoga to respond — typically within 2 business days
+            </div>
+            <div class="booking-card__actions">
+              <div class="enq-closed-actions">
+                <button class="btn btn--secondary btn--sm" onclick="toggleEnquiry('enq-kaliyoga')">View conversation</button>
+              </div>
+              <div class="enq-open-actions" style="gap:var(--s3)">
+                <button class="btn btn--ghost btn--sm" style="color:var(--error)">Withdraw</button>
+                <button class="btn btn--secondary btn--sm">Edit enquiry</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Enquiry 3: SHA Wellness Clinic — just submitted, closed -->
+        <article class="enquiry-card" id="enq-sha">
+          <div class="enquiry-card__inner">
+            <img class="enquiry-card__img" src="images/general/03.jpg" alt="SHA Wellness Clinic">
+            <div class="enquiry-card__body">
+              <div class="enquiry-card__top">
+                <div>
+                  <div class="enquiry-card__title">SHA Wellness Clinic</div>
+                  <div class="enquiry-card__location">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Alicante, Spain
+                  </div>
+                </div>
+                <span class="badge badge--neutral">Enquiry submitted</span>
+              </div>
+              <div class="enquiry-card__meta">
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Requested dates</span>
+                  <span class="booking-card__meta-value">5–12 Mar 2027 · 7 nights</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Retreat type</span>
+                  <span class="booking-card__meta-value">Health &amp; Medical Wellness</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Enquiry ref</span>
+                  <span class="booking-card__meta-value">ENQ-2026-0247</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Submitted</span>
+                  <span class="booking-card__meta-value">22 Apr 2026</span>
+                </div>
+              </div>
+              <div class="msg-thread">
+                <div class="msg-thread__header">
+                  <span class="msg-thread__title">Messages with SHA Wellness</span>
+                </div>
+                <div class="msg-thread__messages">
+                  <div class="msg-row msg-row--outbound">
+                    <span class="msg-sender">You</span>
+                    <div class="msg-bubble msg-bubble--outbound">I'm interested in the SHA method programme for early March. I have mild hypertension and would like to know if there's a suitable programme, and whether an initial health assessment is included.</div>
+                    <span class="msg-time">22 Apr · 09:48</span>
+                  </div>
+                </div>
+                <div class="msg-compose">
+                  <textarea class="msg-compose__input" rows="1" placeholder="Add a message…"></textarea>
+                  <button class="btn btn--primary btn--sm">Send</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="enquiry-card__footer">
+            <div class="booking-card__next-step">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--stone)" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Enquiry sent — SHA Wellness will respond within 3 business days
+            </div>
+            <div class="booking-card__actions">
+              <div class="enq-closed-actions">
+                <button class="btn btn--secondary btn--sm" onclick="toggleEnquiry('enq-sha')">View conversation</button>
+              </div>
+              <div class="enq-open-actions" style="gap:var(--s3)">
+                <button class="btn btn--ghost btn--sm" style="color:var(--error)">Withdraw</button>
+                <button class="btn btn--secondary btn--sm">Edit enquiry</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div><!-- /tab-enquiries -->
+
+      <!-- ── TAB: PAST ──────────────────────────────────────────────── -->
+      <div id="tab-past" class="tab-panel" role="tabpanel">
+
+        <article class="past-card">
+          <img class="past-card__img" src="images/header_vale-de-moses.jpg" alt="Vale de Moses">
+          <div class="past-card__body">
+            <div class="past-card__title">Vale de Moses</div>
+            <div class="past-card__sub">Arganil, Portugal · 6–13 Sep 2025 · Yoga &amp; Nature</div>
+          </div>
+          <div class="past-card__actions">
+            <button class="btn btn--ghost btn--sm">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Review
+            </button>
+            <button class="btn btn--ghost btn--sm">Invoice</button>
+            <a href="pdp.html" class="btn btn--secondary btn--sm">Book again</a>
+          </div>
+        </article>
+
+        <article class="past-card">
+          <img class="past-card__img" src="images/header_casa-ana_20230628180415.jpg" alt="Casa Ana">
+          <div class="past-card__body">
+            <div class="past-card__title">Casa Ana</div>
+            <div class="past-card__sub">Alpujarras, Spain · 8–15 Mar 2025 · Yoga &amp; Mindfulness</div>
+          </div>
+          <div class="past-card__actions">
+            <button class="btn btn--ghost btn--sm">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Review
+            </button>
+            <button class="btn btn--ghost btn--sm">Invoice</button>
+            <a href="pdp.html" class="btn btn--secondary btn--sm">Book again</a>
+          </div>
+        </article>
+
+        <article class="past-card">
+          <img class="past-card__img" src="images/general/11.jpg" alt="Les Marguerites">
+          <div class="past-card__body">
+            <div class="past-card__title">Les Marguerites</div>
+            <div class="past-card__sub">Provence, France · 12–19 Oct 2024 · Detox &amp; Cleanse</div>
+          </div>
+          <div class="past-card__actions">
+            <button class="btn btn--ghost btn--sm">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Review
+            </button>
+            <button class="btn btn--ghost btn--sm">Invoice</button>
+            <a href="pdp.html" class="btn btn--secondary btn--sm">Book again</a>
+          </div>
+        </article>
+
+        <article class="past-card">
+          <img class="past-card__img" src="images/general/03.jpg" alt="Moinhos Velhos">
+          <div class="past-card__body">
+            <div class="past-card__title">Moinhos Velhos</div>
+            <div class="past-card__sub">Cernache do Bonjardim, Portugal · 4–11 May 2024 · Health &amp; Healing</div>
+          </div>
+          <div class="past-card__actions">
+            <button class="btn btn--ghost btn--sm">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Review
+            </button>
+            <button class="btn btn--ghost btn--sm">Invoice</button>
+            <a href="pdp.html" class="btn btn--secondary btn--sm">Book again</a>
+          </div>
+        </article>
+
+      </div><!-- /tab-past -->
+
+      <!-- ── TAB: CANCELLED ──────────────────────────────────────── -->
+      <div id="tab-cancelled" class="tab-panel" role="tabpanel">
+
+        <article class="cancelled-card">
+          <img class="cancelled-card__img" src="images/retreats/42 Acres/42+Acres+England+Yurt.webp" alt="42 Acres">
+          <div class="cancelled-card__body">
+            <div class="cancelled-card__top">
+              <div>
+                <div class="cancelled-card__title">42 Acres</div>
+                <div class="cancelled-card__location">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  Frome, Somerset, UK
+                </div>
+              </div>
+              <span class="badge" style="background:var(--error-bg);color:var(--error)">Cancelled</span>
+            </div>
+            <div class="cancelled-card__meta">
+              <div class="booking-card__meta-item">
+                <span class="booking-card__meta-label">Dates</span>
+                <span class="booking-card__meta-value">14–21 Jun 2026 · 7 nights</span>
+              </div>
+              <div class="booking-card__meta-item">
+                <span class="booking-card__meta-label">Guests</span>
+                <span class="booking-card__meta-value">2 guests · Woodland Yurt</span>
+              </div>
+              <div class="booking-card__meta-item">
+                <span class="booking-card__meta-label">Booking ref</span>
+                <span class="booking-card__meta-value">QOR-2026-4271</span>
+              </div>
+              <div class="booking-card__meta-item">
+                <span class="booking-card__meta-label">Total</span>
+                <span class="booking-card__meta-value">£2,850</span>
+              </div>
+            </div>
+          </div>
+          <div class="cancelled-card__refund">
+            <div class="cancelled-card__refund-text">A full refund of £2,850 has been paid</div>
+          </div>
+        </article>
+
+      </div><!-- /tab-cancelled -->
+
+    </main>
+  </div><!-- /acct-layout -->
+
+  <script>
+    function showTab(id, btn) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('is-active'));
+      document.querySelectorAll('.acct-tab').forEach(t => t.classList.remove('is-active'));
+      document.getElementById('tab-' + id).classList.add('is-active');
+      btn.classList.add('is-active');
+    }
+
+    /* ── Handle cancelled state from cancel flow ── */
+    (function() {
+      if (sessionStorage.getItem('showCancelled') !== 'true') return;
+      sessionStorage.removeItem('showCancelled'); /* clear so refresh returns to default */
+
+      /* Remove 42 Acres from upcoming */
+      const upcoming = document.getElementById('tab-upcoming');
+      const cards = upcoming.querySelectorAll('.booking-card');
+      cards.forEach(c => { if (c.querySelector('.booking-card__title')?.textContent.trim() === '42 Acres') c.remove(); });
+
+      /* Update upcoming count: 3 → 2 */
+      document.querySelector('.acct-tab.is-active .acct-tab__count').textContent = '2';
+      document.querySelector('.acct-stat__value').textContent = '2';
+
+      /* Show + activate Cancelled tab */
+      const cancelBtn = document.getElementById('tab-btn-cancelled');
+      cancelBtn.style.display = '';
+
+      /* Deactivate upcoming, activate cancelled */
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('is-active'));
+      document.querySelectorAll('.acct-tab').forEach(t => t.classList.remove('is-active'));
+      document.getElementById('tab-cancelled').classList.add('is-active');
+      cancelBtn.classList.add('is-active');
+
+      /* Update sidebar badge: 3 → 2 */
+      const badge = document.querySelector('.acct-nav__item.is-active .acct-nav__badge');
+      if (badge) badge.textContent = '2';
+    })();
+
+    function toggleEnquiry(id) {
+      document.querySelectorAll('.enquiry-card').forEach(card => {
+        if (card.id === id) {
+          card.classList.toggle('is-open');
+        } else {
+          card.classList.remove('is-open');
+        }
+      });
+    }
+
+    (function() {
+      var sidebar = document.getElementById('acct-sidebar');
+      var layout  = document.getElementById('acct-layout');
+      var collapseBtn = document.getElementById('sidebar-collapse-btn');
+
+      function expand() {
+        sidebar.classList.remove('is-collapsed');
+        layout.classList.remove('sidebar-collapsed');
+      }
+      function collapse() {
+        sidebar.classList.add('is-collapsed');
+        layout.classList.add('sidebar-collapsed');
+      }
+
+      // Click anywhere on collapsed bar that isn't a nav link → expand
+      sidebar.addEventListener('click', function(e) {
+        if (!sidebar.classList.contains('is-collapsed')) return;
+        if (!e.target.closest('.acct-nav__item')) {
+          e.preventDefault();
+          expand();
+        }
+      });
+
+      // Collapse button in expanded state
+      if (collapseBtn) {
+        collapseBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          collapse();
+        });
+      }
+    })();
+  </script>
+
+  <script src="contact-widget.js"></script>
+</body>
+</html>

@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>42 Acres — Booking Detail · Queen of Retreats</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="account.css">
+  <link rel="stylesheet" href="contact-widget.css">
+  <style>
+    /* ── Detail page specifics ─────────────────────────────────── */
+    .detail-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: var(--s7);
+      align-items: start;
+    }
+
+    /* Hero strip */
+    .detail-hero {
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      aspect-ratio: 16/4.2;
+      margin-bottom: var(--s6);
+      position: relative;
+    }
+    .detail-hero__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .detail-hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,12,10,0.6) 0%, transparent 55%);
+    }
+    .detail-hero__caption {
+      position: absolute;
+      bottom: var(--s6);
+      left: var(--s6);
+      color: var(--white);
+    }
+    .detail-hero__title {
+      font-family: var(--serif);
+      font-size: var(--t-2xl);
+      line-height: 1.1;
+    }
+    .detail-hero__location {
+      font-size: var(--t-sm);
+      opacity: 0.8;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .detail-hero__msg {
+      position: absolute;
+      bottom: var(--s6);
+      right: var(--s6);
+      display: flex;
+      align-items: center;
+      gap: var(--s3);
+      padding: 10px var(--s5);
+      background: var(--white);
+      border: none;
+      border-radius: var(--r-md);
+      color: var(--ink);
+      font-size: var(--t-sm);
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity var(--dur-fast), transform var(--dur-fast);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+    .detail-hero__msg:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+    .detail-hero__msg svg { flex-shrink: 0; }
+
+    /* Accordion */
+    .accordion { margin-bottom: var(--s4); }
+    .accordion__trigger {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--s5) var(--s7);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      cursor: pointer;
+      transition: background var(--dur-fast);
+      text-align: left;
+    }
+    .accordion.is-open .accordion__trigger {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      border-bottom-color: var(--cloud);
+    }
+    .accordion__trigger:hover { background: var(--sage-pale); }
+    .accordion__trigger-left {
+      display: flex;
+      align-items: center;
+      gap: var(--s4);
+    }
+    .accordion__icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--r-md);
+      background: var(--sage-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--sage);
+      flex-shrink: 0;
+    }
+    .accordion__title {
+      font-family: var(--serif);
+      font-size: var(--t-md);
+      color: var(--ink);
+    }
+    .accordion__sub {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      margin-top: 2px;
+    }
+    .accordion__chevron {
+      color: var(--stone);
+      transition: transform var(--dur-fast);
+      flex-shrink: 0;
+    }
+    .accordion.is-open .accordion__chevron { transform: rotate(180deg); }
+    .accordion__body {
+      display: none;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-top: none;
+      border-bottom-left-radius: var(--r-lg);
+      border-bottom-right-radius: var(--r-lg);
+      padding: var(--s6) var(--s7);
+    }
+    .accordion.is-open .accordion__body { display: block; }
+
+    /* Itinerary day list */
+    .itinerary-day {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: var(--s5);
+      padding: var(--s4) 0;
+      border-bottom: 1px solid var(--cloud);
+    }
+    .itinerary-day:last-child { border-bottom: none; }
+    .itinerary-day__date {
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--stone);
+      padding-top: 2px;
+    }
+    .itinerary-day__title {
+      font-size: var(--t-base);
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .itinerary-day__items {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      margin-top: 3px;
+      line-height: 1.6;
+    }
+
+    /* Payment breakdown */
+    .payment-breakdown {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s3);
+    }
+    .payment-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: var(--t-sm);
+    }
+    .payment-row--total {
+      font-size: var(--t-base);
+      font-weight: 600;
+      color: var(--ink);
+      padding-top: var(--s3);
+      border-top: 1px solid var(--border);
+      margin-top: var(--s2);
+    }
+    .payment-row__label { color: var(--charcoal); }
+    .payment-row__value { color: var(--ink); font-weight: 500; }
+    .payment-row__value--paid { color: var(--success); }
+    .payment-row__value--due { color: var(--warning); font-weight: 600; }
+
+    /* Edit tier badges */
+    .edit-tier {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: var(--t-xs);
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: var(--r-pill);
+    }
+    .edit-tier--direct { background: var(--success-bg); color: var(--success); }
+    .edit-tier--request { background: var(--warning-bg); color: var(--warning); }
+    .edit-tier--locked { background: var(--cloud); color: var(--stone); }
+
+    /* Sidebar summary card */
+    .summary-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      position: sticky;
+      top: 80px;
+    }
+    .summary-card__header {
+      padding: var(--s5) var(--s6);
+      border-bottom: 1px solid var(--border);
+      background: var(--parchment);
+    }
+    .summary-card__header h3 {
+      font-family: var(--serif);
+      font-size: var(--t-md);
+      color: var(--ink);
+    }
+    .summary-card__body {
+      padding: var(--s6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--s5);
+    }
+    .summary-row {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .summary-row__label {
+      font-family: var(--ui);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mist);
+    }
+    .summary-row__value {
+      font-size: var(--t-sm);
+      color: var(--charcoal);
+      font-weight: 500;
+    }
+    .summary-card__actions {
+      padding: var(--s5) var(--s6);
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: var(--s3);
+    }
+    .summary-card__payment {
+      padding: var(--s5) var(--s6);
+      background: var(--warning-bg);
+      border-top: 1px solid #e6c47a;
+    }
+    .summary-card__payment-label {
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--warning);
+      margin-bottom: var(--s2);
+    }
+    .summary-card__payment-amount {
+      font-family: var(--serif);
+      font-size: var(--t-xl);
+      color: var(--warning);
+    }
+    .summary-card__payment-due {
+      font-size: var(--t-xs);
+      color: var(--warning);
+      opacity: 0.8;
+      margin-top: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .detail-hero { aspect-ratio: 16/9; }
+      .detail-hero__title { font-size: var(--t-xl); }
+      .detail-hero__msg {
+        bottom: var(--s4);
+        right: var(--s4);
+        padding: 8px var(--s4);
+        font-size: var(--t-xs);
+      }
+      .detail-layout {
+        grid-template-columns: 1fr;
+      }
+      .summary-card { position: static; }
+      .accordion__trigger { padding: var(--s4) var(--s5); }
+      .accordion__body { padding: var(--s5); }
+      .itinerary-day { grid-template-columns: 64px 1fr; gap: var(--s4); }
+    }
+
+    /* ── Cancel booking modal ────────────────────────────────── */
+    .cancel-scrim {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 800;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: var(--s6);
+    }
+    .cancel-scrim.is-open { display: flex; }
+
+    .cancel-modal {
+      background: var(--white);
+      border-radius: var(--r-xl);
+      max-width: 800px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.28);
+    }
+    .cancel-modal__screen { display: none; }
+    .cancel-modal__screen.is-active { display: block; }
+
+    .cancel-modal__header {
+      padding: var(--s7) var(--s8);
+      border-bottom: 1px solid var(--border);
+    }
+    .cancel-modal__title {
+      font-family: var(--serif);
+      font-size: 32px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: var(--s3);
+    }
+    .cancel-modal__sub {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      line-height: 1.65;
+    }
+    .cancel-modal__body { padding: var(--s7) var(--s8); }
+    .cancel-modal__footer {
+      padding: var(--s6) var(--s8);
+      display: flex;
+      align-items: center;
+      gap: var(--s4);
+      flex-wrap: wrap;
+    }
+
+    /* Refund summary table */
+    .cancel-summary {
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      overflow: hidden;
+      margin: var(--s5) 0;
+    }
+    .cancel-summary__thumb {
+      width: 88px;
+      flex-shrink: 0;
+      object-fit: cover;
+      display: block;
+    }
+    .cancel-summary__cols {
+      display: flex;
+      flex: 1;
+    }
+    .cancel-summary__col {
+      flex: 1;
+      padding: var(--s4) var(--s5);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      justify-content: center;
+    }
+    .cancel-summary__col--refund {
+      background: var(--sage-pale);
+      flex: 1.2;
+    }
+    .cancel-summary__label {
+      font-family: var(--ui);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mist);
+    }
+    .cancel-summary__value {
+      font-size: var(--t-sm);
+      color: var(--ink);
+      font-weight: 500;
+    }
+    .cancel-summary__col--refund .cancel-summary__label { color: var(--sage); }
+    .cancel-summary__col--refund .cancel-summary__value {
+      font-family: var(--serif);
+      font-size: var(--t-xl);
+    }
+
+    /* Inline editable field */
+    .editable-field {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s2);
+      padding: var(--s4) 0;
+      border-bottom: 1px solid var(--cloud);
+    }
+    .editable-field:last-child { border-bottom: none; }
+    .editable-field__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .editable-field__label {
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
+    .editable-field__value {
+      font-size: var(--t-base);
+      color: var(--charcoal);
+      margin-top: 3px;
+    }
+    .editable-field__input {
+      display: none;
+    }
+    .editable-field.is-editing .editable-field__value { display: none; }
+    .editable-field.is-editing .editable-field__input { display: flex; gap: var(--s3); align-items: center; }
+
+    /* Travel info checklist */
+    .travel-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s3);
+    }
+    .travel-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--s4);
+      padding: var(--s4) var(--s5);
+      background: var(--parchment);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+    }
+    .travel-item__icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--r-md);
+      background: var(--sage-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--sage);
+      flex-shrink: 0;
+    }
+    .travel-item__title {
+      font-size: var(--t-sm);
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .travel-item__sub {
+      font-size: var(--t-xs);
+      color: var(--stone);
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── ACCOUNT HEADER ───────────────────────────────────────────── -->
+  <header class="acct-header">
+    <div class="acct-header__inner">
+      <a href="index.html" class="acct-header__back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Back to main site
+      </a>
+      <a href="account-bookings.html" class="acct-header__logo">Queen of Retreats</a>
+      <div class="acct-header__help">
+        <span>Need help? (Mon–Fri, 9am–5pm)</span>
+        <span class="acct-header__help-sep">/</span>
+        <a href="#" onclick="openContact('dashboard'); return false;">Contact us</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── LAYOUT ───────────────────────────────────────────────────── -->
+  <div class="acct-layout">
+
+    <!-- Sidebar -->
+    <aside class="acct-sidebar">
+      <a href="account-bookings.html" class="acct-sidebar__user">
+        <div class="acct-avatar">SC</div>
+        <div>
+          <div class="acct-sidebar__name">Sarah Clarke</div>
+          <div class="acct-sidebar__email">sarah@email.com</div>
+        </div>
+      </a>
+      <nav class="acct-nav">
+        <span class="acct-nav__section">Retreats</span>
+        <a href="account-bookings.html" class="acct-nav__item is-active">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          My Bookings
+          <span class="acct-nav__badge">3</span>
+        </a>
+        <a href="account-saved.html" class="acct-nav__item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          Saved Retreats
+        </a>
+        <div class="acct-nav__divider"></div>
+        <a href="account-messages.html" class="acct-nav__item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Messages
+          <span class="acct-nav__badge">3</span>
+        </a>
+        <div class="acct-nav__divider"></div>
+        <span class="acct-nav__section">Account</span>
+        <a href="account-details.html" class="acct-nav__item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Account Details
+        </a>
+        <a href="account-payment.html" class="acct-nav__item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Payment Methods
+        </a>
+        <a href="account-preferences.html" class="acct-nav__item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="8" cy="6" r="2" fill="currentColor" stroke="none"/><circle cx="16" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="10" cy="18" r="2" fill="currentColor" stroke="none"/></svg>
+          Your Preferences
+        </a>
+        <a href="account-comms.html" class="acct-nav__item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Communications
+        </a>
+        <div class="acct-nav__divider"></div>
+        <a href="index.html" class="acct-nav__item acct-nav__item--danger">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign Out
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="acct-main">
+
+      <a href="account-bookings.html" class="acct-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        My Bookings
+      </a>
+
+      <!-- Hero -->
+      <div class="detail-hero">
+        <img class="detail-hero__img" src="images/retreats/42 Acres/42+Acres+England+Forest+Dining+2.webp" alt="42 Acres">
+        <div class="detail-hero__overlay"></div>
+        <div class="detail-hero__caption">
+          <div class="detail-hero__title">42 Acres</div>
+          <div class="detail-hero__location">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Frome, Somerset, UK
+          </div>
+        </div>
+        <button class="detail-hero__msg" onclick="toggleAccordion('acc-support');document.getElementById('acc-support').scrollIntoView({behavior:'smooth',block:'start'})">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Message the host
+        </button>
+      </div>
+
+      <!-- Booking meta bar -->
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--s5) var(--s7);margin-bottom:var(--s6);display:flex;align-items:center;gap:var(--s8);flex-wrap:wrap;">
+        <div style="display:flex;flex-direction:column;gap:3px;">
+          <span style="font-family:var(--ui);font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--mist)">Dates</span>
+          <span style="font-size:var(--t-sm);font-weight:500;color:var(--charcoal)">14–21 Jun 2026 · 7 nights</span>
+        </div>
+        <div style="width:1px;height:32px;background:var(--border);flex-shrink:0"></div>
+        <div style="display:flex;flex-direction:column;gap:3px;">
+          <span style="font-family:var(--ui);font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--mist)">Guests</span>
+          <span style="font-size:var(--t-sm);font-weight:500;color:var(--charcoal)">2 guests · Woodland Yurt</span>
+        </div>
+        <div style="width:1px;height:32px;background:var(--border);flex-shrink:0"></div>
+        <div style="display:flex;flex-direction:column;gap:3px;">
+          <span style="font-family:var(--ui);font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--mist)">Booking ref</span>
+          <span style="font-size:var(--t-sm);font-weight:500;color:var(--charcoal);font-family:var(--ui);letter-spacing:0.04em">QOR-2026-4271</span>
+        </div>
+        <div style="width:1px;height:32px;background:var(--border);flex-shrink:0"></div>
+        <div style="display:flex;flex-direction:column;gap:3px;">
+          <span style="font-family:var(--ui);font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--mist)">Total</span>
+          <span style="font-size:var(--t-sm);font-weight:500;color:var(--charcoal)">£2,850 · £1,425 paid</span>
+        </div>
+        <div style="margin-left:auto;flex-shrink:0">
+          <span class="badge badge--warning">Balance due 14 May</span>
+        </div>
+      </div>
+
+      <!-- Two-column detail layout -->
+      <div class="detail-layout">
+
+        <!-- LEFT: content column -->
+        <div class="detail-left">
+
+          <!-- Booking status banner -->
+          <div class="acct-info-box acct-info-box--warning" style="margin-bottom:var(--s6)">
+            <svg class="acct-info-box__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div class="acct-info-box__text">Your balance of <strong>£1,425</strong> is due by <strong>14 May 2026</strong>. Pay now to secure your booking — late payment may result in release of your reservation.</div>
+          </div>
+
+          <!-- What to expect -->
+          <div class="accordion is-open" id="acc-itinerary">
+            <button class="accordion__trigger" onclick="toggleAccordion('acc-itinerary')">
+              <div class="accordion__trigger-left">
+                <div class="accordion__icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                </div>
+                <div>
+                  <div class="accordion__title">What to expect</div>
+                  <div class="accordion__sub">Your 7-night programme at 42 Acres</div>
+                </div>
+              </div>
+              <svg class="accordion__chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="accordion__body">
+              <p style="font-size:var(--t-sm);color:var(--stone);margin-bottom:var(--s5);line-height:1.6;">Your stay at 42 Acres includes daily yoga and meditation sessions, forest bathing, fire ceremonies, farm-to-table dining, and guided nature walks across the 42-acre estate. All meals, treatments, and scheduled activities are included.</p>
+              <div class="itinerary-day">
+                <div class="itinerary-day__date">Sun 14 Jun</div>
+                <div>
+                  <div class="itinerary-day__title">Arrival &amp; Orientation</div>
+                  <div class="itinerary-day__items">Check-in from 3pm · Welcome dinner · Evening sound bath</div>
+                </div>
+              </div>
+              <div class="itinerary-day">
+                <div class="itinerary-day__date">Mon–Fri</div>
+                <div>
+                  <div class="itinerary-day__title">Daily Programme</div>
+                  <div class="itinerary-day__items">7am morning yoga · Breakfast · 10am workshop or treatment · Lunch · Afternoon forest session · Dinner · Evening practice</div>
+                </div>
+              </div>
+              <div class="itinerary-day">
+                <div class="itinerary-day__date">Wed 17 Jun</div>
+                <div>
+                  <div class="itinerary-day__title">Mid-retreat Integration Day</div>
+                  <div class="itinerary-day__items">Unstructured free time · Optional 1:1 mentoring available</div>
+                </div>
+              </div>
+              <div class="itinerary-day">
+                <div class="itinerary-day__date">Sat 21 Jun</div>
+                <div>
+                  <div class="itinerary-day__title">Closing &amp; Departure</div>
+                  <div class="itinerary-day__items">Final morning practice · Closing ceremony · Check-out by 12pm</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Travel information -->
+          <div class="accordion" id="acc-travel">
+            <button class="accordion__trigger" onclick="toggleAccordion('acc-travel')">
+              <div class="accordion__trigger-left">
+                <div class="accordion__icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </div>
+                <div>
+                  <div class="accordion__title">Travel information</div>
+                  <div class="accordion__sub">Getting there, what to pack, and local tips</div>
+                </div>
+              </div>
+              <svg class="accordion__chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="accordion__body">
+              <div class="travel-list">
+                <div class="travel-item">
+                  <div class="travel-item__icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  </div>
+                  <div>
+                    <div class="travel-item__title">Address</div>
+                    <div class="travel-item__sub">42 Acres, Frome, Somerset, BA11 2PF · <a href="#" style="color:var(--sage)">Open in Maps</a></div>
+                  </div>
+                </div>
+                <div class="travel-item">
+                  <div class="travel-item__icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                  </div>
+                  <div>
+                    <div class="travel-item__title">Getting there</div>
+                    <div class="travel-item__sub">Nearest train: Frome (1.2 miles) · Taxi recommended · Car parking available on site</div>
+                  </div>
+                </div>
+                <div class="travel-item">
+                  <div class="travel-item__icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  </div>
+                  <div>
+                    <div class="travel-item__title">What to bring</div>
+                    <div class="travel-item__sub">Yoga mat (or borrow one) · Warm layers for evenings · Comfortable walking shoes · No phones in group sessions</div>
+                  </div>
+                </div>
+                <div class="travel-item">
+                  <div class="travel-item__icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  </div>
+                  <div>
+                    <div class="travel-item__title">Retreat contact</div>
+                    <div class="travel-item__sub">+44 (0)1373 800 200 · <a href="#" style="color:var(--sage)">hello@42acres.com</a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Amend booking -->
+          <div class="accordion" id="acc-amend">
+            <button class="accordion__trigger" onclick="toggleAccordion('acc-amend')">
+              <div class="accordion__trigger-left">
+                <div class="accordion__icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </div>
+                <div>
+                  <div class="accordion__title">Amend booking</div>
+                  <div class="accordion__sub">Edit details, request changes, or cancel</div>
+                </div>
+              </div>
+              <svg class="accordion__chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="accordion__body">
+
+              <!-- Tier legend -->
+              <div style="display:flex;gap:var(--s3);flex-wrap:wrap;margin-bottom:var(--s6);padding-bottom:var(--s5);border-bottom:1px solid var(--cloud)">
+                <span class="edit-tier edit-tier--direct">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" stroke="currentColor" fill="none" stroke-width="3"/></svg>
+                  Editable directly
+                </span>
+                <span class="edit-tier edit-tier--request">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  Request required
+                </span>
+                <span class="edit-tier edit-tier--locked">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  Non-editable
+                </span>
+              </div>
+
+              <!-- Tier 1: Directly editable -->
+              <p class="label-caps" style="margin-bottom:var(--s4)">Edit directly</p>
+
+              <div class="editable-field" id="field-dietary">
+                <div class="editable-field__top">
+                  <div>
+                    <div class="editable-field__label">Dietary requirements <span class="edit-tier edit-tier--direct" style="margin-left:8px;font-size:10px">Editable</span></div>
+                    <div class="editable-field__value">Vegetarian, no nuts</div>
+                    <div class="editable-field__input">
+                      <input type="text" class="form-input" value="Vegetarian, no nuts" style="flex:1">
+                      <button class="btn btn--primary btn--sm" onclick="saveField('field-dietary', this)">Save</button>
+                      <button class="btn btn--ghost btn--sm" onclick="cancelEdit('field-dietary')">Cancel</button>
+                    </div>
+                  </div>
+                  <button class="btn btn--ghost btn--sm" onclick="editField('field-dietary')">Edit</button>
+                </div>
+              </div>
+
+              <div class="editable-field" id="field-requests">
+                <div class="editable-field__top">
+                  <div>
+                    <div class="editable-field__label">Special requests <span class="edit-tier edit-tier--direct" style="margin-left:8px;font-size:10px">Editable</span></div>
+                    <div class="editable-field__value" style="color:var(--stone);font-style:italic">None added</div>
+                    <div class="editable-field__input">
+                      <textarea class="form-input form-textarea" placeholder="e.g. ground floor room, extra pillow…" rows="2" style="flex:1"></textarea>
+                      <div style="display:flex;flex-direction:column;gap:var(--s2)">
+                        <button class="btn btn--primary btn--sm" onclick="saveField('field-requests', this)">Save</button>
+                        <button class="btn btn--ghost btn--sm" onclick="cancelEdit('field-requests')">Cancel</button>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn--ghost btn--sm" onclick="editField('field-requests')">Add</button>
+                </div>
+              </div>
+
+              <!-- Tier 2: Request required -->
+              <p class="label-caps" style="margin-top:var(--s6);margin-bottom:var(--s4)">Request a change</p>
+              <div class="acct-info-box acct-info-box--info" style="margin-bottom:var(--s5)">
+                <svg class="acct-info-box__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <div class="acct-info-box__text">Changes to dates, room type, or guest numbers require confirmation from 42 Acres. We'll submit your request and aim to respond within 2 business days. Pricing changes may apply.</div>
+              </div>
+
+              <div style="display:flex;flex-direction:column;gap:var(--s3)">
+                <button class="btn btn--secondary" onclick="showRequestForm()" style="justify-content:flex-start;gap:var(--s3)">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  Request date change
+                  <span class="edit-tier edit-tier--request" style="margin-left:auto">Request required</span>
+                </button>
+                <button class="btn btn--secondary" onclick="showRequestForm()" style="justify-content:flex-start;gap:var(--s3)">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  Request guest number change
+                  <span class="edit-tier edit-tier--request" style="margin-left:auto">Request required</span>
+                </button>
+                <button class="btn btn--secondary" onclick="showRequestForm()" style="justify-content:flex-start;gap:var(--s3)">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  Request room type change
+                  <span class="edit-tier edit-tier--request" style="margin-left:auto">Request required</span>
+                </button>
+              </div>
+
+              <!-- Hidden request form -->
+              <div id="request-form" style="display:none;margin-top:var(--s5);padding:var(--s5);background:var(--parchment);border-radius:var(--r-md);border:1px solid var(--border)">
+                <p class="label-caps" style="margin-bottom:var(--s4)">Send change request</p>
+                <div class="form-group" style="margin-bottom:var(--s4)">
+                  <label class="form-label">What would you like to change?</label>
+                  <textarea class="form-textarea" rows="3" placeholder="Describe the change you'd like to make…"></textarea>
+                </div>
+                <div style="display:flex;gap:var(--s3)">
+                  <button class="btn btn--primary">Send request</button>
+                  <button class="btn btn--ghost" onclick="document.getElementById('request-form').style.display='none'">Cancel</button>
+                </div>
+              </div>
+
+              <!-- Tier 3: Non-editable -->
+              <p class="label-caps" style="margin-top:var(--s6);margin-bottom:var(--s4)">Cannot be changed</p>
+              <div style="display:flex;flex-direction:column;gap:var(--s3)">
+                <div class="field-row" style="background:var(--parchment);border-radius:var(--r-md);padding:var(--s4) var(--s5);border:1px solid var(--border);border-bottom:1px solid var(--border)">
+                  <div class="field-row__label">Retreat package</div>
+                  <div class="field-row__value" style="flex:1">Full-board Yoga Immersion</div>
+                  <span class="edit-tier edit-tier--locked">Non-editable</span>
+                </div>
+              </div>
+              <p style="font-size:var(--t-xs);color:var(--stone);margin-top:var(--s3)">Package type cannot be changed after booking. To book a different package, a new booking would be required. <a href="#" style="color:var(--sage)">Contact support</a> to discuss your options.</p>
+
+              <!-- Cancellation -->
+              <div style="margin-top:var(--s7);padding-top:var(--s6);border-top:1px solid var(--border)">
+                <p class="label-caps" style="margin-bottom:var(--s4)">Cancellation policy</p>
+                <div style="font-size:var(--t-sm);color:var(--stone);line-height:1.7;margin-bottom:var(--s5)">
+                  <strong style="color:var(--ink)">Free cancellation</strong> until 14 May 2026 (30 days before arrival). After this date, the balance becomes non-refundable. The deposit of £1,425 is non-refundable from the date of booking.
+                </div>
+                <button class="btn btn--ghost btn--sm" style="color:var(--error);border:1px solid var(--error-bg)" onclick="confirmCancel()">Cancel this booking</button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Payment details (accordion) -->
+          <div class="accordion" id="acc-payment">
+            <button class="accordion__trigger" onclick="toggleAccordion('acc-payment')">
+              <div class="accordion__trigger-left">
+                <div class="accordion__icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                </div>
+                <div>
+                  <div class="accordion__title">Payment breakdown</div>
+                  <div class="accordion__sub">Deposit paid · Balance due 14 May</div>
+                </div>
+              </div>
+              <svg class="accordion__chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="accordion__body">
+              <div class="payment-breakdown">
+                <div class="payment-row">
+                  <span class="payment-row__label">7 nights · Woodland Yurt (2 guests)</span>
+                  <span class="payment-row__value">£2,850.00</span>
+                </div>
+                <div class="payment-row">
+                  <span class="payment-row__label">QoR booking fee</span>
+                  <span class="payment-row__value">Included</span>
+                </div>
+                <div class="payment-row payment-row--total">
+                  <span>Total</span>
+                  <span>£2,850.00</span>
+                </div>
+                <div class="payment-row" style="padding-top:var(--s3)">
+                  <span class="payment-row__label">Deposit paid (22 Feb 2026)</span>
+                  <span class="payment-row__value payment-row__value--paid">–£1,425.00 ✓</span>
+                </div>
+                <div class="payment-row" style="background:var(--warning-bg);padding:var(--s3) var(--s4);border-radius:var(--r-md)">
+                  <span class="payment-row__label" style="color:var(--warning);font-weight:500">Balance due by 14 May 2026</span>
+                  <span class="payment-row__value payment-row__value--due">£1,425.00</span>
+                </div>
+              </div>
+              <div style="margin-top:var(--s5);display:flex;gap:var(--s3)">
+                <button class="btn btn--primary">Pay balance now</button>
+                <button class="btn btn--ghost btn--sm">Download receipt</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Support -->
+          <div class="accordion" id="acc-support">
+            <button class="accordion__trigger" onclick="toggleAccordion('acc-support')">
+              <div class="accordion__trigger-left">
+                <div class="accordion__icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <div>
+                  <div class="accordion__title">Contact support</div>
+                  <div class="accordion__sub">Get help from the QoR team</div>
+                </div>
+              </div>
+              <svg class="accordion__chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="accordion__body">
+              <p style="font-size:var(--t-sm);color:var(--stone);margin-bottom:var(--s5);line-height:1.6;">Have a question about your booking? Our retreat concierge team is on hand to help with anything from travel advice to booking amendments.</p>
+              <div class="form-group" style="margin-bottom:var(--s4)">
+                <label class="form-label">Your message</label>
+                <textarea class="form-textarea" rows="3" placeholder="How can we help with booking QOR-2026-4271?"></textarea>
+              </div>
+              <div style="display:flex;gap:var(--s3)">
+                <button class="btn btn--primary">Send message</button>
+                <a href="mailto:hello@queenofretreats.com" class="btn btn--secondary">Email us</a>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /detail-left -->
+
+        <!-- RIGHT: Sidebar summary -->
+        <div class="detail-right">
+          <div class="summary-card">
+            <div class="summary-card__header">
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <h3>Booking summary</h3>
+                <span class="badge badge--warning">Balance due</span>
+              </div>
+            </div>
+            <div class="summary-card__body">
+              <div class="summary-row">
+                <span class="summary-row__label">Booking reference</span>
+                <span class="summary-row__value" style="font-family:var(--ui);letter-spacing:0.05em">QOR-2026-4271</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-row__label">Dates</span>
+                <span class="summary-row__value">14–21 June 2026</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-row__label">Duration</span>
+                <span class="summary-row__value">7 nights</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-row__label">Guests</span>
+                <span class="summary-row__value">2 guests</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-row__label">Accommodation</span>
+                <span class="summary-row__value">Woodland Yurt</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-row__label">Package</span>
+                <span class="summary-row__value">Full-board Yoga Immersion</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-row__label">Retreat type</span>
+                <span class="summary-row__value">Yoga &amp; Mindfulness</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-row__label">Booked on</span>
+                <span class="summary-row__value">22 February 2026</span>
+              </div>
+            </div>
+
+            <div class="summary-card__payment">
+              <div class="summary-card__payment-label">Balance due</div>
+              <div class="summary-card__payment-amount">£1,425</div>
+              <div class="summary-card__payment-due">Due by 14 May 2026</div>
+            </div>
+
+            <div class="summary-card__actions">
+              <button class="btn btn--primary btn--full">Pay balance</button>
+              <button class="btn btn--secondary btn--full">Download invoice</button>
+              <button class="btn btn--ghost btn--sm btn--full" style="color:var(--stone)">View retreat listing →</button>
+            </div>
+          </div>
+        </div><!-- /detail-right -->
+
+      </div><!-- /detail-layout -->
+    </main>
+  </div>
+
+  <!-- ── CANCEL BOOKING MODAL ─────────────────────────────────── -->
+  <div class="cancel-scrim" id="cancel-scrim">
+    <div class="cancel-modal" id="cancel-modal">
+
+      <!-- Screen 1: Confirm cancellation -->
+      <div class="cancel-modal__screen is-active" id="cancel-screen-1">
+        <div class="cancel-modal__header">
+          <div class="cancel-modal__title">Cancel your booking</div>
+          <div class="cancel-modal__sub">We're sorry you're cancelling your booking, but we will try to help by making the process as simple as possible.</div>
+        </div>
+        <div class="cancel-modal__body">
+          <p style="font-family:var(--serif);font-size:var(--t-xl);color:var(--ink);margin-bottom:var(--s4)">Good news!</p>
+          <p style="font-size:var(--t-base);color:var(--charcoal);line-height:1.6;margin-bottom:var(--s5)">
+            You're entitled to a <strong>Free cancellation</strong> until 14 May 2026 (30 days before arrival).
+          </p>
+
+          <div class="cancel-summary">
+            <img class="cancel-summary__thumb" src="images/retreats/42 Acres/42+Acres+England+Yurt.webp" alt="42 Acres">
+            <div class="cancel-summary__cols">
+              <div class="cancel-summary__col">
+                <div class="cancel-summary__label">Retreat</div>
+                <div class="cancel-summary__value">42 Acres</div>
+              </div>
+              <div class="cancel-summary__col">
+                <div class="cancel-summary__label">Dates</div>
+                <div class="cancel-summary__value">14–21 Jun 2026</div>
+              </div>
+              <div class="cancel-summary__col">
+                <div class="cancel-summary__label">Room</div>
+                <div class="cancel-summary__value">Woodland Yurt</div>
+              </div>
+              <div class="cancel-summary__col">
+                <div class="cancel-summary__label">Guests</div>
+                <div class="cancel-summary__value">2 guests</div>
+              </div>
+              <div class="cancel-summary__col">
+                <div class="cancel-summary__label">Payment method</div>
+                <div class="cancel-summary__value">Visa ending ***4291</div>
+              </div>
+              <div class="cancel-summary__col cancel-summary__col--refund">
+                <div class="cancel-summary__label">Total refund</div>
+                <div class="cancel-summary__value">£2,850</div>
+              </div>
+            </div>
+          </div>
+
+          <p style="font-size:var(--t-sm);color:var(--stone)">Payment will be made within 5–10 working days.</p>
+        </div>
+        <div class="cancel-modal__footer">
+          <button class="btn btn--lg" style="background:var(--error);color:var(--white);border:none;letter-spacing:0.05em;flex:1" onclick="doCancel()">
+            Cancel booking and receive full refund
+          </button>
+          <button class="btn btn--secondary btn--lg" onclick="closeCancel()">Not just yet</button>
+        </div>
+      </div>
+
+      <!-- Screen 2: Cancellation confirmed -->
+      <div class="cancel-modal__screen" id="cancel-screen-2">
+        <div class="cancel-modal__header">
+          <div class="cancel-modal__title">We've cancelled your booking</div>
+        </div>
+        <div class="cancel-modal__body">
+          <p style="font-size:var(--t-base);color:var(--charcoal);line-height:1.65;margin-bottom:var(--s4)">Your booking has been successfully cancelled. You can view this cancellation in your account dashboard.</p>
+          <p style="font-size:var(--t-base);color:var(--charcoal);line-height:1.65;">We hope we can help you with another retreat in the future.</p>
+        </div>
+        <div class="cancel-modal__footer">
+          <button class="btn btn--primary btn--lg" onclick="goToAccount()">View this in my account</button>
+          <button class="btn btn--secondary btn--lg" onclick="closeCancel()">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function toggleAccordion(id) {
+      document.getElementById(id).classList.toggle('is-open');
+    }
+    function editField(id) {
+      document.getElementById(id).classList.add('is-editing');
+    }
+    function cancelEdit(id) {
+      document.getElementById(id).classList.remove('is-editing');
+    }
+    function saveField(id, btn) {
+      document.getElementById(id).classList.remove('is-editing');
+      const val = document.querySelector('#' + id + ' .editable-field__value');
+      const input = document.querySelector('#' + id + ' input, #' + id + ' textarea');
+      if (input && input.value) val.textContent = input.value;
+    }
+    function showRequestForm() {
+      document.getElementById('request-form').style.display = 'block';
+      document.getElementById('request-form').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    function confirmCancel() {
+      document.getElementById('cancel-scrim').classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeCancel() {
+      document.getElementById('cancel-scrim').classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+    function doCancel() {
+      document.getElementById('cancel-screen-1').classList.remove('is-active');
+      document.getElementById('cancel-screen-2').classList.add('is-active');
+    }
+    function goToAccount() {
+      sessionStorage.setItem('showCancelled', 'true');
+      window.location.href = 'account-bookings.html';
+    }
+    document.getElementById('cancel-scrim').addEventListener('click', function(e) {
+      if (e.target === this) closeCancel();
+    });
+  </script>
+  <script src="contact-widget.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preferences — Queen of Retreats</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="account.css">
+  <style>
+    .pref-completion {
+      display: flex;
+      align-items: center;
+      gap: var(--s5);
+      padding: var(--s5) var(--s6);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      margin-bottom: var(--s6);
+    }
+    .pref-completion__bar-wrap {
+      flex: 1;
+      height: 6px;
+      background: var(--cloud);
+      border-radius: var(--r-pill);
+      overflow: hidden;
+    }
+    .pref-completion__bar {
+      height: 100%;
+      width: 68%;
+      background: var(--sage);
+      border-radius: var(--r-pill);
+      transition: width var(--dur-slow) var(--ease-out);
+    }
+    .pref-completion__label {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      white-space: nowrap;
+    }
+    .pref-completion__pct {
+      font-weight: 600;
+      color: var(--sage);
+    }
+    .range-wrap {
+      position: relative;
+      padding: var(--s2) 0 var(--s4);
+    }
+    .range-input {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: var(--r-pill);
+      background: linear-gradient(to right, var(--sage) 0%, var(--sage) 55%, var(--cloud) 55%);
+      outline: none;
+      cursor: pointer;
+    }
+    .range-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 2px solid var(--sage);
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+    }
+    .range-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: var(--t-xs);
+      color: var(--stone);
+      margin-top: var(--s2);
+    }
+    .range-value {
+      font-family: var(--serif);
+      font-size: var(--t-xl);
+      color: var(--ink);
+      margin-bottom: var(--s3);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="acct-header">
+    <div class="acct-header__inner">
+      <a href="index.html" class="acct-header__back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Back to main site
+      </a>
+      <a href="account-bookings.html" class="acct-header__logo">Queen of Retreats</a>
+      <div class="acct-header__help">
+        <span>Need help? (Mon–Fri, 9am–5pm)</span>
+        <span class="acct-header__help-sep">/</span>
+        <a href="#">Contact us</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="acct-layout">
+    <aside class="acct-sidebar">
+      <a href="account-bookings.html" class="acct-sidebar__user">
+        <div class="acct-avatar">SC</div>
+        <div>
+          <div class="acct-sidebar__name">Sarah Clarke</div>
+          <div class="acct-sidebar__email">sarah@email.com</div>
+        </div>
+      </a>
+      <nav class="acct-nav">
+        <span class="acct-nav__section">Retreats</span>
+        <a href="account-bookings.html" class="acct-nav__item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          My Bookings
+          <span class="acct-nav__badge">3</span>
+        </a>
+        <a href="account-saved.html" class="acct-nav__item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          Saved Retreats
+        </a>
+        <div class="acct-nav__divider"></div>
+        <a href="account-messages.html" class="acct-nav__item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Messages
+          <span class="acct-nav__badge">3</span>
+        </a>
+        <div class="acct-nav__divider"></div>
+        <span class="acct-nav__section">Account</span>
+        <a href="account-details.html" class="acct-nav__item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Account Details
+        </a>
+        <a href="account-payment.html" class="acct-nav__item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Payment Methods
+        </a>
+        <a href="account-preferences.html" class="acct-nav__item is-active">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="8" cy="6" r="2" fill="currentColor" stroke="none"/><circle cx="16" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="10" cy="18" r="2" fill="currentColor" stroke="none"/></svg>
+          Your Preferences
+        </a>
+        <a href="account-comms.html" class="acct-nav__item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Communications
+        </a>
+        <div class="acct-nav__divider"></div>
+        <a href="index.html" class="acct-nav__item acct-nav__item--danger">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign Out
+        </a>
+      </nav>
+    </aside>
+
+    <main class="acct-main">
+
+      <a href="account-bookings.html" class="acct-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        My Account
+      </a>
+
+      <div class="acct-page-header">
+        <h1>Preferences</h1>
+        <p>Help us personalise your retreat recommendations</p>
+      </div>
+
+      <!-- Completion bar -->
+      <div class="pref-completion">
+        <div style="flex-shrink:0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="pref-completion__bar-wrap">
+          <div class="pref-completion__bar" id="pref-bar"></div>
+        </div>
+        <span class="pref-completion__label">Profile <span class="pref-completion__pct">68%</span> complete — more detail improves your recommendations</span>
+      </div>
+
+      <div id="pref-saved" class="acct-toast" style="display:none;margin-bottom:var(--s6)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        Preferences saved — your recommendations have been updated.
+      </div>
+
+      <!-- ── RETREAT TYPES ──────────────────────────────────────── -->
+      <div class="acct-panel">
+        <div class="acct-panel__header">
+          <div>
+            <h2>Retreat types</h2>
+            <p>Select all that interest you</p>
+          </div>
+        </div>
+        <div class="acct-panel__body">
+          <div class="pref-chips">
+            <span class="pref-chip is-selected" onclick="toggleChip(this)"><span class="pref-chip__icon">🧘</span> Yoga &amp; Meditation</span>
+            <span class="pref-chip" onclick="toggleChip(this)"><span class="pref-chip__icon">🌿</span> Detox &amp; Cleanse</span>
+            <span class="pref-chip is-selected" onclick="toggleChip(this)"><span class="pref-chip__icon">🏃</span> Fitness &amp; Adventure</span>
+            <span class="pref-chip" onclick="toggleChip(this)"><span class="pref-chip__icon">🧠</span> Mental Wellbeing</span>
+            <span class="pref-chip is-selected" onclick="toggleChip(this)"><span class="pref-chip__icon">💆</span> Health &amp; Healing</span>
+            <span class="pref-chip" onclick="toggleChip(this)"><span class="pref-chip__icon">📵</span> Digital Detox</span>
+            <span class="pref-chip" onclick="toggleChip(this)"><span class="pref-chip__icon">🔮</span> Spiritual &amp; Inner Work</span>
+            <span class="pref-chip" onclick="toggleChip(this)"><span class="pref-chip__icon">🥗</span> Nutrition &amp; Fasting</span>
+            <span class="pref-chip is-selected" onclick="toggleChip(this)"><span class="pref-chip__icon">🌊</span> Surf &amp; Outdoor</span>
+            <span class="pref-chip" onclick="toggleChip(this)"><span class="pref-chip__icon">✍️</span> Creative &amp; Writing</span>
+            <span class="pref-chip" onclick="toggleChip(this)"><span class="pref-chip__icon">💑</span> Couples Retreat</span>
+            <span class="pref-chip" onclick="toggleChip(this)"><span class="pref-chip__icon">👨‍👩‍👧</span> Family Friendly</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── WHAT YOU'RE LOOKING FOR ───────────────────────────── -->
+      <div class="acct-panel">
+        <div class="acct-panel__header">
+          <div>
+            <h2>What are you looking for?</h2>
+            <p>The feeling or outcome you want from a retreat</p>
+          </div>
+        </div>
+        <div class="acct-panel__body">
+          <div class="pref-chips">
+            <span class="pref-chip is-selected" onclick="toggleChip(this)">Deep relaxation</span>
+            <span class="pref-chip" onclick="toggleChip(this)">Personal transformation</span>
+            <span class="pref-chip is-selected" onclick="toggleChip(this)">Physical reset</span>
+            <span class="pref-chip" onclick="toggleChip(this)">Emotional healing</span>
+            <span class="pref-chip" onclick="toggleChip(this)">Build a new habit</span>
+            <span class="pref-chip is-selected" onclick="toggleChip(this)">Time in nature</span>
+            <span class="pref-chip" onclick="toggleChip(this)">Meet like-minded people</span>
+            <span class="pref-chip" onclick="toggleChip(this)">Stress relief</span>
+            <span class="pref-chip" onclick="toggleChip(this)">Weight loss</span>
+            <span class="pref-chip" onclick="toggleChip(this)">Spiritual growth</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── DESTINATIONS ──────────────────────────────────────── -->
+      <div class="acct-panel">
+        <div class="acct-panel__header">
+          <div>
+            <h2>Destinations</h2>
+            <p>Regions and countries you'd love to explore</p>
+          </div>
+        </div>
+        <div class="acct-panel__body">
+          <div class="pref-section">
+            <div class="pref-section__label">Europe</div>
+            <div class="pref-chips">
+              <span class="pref-chip is-selected" onclick="toggleChip(this)">🇵🇹 Portugal</span>
+              <span class="pref-chip is-selected" onclick="toggleChip(this)">🇪🇸 Spain</span>
+              <span class="pref-chip" onclick="toggleChip(this)">🇮🇹 Italy</span>
+              <span class="pref-chip" onclick="toggleChip(this)">🇫🇷 France</span>
+              <span class="pref-chip" onclick="toggleChip(this)">🇬🇷 Greece</span>
+              <span class="pref-chip" onclick="toggleChip(this)">🇨🇭 Switzerland</span>
+              <span class="pref-chip is-selected" onclick="toggleChip(this)">🇬🇧 UK &amp; Ireland</span>
+            </div>
+          </div>
+          <div class="pref-section">
+            <div class="pref-section__label">Further afield</div>
+            <div class="pref-chips">
+              <span class="pref-chip" onclick="toggleChip(this)">🇮🇳 India</span>
+              <span class="pref-chip" onclick="toggleChip(this)">🇹🇭 Thailand</span>
+              <span class="pref-chip" onclick="toggleChip(this)">🇧🇦 Bali</span>
+              <span class="pref-chip" onclick="toggleChip(this)">🇲🇻 Maldives</span>
+              <span class="pref-chip" onclick="toggleChip(this)">🌍 Africa</span>
+              <span class="pref-chip" onclick="toggleChip(this)">🌎 Americas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── BUDGET ─────────────────────────────────────────────── -->
+      <div class="acct-panel">
+        <div class="acct-panel__header">
+          <div>
+            <h2>Budget range</h2>
+            <p>Per person, total for the retreat</p>
+          </div>
+        </div>
+        <div class="acct-panel__body">
+          <div class="range-value" id="budget-display">Up to £5,000 per person</div>
+          <div class="range-wrap">
+            <input type="range" class="range-input" id="budget-range" min="500" max="20000" step="500" value="5000" oninput="updateBudget(this.value)">
+            <div class="range-labels">
+              <span>£500</span>
+              <span>£5,000</span>
+              <span>£10,000</span>
+              <span>£20,000+</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── DURATION ───────────────────────────────────────────── -->
+      <div class="acct-panel">
+        <div class="acct-panel__header">
+          <div>
+            <h2>Preferred duration</h2>
+            <p>How long do you typically want to be away?</p>
+          </div>
+        </div>
+        <div class="acct-panel__body">
+          <div class="pref-chips">
+            <span class="pref-chip" onclick="toggleChip(this)">Weekend (2–3 nights)</span>
+            <span class="pref-chip is-selected" onclick="toggleChip(this)">Short break (4–5 nights)</span>
+            <span class="pref-chip is-selected" onclick="toggleChip(this)">1 week (6–8 nights)</span>
+            <span class="pref-chip" onclick="toggleChip(this)">2 weeks (9–14 nights)</span>
+            <span class="pref-chip" onclick="toggleChip(this)">Extended (15+ nights)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TRAVEL STYLE ───────────────────────────────────────── -->
+      <div class="acct-panel">
+        <div class="acct-panel__header">
+          <div>
+            <h2>Travel style</h2>
+            <p>How do you usually travel to retreats?</p>
+          </div>
+        </div>
+        <div class="acct-panel__body">
+          <div class="pref-cards">
+            <div class="pref-style-card is-selected" onclick="toggleStyleCard(this)">
+              <span class="pref-style-card__icon">🧍</span>
+              <div class="pref-style-card__label">Solo</div>
+              <div class="pref-style-card__desc">Just me</div>
+            </div>
+            <div class="pref-style-card" onclick="toggleStyleCard(this)">
+              <span class="pref-style-card__icon">💑</span>
+              <div class="pref-style-card__label">Couple</div>
+              <div class="pref-style-card__desc">Me &amp; a partner</div>
+            </div>
+            <div class="pref-style-card" onclick="toggleStyleCard(this)">
+              <span class="pref-style-card__icon">👫</span>
+              <div class="pref-style-card__label">Friends</div>
+              <div class="pref-style-card__desc">Small group</div>
+            </div>
+            <div class="pref-style-card" onclick="toggleStyleCard(this)">
+              <span class="pref-style-card__icon">👨‍👩‍👧</span>
+              <div class="pref-style-card__label">Family</div>
+              <div class="pref-style-card__desc">With children</div>
+            </div>
+            <div class="pref-style-card" onclick="toggleStyleCard(this)">
+              <span class="pref-style-card__icon">🏢</span>
+              <div class="pref-style-card__label">Corporate</div>
+              <div class="pref-style-card__desc">Team retreat</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── EXPERIENCE LEVEL ───────────────────────────────────── -->
+      <div class="acct-panel">
+        <div class="acct-panel__header">
+          <div>
+            <h2>Experience level</h2>
+            <p>Your familiarity with retreats and wellness practices</p>
+          </div>
+        </div>
+        <div class="acct-panel__body">
+          <div class="pref-chips">
+            <span class="pref-chip" onclick="toggleSingle(this, 'exp')">
+              <span class="pref-chip__icon">🌱</span> First timer — I'm new to retreats
+            </span>
+            <span class="pref-chip" onclick="toggleSingle(this, 'exp')">
+              <span class="pref-chip__icon">🌿</span> Some experience — I've done a few
+            </span>
+            <span class="pref-chip is-selected" onclick="toggleSingle(this, 'exp')">
+              <span class="pref-chip__icon">🌳</span> Experienced — retreats are part of my life
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Save bar -->
+      <div style="display:flex;justify-content:flex-end;gap:var(--s3);padding-top:var(--s4)">
+        <button class="btn btn--ghost">Reset to defaults</button>
+        <button class="btn btn--primary" onclick="savePrefs()">Save preferences</button>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    function toggleChip(el) {
+      el.classList.toggle('is-selected');
+    }
+    function toggleSingle(el, group) {
+      el.closest('.pref-chips').querySelectorAll('.pref-chip').forEach(c => c.classList.remove('is-selected'));
+      el.classList.add('is-selected');
+    }
+    function toggleStyleCard(el) {
+      el.closest('.pref-cards').querySelectorAll('.pref-style-card').forEach(c => c.classList.remove('is-selected'));
+      el.classList.add('is-selected');
+    }
+    function updateBudget(val) {
+      const n = parseInt(val);
+      const display = document.getElementById('budget-display');
+      if (n >= 20000) {
+        display.textContent = '£20,000+ per person — no upper limit';
+      } else {
+        display.textContent = 'Up to £' + n.toLocaleString() + ' per person';
+      }
+      const pct = ((n - 500) / (20000 - 500)) * 100;
+      document.getElementById('budget-range').style.background =
+        `linear-gradient(to right, var(--sage) 0%, var(--sage) ${pct}%, var(--cloud) ${pct}%)`;
+    }
+    function savePrefs() {
+      const toast = document.getElementById('pref-saved');
+      toast.style.display = 'flex';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => toast.style.display = 'none', 3500);
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personalise Your Experience — Queen of Retreats</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+
+    body {
+      background: var(--parchment);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* ── Header ──────────────────────────────────────────────── */
+    .ob-header {
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--s7);
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .ob-header__logo {
+      font-family: var(--serif);
+      font-size: 20px;
+      color: var(--ink);
+    }
+    .ob-header__skip {
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stone);
+      cursor: pointer;
+      transition: color var(--dur-fast);
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .ob-header__skip:hover { color: var(--ink); }
+
+    /* ── Progress bar ────────────────────────────────────────── */
+    .ob-progress {
+      height: 3px;
+      background: var(--cloud);
+      position: sticky;
+      top: 60px;
+      z-index: 9;
+    }
+    .ob-progress__fill {
+      height: 100%;
+      background: var(--sage);
+      transition: width 0.5s var(--ease-out);
+      width: 0%;
+    }
+
+    /* ── Main ────────────────────────────────────────────────── */
+    .ob-main {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: var(--s10) var(--s7) var(--s12);
+    }
+
+    /* ── Step wrapper ────────────────────────────────────────── */
+    .ob-step {
+      width: 100%;
+      max-width: 720px;
+      display: none;
+      animation: obFadeUp 0.45s var(--ease-out) both;
+    }
+    .ob-step.is-active { display: block; }
+
+    @keyframes obFadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Step meta ───────────────────────────────────────────── */
+    .ob-step__counter {
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: var(--s3);
+    }
+    .ob-step__title {
+      font-family: var(--serif);
+      font-size: clamp(26px, 3vw, 40px);
+      color: var(--ink);
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+      margin-bottom: var(--s3);
+    }
+    .ob-step__sub {
+      font-size: var(--t-base);
+      color: var(--stone);
+      line-height: 1.6;
+      margin-bottom: var(--s7);
+      max-width: 520px;
+    }
+    .ob-step__label {
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: var(--s5);
+    }
+    .ob-step__multi-note {
+      font-size: var(--t-xs);
+      color: var(--mist);
+      margin-left: var(--s3);
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    /* ── Option cards (step 1, 2, 4) ────────────────────────── */
+    .ob-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--s3);
+      margin-bottom: var(--s9);
+    }
+    .ob-cards--3 { grid-template-columns: repeat(3, 1fr); }
+    .ob-cards--2 { grid-template-columns: repeat(2, 1fr); }
+
+    .ob-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--s6) var(--s5);
+      cursor: pointer;
+      transition: border-color var(--dur-fast), box-shadow var(--dur-fast), transform var(--dur-fast);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: var(--s3);
+      user-select: none;
+    }
+    .ob-card:hover {
+      border-color: var(--sage-mid);
+      box-shadow: var(--shadow-sm);
+      transform: translateY(-1px);
+    }
+    .ob-card.is-selected {
+      border-color: var(--sage);
+      background: var(--sage-pale);
+      box-shadow: 0 0 0 3px rgba(99,122,94,0.12);
+    }
+    .ob-card__emoji {
+      font-size: 28px;
+      line-height: 1;
+    }
+    .ob-card__icon {
+      width: 36px;
+      height: 36px;
+      color: var(--sage);
+    }
+    .ob-card__label {
+      font-family: var(--sans);
+      font-size: var(--t-sm);
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+    .ob-card__desc {
+      font-size: var(--t-xs);
+      color: var(--stone);
+      line-height: 1.45;
+    }
+
+    /* ── Experience cards (step 2, larger) ───────────────────── */
+    .ob-exp-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--s6) var(--s7);
+      cursor: pointer;
+      transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
+      display: flex;
+      align-items: center;
+      gap: var(--s5);
+      user-select: none;
+    }
+    .ob-exp-card:hover {
+      border-color: var(--sage-mid);
+      box-shadow: var(--shadow-sm);
+    }
+    .ob-exp-card.is-selected {
+      border-color: var(--sage);
+      background: var(--sage-pale);
+      box-shadow: 0 0 0 3px rgba(99,122,94,0.12);
+    }
+    .ob-exp-card__emoji {
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+    .ob-exp-card__text {}
+    .ob-exp-card__label {
+      font-size: var(--t-md);
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 3px;
+      font-family: var(--sans);
+    }
+    .ob-exp-card__desc {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      line-height: 1.4;
+    }
+    .ob-exp-cards {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s3);
+      margin-bottom: var(--s9);
+    }
+
+    /* ── Chips (step 3, 5) ───────────────────────────────────── */
+    .ob-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--s2);
+      margin-bottom: var(--s9);
+    }
+    .ob-chip {
+      padding: 8px 16px;
+      border-radius: var(--r-pill);
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      font-size: var(--t-sm);
+      color: var(--charcoal);
+      cursor: pointer;
+      transition: border-color var(--dur-fast), background var(--dur-fast), color var(--dur-fast);
+      user-select: none;
+    }
+    .ob-chip:hover { border-color: var(--sage-mid); }
+    .ob-chip.is-selected {
+      background: var(--sage);
+      border-color: var(--sage);
+      color: var(--white);
+    }
+
+    /* ── Destination chips with flags (step 3) ───────────────── */
+    .ob-dest-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--s2);
+      margin-bottom: var(--s7);
+    }
+    .ob-section-label {
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: var(--s4);
+      margin-top: var(--s6);
+    }
+    .ob-section-label:first-child { margin-top: 0; }
+
+    /* ── Navigation ──────────────────────────────────────────── */
+    .ob-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      padding: var(--s4) var(--s7);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 20;
+    }
+    .ob-nav__back {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s2);
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stone);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: color var(--dur-fast);
+    }
+    .ob-nav__back:hover { color: var(--ink); }
+    .ob-nav__back:disabled { opacity: 0; pointer-events: none; }
+
+    .ob-nav__right {
+      display: flex;
+      align-items: center;
+      gap: var(--s4);
+    }
+    .ob-nav__skip-step {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      transition: color var(--dur-fast);
+    }
+    .ob-nav__skip-step:hover { color: var(--ink); }
+    .ob-nav__continue {
+      padding: 12px var(--s8);
+      background: var(--sage);
+      color: var(--white);
+      border: none;
+      border-radius: var(--r-md);
+      font-family: var(--ui);
+      font-size: var(--t-sm);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background var(--dur-fast);
+      display: flex;
+      align-items: center;
+      gap: var(--s2);
+    }
+    .ob-nav__continue:hover { background: #4e6349; }
+
+    /* ── Data note ───────────────────────────────────────────── */
+    .ob-data-note {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s2);
+      font-size: var(--t-xs);
+      color: var(--mist);
+      margin-top: var(--s5);
+    }
+    .ob-data-note svg { color: var(--sage-mid); flex-shrink: 0; }
+
+    /* ── Completion view ─────────────────────────────────────── */
+    .ob-complete {
+      width: 100%;
+      max-width: 600px;
+      text-align: center;
+    }
+    .ob-complete__icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--sage-pale);
+      border: 1.5px solid var(--sage-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto var(--s7);
+    }
+    .ob-complete__eyebrow {
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: var(--s3);
+    }
+    .ob-complete__title {
+      font-family: var(--serif);
+      font-size: clamp(28px, 3vw, 42px);
+      color: var(--ink);
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+      margin-bottom: var(--s4);
+    }
+    .ob-complete__sub {
+      font-size: var(--t-base);
+      color: var(--stone);
+      line-height: 1.65;
+      margin-bottom: var(--s8);
+      max-width: 440px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .ob-complete__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--s2);
+      justify-content: center;
+      margin-bottom: var(--s8);
+    }
+    .ob-complete__tag {
+      padding: 6px 14px;
+      border-radius: var(--r-pill);
+      background: var(--sage-light);
+      font-size: var(--t-sm);
+      color: var(--sage);
+      font-weight: 500;
+    }
+    .ob-complete__actions {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s3);
+      max-width: 360px;
+      margin: 0 auto;
+    }
+    .ob-complete__primary {
+      padding: 15px var(--s7);
+      background: var(--sage);
+      color: var(--white);
+      border: none;
+      border-radius: var(--r-md);
+      font-family: var(--ui);
+      font-size: var(--t-sm);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background var(--dur-fast);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--s2);
+    }
+    .ob-complete__primary:hover { background: #4e6349; }
+    .ob-complete__secondary {
+      padding: 14px var(--s7);
+      background: transparent;
+      color: var(--stone);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-md);
+      font-family: var(--ui);
+      font-size: var(--t-sm);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all var(--dur-fast);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ob-complete__secondary:hover { border-color: var(--border-mid); color: var(--ink); }
+
+    /* ── Responsive ──────────────────────────────────────────── */
+    @media (max-width: 767px) {
+      .ob-main { padding: var(--s7) var(--s5) 120px; }
+      .ob-header { padding: 0 var(--s5); }
+      .ob-nav { padding: var(--s3) var(--s5); }
+      .ob-cards { grid-template-columns: repeat(2, 1fr); }
+      .ob-cards--3 { grid-template-columns: repeat(2, 1fr); }
+      .ob-step__title { font-size: 26px; }
+    }
+    @media (max-width: 480px) {
+      .ob-cards { grid-template-columns: repeat(2, 1fr); }
+      .ob-nav__skip-step { display: none; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ──────────────────────────────────────────────────── -->
+  <header class="ob-header">
+    <a href="index.html" class="ob-header__logo">Queen of Retreats</a>
+    <button class="ob-header__skip" onclick="skipOnboarding()">Skip for now</button>
+  </header>
+
+  <!-- ── PROGRESS BAR ────────────────────────────────────────────── -->
+  <div class="ob-progress">
+    <div class="ob-progress__fill" id="ob-progress-fill"></div>
+  </div>
+
+  <!-- ── MAIN ────────────────────────────────────────────────────── -->
+  <div class="ob-main" id="ob-main">
+
+    <!-- ───────────────────────────────────────────────────────────
+         STEP 1: Retreat Intent
+    ──────────────────────────────────────────────────────────────── -->
+    <div class="ob-step is-active" id="ob-step-1">
+
+      <div class="ob-step__counter">Step 1 of 5</div>
+      <h1 class="ob-step__title">What are you looking for?</h1>
+      <p class="ob-step__sub">We'll use this to surface retreats that match your intentions — not just a generic list.</p>
+      <div class="ob-step__label">Choose all that apply <span class="ob-step__multi-note">— you can change this later</span></div>
+
+      <div class="ob-cards" id="step1-cards">
+        <div class="ob-card" data-group="step1" data-val="rest">
+          <span class="ob-card__emoji">🌿</span>
+          <span class="ob-card__label">Rest &amp; Reset</span>
+          <span class="ob-card__desc">Slow down and restore your energy</span>
+        </div>
+        <div class="ob-card" data-group="step1" data-val="fitness">
+          <span class="ob-card__emoji">🏃</span>
+          <span class="ob-card__label">Fitness &amp; Movement</span>
+          <span class="ob-card__desc">Yoga, surfing, hiking, cycling</span>
+        </div>
+        <div class="ob-card" data-group="step1" data-val="healing">
+          <span class="ob-card__emoji">💛</span>
+          <span class="ob-card__label">Healing &amp; Recovery</span>
+          <span class="ob-card__desc">Detox, ayurveda, mental health</span>
+        </div>
+        <div class="ob-card" data-group="step1" data-val="growth">
+          <span class="ob-card__emoji">🌸</span>
+          <span class="ob-card__label">Personal Growth</span>
+          <span class="ob-card__desc">Coaching, leadership, self-discovery</span>
+        </div>
+        <div class="ob-card" data-group="step1" data-val="adventure">
+          <span class="ob-card__emoji">🧗</span>
+          <span class="ob-card__label">Adventure</span>
+          <span class="ob-card__desc">Wild places, physical challenge</span>
+        </div>
+        <div class="ob-card" data-group="step1" data-val="creative">
+          <span class="ob-card__emoji">🎨</span>
+          <span class="ob-card__label">Creative &amp; Cultural</span>
+          <span class="ob-card__desc">Writing, art, photography</span>
+        </div>
+        <div class="ob-card" data-group="step1" data-val="spiritual">
+          <span class="ob-card__emoji">🧘</span>
+          <span class="ob-card__label">Spiritual &amp; Mindful</span>
+          <span class="ob-card__desc">Meditation, breathwork, silence</span>
+        </div>
+        <div class="ob-card" data-group="step1" data-val="unsure">
+          <span class="ob-card__emoji">🤷</span>
+          <span class="ob-card__label">Not Sure Yet</span>
+          <span class="ob-card__desc">Help me figure it out</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ───────────────────────────────────────────────────────────
+         STEP 2: Experience Level
+    ──────────────────────────────────────────────────────────────── -->
+    <div class="ob-step" id="ob-step-2">
+
+      <div class="ob-step__counter">Step 2 of 5</div>
+      <h1 class="ob-step__title">How experienced are you with retreats?</h1>
+      <p class="ob-step__sub">This helps us pitch our recommendations at the right level — no wrong answers.</p>
+      <div class="ob-step__label">Choose one</div>
+
+      <div class="ob-exp-cards">
+        <div class="ob-exp-card" data-group="step2" data-val="first">
+          <span class="ob-exp-card__emoji">🌱</span>
+          <div class="ob-exp-card__text">
+            <div class="ob-exp-card__label">First time</div>
+            <div class="ob-exp-card__desc">I've never been on a retreat before — I'm curious and open</div>
+          </div>
+        </div>
+        <div class="ob-exp-card" data-group="step2" data-val="occasional">
+          <span class="ob-exp-card__emoji">✨</span>
+          <div class="ob-exp-card__text">
+            <div class="ob-exp-card__label">Occasional</div>
+            <div class="ob-exp-card__desc">I've done one or two — I know what I like but still exploring</div>
+          </div>
+        </div>
+        <div class="ob-exp-card" data-group="step2" data-val="experienced">
+          <span class="ob-exp-card__emoji">🏅</span>
+          <div class="ob-exp-card__text">
+            <div class="ob-exp-card__label">Experienced</div>
+            <div class="ob-exp-card__desc">Retreats are a regular part of my life — I know what I'm looking for</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ───────────────────────────────────────────────────────────
+         STEP 3: Preferences
+    ──────────────────────────────────────────────────────────────── -->
+    <div class="ob-step" id="ob-step-3">
+
+      <div class="ob-step__counter">Step 3 of 5</div>
+      <h1 class="ob-step__title">Your retreat preferences</h1>
+      <p class="ob-step__sub">Tell us a bit more about the kind of experience and places that appeal to you.</p>
+
+      <div class="ob-section-label">Retreat type <span class="ob-step__multi-note">— choose as many as you like</span></div>
+      <div class="ob-chips" id="step3-type-chips">
+        <div class="ob-chip" data-group="step3-type" data-val="yoga">Yoga</div>
+        <div class="ob-chip" data-group="step3-type" data-val="meditation">Meditation</div>
+        <div class="ob-chip" data-group="step3-type" data-val="detox">Detox &amp; Cleanse</div>
+        <div class="ob-chip" data-group="step3-type" data-val="fitness">Fitness</div>
+        <div class="ob-chip" data-group="step3-type" data-val="ayurveda">Ayurveda</div>
+        <div class="ob-chip" data-group="step3-type" data-val="nutrition">Nutrition &amp; Health</div>
+        <div class="ob-chip" data-group="step3-type" data-val="mental">Mental Wellbeing</div>
+        <div class="ob-chip" data-group="step3-type" data-val="therapy">Therapy &amp; Healing</div>
+        <div class="ob-chip" data-group="step3-type" data-val="breathwork">Breathwork</div>
+        <div class="ob-chip" data-group="step3-type" data-val="hiking">Hiking &amp; Nature</div>
+        <div class="ob-chip" data-group="step3-type" data-val="surfing">Surfing</div>
+        <div class="ob-chip" data-group="step3-type" data-val="writing">Writing &amp; Creative</div>
+      </div>
+
+      <div class="ob-section-label">Destination preferences <span class="ob-step__multi-note">— choose any that appeal</span></div>
+      <div class="ob-dest-chips ob-chips" id="step3-dest-chips">
+        <div class="ob-chip" data-group="step3-dest" data-val="uk">🇬🇧 UK &amp; Ireland</div>
+        <div class="ob-chip" data-group="step3-dest" data-val="europe">🌍 Europe</div>
+        <div class="ob-chip" data-group="step3-dest" data-val="mediterranean">☀️ Mediterranean</div>
+        <div class="ob-chip" data-group="step3-dest" data-val="asia">🌏 South &amp; SE Asia</div>
+        <div class="ob-chip" data-group="step3-dest" data-val="americas">🌎 Americas</div>
+        <div class="ob-chip" data-group="step3-dest" data-val="africa">🌍 Africa</div>
+        <div class="ob-chip" data-group="step3-dest" data-val="open">Open to anywhere</div>
+      </div>
+
+      <div class="ob-section-label">How far are you willing to travel?</div>
+      <div class="ob-chips" id="step3-dist-chips">
+        <div class="ob-chip" data-group="step3-dist" data-val="local" data-single>Same country</div>
+        <div class="ob-chip" data-group="step3-dist" data-val="continent" data-single>Same continent</div>
+        <div class="ob-chip" data-group="step3-dist" data-val="worldwide" data-single>Worldwide</div>
+        <div class="ob-chip" data-group="step3-dist" data-val="unsure" data-single>Not sure yet</div>
+      </div>
+
+    </div>
+
+    <!-- ───────────────────────────────────────────────────────────
+         STEP 4: Travel Style
+    ──────────────────────────────────────────────────────────────── -->
+    <div class="ob-step" id="ob-step-4">
+
+      <div class="ob-step__counter">Step 4 of 5</div>
+      <h1 class="ob-step__title">How do you prefer to travel?</h1>
+      <p class="ob-step__sub">This helps us suggest group sizes and retreat formats that suit you.</p>
+      <div class="ob-step__label">Choose all that apply</div>
+
+      <div class="ob-cards ob-cards--3" id="step4-cards">
+        <div class="ob-card" data-group="step4" data-val="solo">
+          <span class="ob-card__emoji">🧍</span>
+          <span class="ob-card__label">Solo</span>
+          <span class="ob-card__desc">I travel alone and enjoy the independence</span>
+        </div>
+        <div class="ob-card" data-group="step4" data-val="couple">
+          <span class="ob-card__emoji">💑</span>
+          <span class="ob-card__label">With a partner</span>
+          <span class="ob-card__desc">As a couple or with a close friend</span>
+        </div>
+        <div class="ob-card" data-group="step4" data-val="group">
+          <span class="ob-card__emoji">👥</span>
+          <span class="ob-card__label">With a group</span>
+          <span class="ob-card__desc">Friends, family, or a work team</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ───────────────────────────────────────────────────────────
+         STEP 5: Goals (optional)
+    ──────────────────────────────────────────────────────────────── -->
+    <div class="ob-step" id="ob-step-5">
+
+      <div class="ob-step__counter">Step 5 of 5</div>
+      <h1 class="ob-step__title">What's your main goal right now?</h1>
+      <p class="ob-step__sub">Completely optional — but the more you share, the better we can tailor things for you.</p>
+      <div class="ob-step__label">Choose any that resonate <span class="ob-step__multi-note">— optional</span></div>
+
+      <div class="ob-chips" id="step5-chips">
+        <div class="ob-chip" data-group="step5" data-val="relax">Relaxation &amp; rest</div>
+        <div class="ob-chip" data-group="step5" data-val="burnout">Burnout recovery</div>
+        <div class="ob-chip" data-group="step5" data-val="performance">Performance &amp; focus</div>
+        <div class="ob-chip" data-group="step5" data-val="connection">Human connection</div>
+        <div class="ob-chip" data-group="step5" data-val="grief">Processing grief or loss</div>
+        <div class="ob-chip" data-group="step5" data-val="anxiety">Managing anxiety</div>
+        <div class="ob-chip" data-group="step5" data-val="direction">Finding direction</div>
+        <div class="ob-chip" data-group="step5" data-val="body">Physical transformation</div>
+        <div class="ob-chip" data-group="step5" data-val="spiritual">Spiritual exploration</div>
+        <div class="ob-chip" data-group="step5" data-val="celebration">Celebration or milestone</div>
+        <div class="ob-chip" data-group="step5" data-val="break">I just need a break</div>
+      </div>
+
+      <div class="ob-data-note">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        We use this only to personalise your experience — never shared or sold
+      </div>
+
+    </div>
+
+    <!-- ───────────────────────────────────────────────────────────
+         COMPLETE
+    ──────────────────────────────────────────────────────────────── -->
+    <div class="ob-step" id="ob-complete">
+      <div class="ob-complete">
+
+        <div class="ob-complete__icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="1.75" stroke-linecap="round">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        </div>
+
+        <div class="ob-complete__eyebrow">All done</div>
+        <h1 class="ob-complete__title">Your retreats, tailored to you</h1>
+        <p class="ob-complete__sub">We've saved your preferences. From here, everything on Queen of Retreats — search results, recommendations, and concierge suggestions — will be shaped around you.</p>
+
+        <div class="ob-complete__tags" id="ob-summary-tags">
+          <!-- filled by JS -->
+        </div>
+
+        <div class="ob-complete__actions">
+          <a href="listings.html" class="ob-complete__primary">
+            Start exploring retreats
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="account-bookings.html" class="ob-complete__secondary">
+            Go to my account
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /ob-main -->
+
+  <!-- ── NAVIGATION BAR ──────────────────────────────────────────── -->
+  <div class="ob-nav" id="ob-nav">
+    <button class="ob-nav__back" id="ob-back" onclick="obBack()" disabled>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Back
+    </button>
+    <div class="ob-nav__right">
+      <button class="ob-nav__skip-step" onclick="obSkipStep()">Skip this step</button>
+      <button class="ob-nav__continue" id="ob-continue" onclick="obContinue()">
+        Continue
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <script>
+
+    const TOTAL_STEPS = 5;
+    let currentStep = 1;
+
+    // ── Card / chip toggle ────────────────────────────────────────
+    document.querySelectorAll('.ob-card, .ob-chip, .ob-exp-card').forEach(el => {
+      el.addEventListener('click', () => {
+        const group = el.dataset.group;
+        const isSingle = el.hasAttribute('data-single');
+
+        if (isSingle) {
+          // Radio behaviour
+          document.querySelectorAll(`[data-group="${group}"]`).forEach(e => e.classList.remove('is-selected'));
+          el.classList.add('is-selected');
+        } else {
+          el.classList.toggle('is-selected');
+        }
+      });
+    });
+
+    // ── Navigation ────────────────────────────────────────────────
+    function setStep(n) {
+      // Hide all steps
+      document.querySelectorAll('.ob-step').forEach(s => s.classList.remove('is-active'));
+
+      if (n > TOTAL_STEPS) {
+        // Show complete
+        document.getElementById('ob-complete').classList.add('is-active');
+        document.getElementById('ob-nav').style.display = 'none';
+        updateProgress(100);
+        buildSummaryTags();
+        return;
+      }
+
+      document.getElementById('ob-step-' + n).classList.add('is-active');
+      document.getElementById('ob-back').disabled = (n === 1);
+      updateProgress(((n - 1) / TOTAL_STEPS) * 100);
+
+      // Update continue button label on last step
+      const cont = document.getElementById('ob-continue');
+      if (n === TOTAL_STEPS) {
+        cont.innerHTML = 'Finish <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+      } else {
+        cont.innerHTML = 'Continue <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+      }
+
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      currentStep = n;
+    }
+
+    function updateProgress(pct) {
+      document.getElementById('ob-progress-fill').style.width = pct + '%';
+    }
+
+    function obContinue() { setStep(currentStep + 1); }
+    function obBack()     { if (currentStep > 1) setStep(currentStep - 1); }
+    function obSkipStep() { setStep(currentStep + 1); }
+
+    function skipOnboarding() {
+      window.location.href = 'account-bookings.html';
+    }
+
+    function buildSummaryTags() {
+      const tags = [];
+      document.querySelectorAll('.ob-card.is-selected, .ob-chip.is-selected, .ob-exp-card.is-selected').forEach(el => {
+        const label = el.querySelector('.ob-card__label, .ob-exp-card__label') || el;
+        const text = (label.textContent || el.textContent).trim().replace(/\s+/g, ' ');
+        if (text && text.length < 40) tags.push(text);
+      });
+      const container = document.getElementById('ob-summary-tags');
+      if (tags.length === 0) {
+        container.innerHTML = '<span class="ob-complete__tag">Retreat explorer</span>';
+      } else {
+        container.innerHTML = tags.slice(0, 8).map(t => `<span class="ob-complete__tag">${t}</span>`).join('');
+      }
+    }
+
+    // Init
+    setStep(1);
+    updateProgress(0);
+
+  </script>
+
+</body>
+</html>

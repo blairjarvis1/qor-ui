@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saved Retreats — Queen of Retreats</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="account.css">
+  <style>
+    .saved-filters {
+      display: flex;
+      align-items: center;
+      gap: var(--s3);
+      margin-bottom: var(--s6);
+      flex-wrap: wrap;
+    }
+    .saved-filter {
+      padding: var(--s2) var(--s4);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-pill);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--stone);
+      cursor: pointer;
+      transition: all var(--dur-fast);
+      background: var(--white);
+    }
+    .saved-filter:hover { border-color: var(--sage-mid); color: var(--ink); }
+    .saved-filter.is-active {
+      background: var(--sage);
+      border-color: var(--sage);
+      color: var(--white);
+    }
+    .recommendation-strip {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--s6) var(--s7);
+      margin-top: var(--s8);
+    }
+    .recommendation-strip__header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: var(--s5);
+    }
+    .recommendation-strip__header h3 {
+      font-family: var(--serif);
+      font-size: var(--t-lg);
+      color: var(--ink);
+    }
+    .recommendation-strip__header a {
+      font-size: var(--t-sm);
+      color: var(--sage);
+    }
+    .rec-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s4);
+    }
+    .rec-card {
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      transition: box-shadow var(--dur-fast);
+      background: var(--white);
+    }
+    .rec-card:hover { box-shadow: var(--shadow-sm); }
+    .rec-card__img {
+      width: 100%;
+      aspect-ratio: 3/2;
+      object-fit: cover;
+      display: block;
+    }
+    .rec-card__body { padding: var(--s4) var(--s5); }
+    .rec-card__location {
+      font-family: var(--ui);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: var(--s1);
+    }
+    .rec-card__title {
+      font-family: var(--serif);
+      font-size: var(--t-base);
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: var(--s2);
+    }
+    .rec-card__price {
+      font-size: var(--t-xs);
+      color: var(--stone);
+    }
+    .rec-card__price strong { color: var(--ink); font-weight: 500; }
+    .rec-card__footer {
+      display: flex;
+      gap: var(--s2);
+      padding: var(--s3) var(--s5);
+      border-top: 1px solid var(--border);
+      background: var(--parchment);
+    }
+    .saved-count {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      margin-left: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="acct-header">
+    <div class="acct-header__inner">
+      <a href="index.html" class="acct-header__back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Back to main site
+      </a>
+      <a href="account-bookings.html" class="acct-header__logo">Queen of Retreats</a>
+      <div class="acct-header__help">
+        <span>Need help? (Mon–Fri, 9am–5pm)</span>
+        <span class="acct-header__help-sep">/</span>
+        <a href="#">Contact us</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="acct-layout">
+    <aside class="acct-sidebar">
+      <a href="account-bookings.html" class="acct-sidebar__user">
+        <div class="acct-avatar">SC</div>
+        <div>
+          <div class="acct-sidebar__name">Sarah Clarke</div>
+          <div class="acct-sidebar__email">sarah@email.com</div>
+        </div>
+      </a>
+      <nav class="acct-nav">
+        <span class="acct-nav__section">Retreats</span>
+        <a href="account-bookings.html" class="acct-nav__item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          My Bookings
+          <span class="acct-nav__badge">3</span>
+        </a>
+        <a href="account-saved.html" class="acct-nav__item is-active">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          Saved Retreats
+          <span class="acct-nav__badge" style="background:var(--sage-light);color:var(--sage)">4</span>
+        </a>
+        <div class="acct-nav__divider"></div>
+        <a href="account-messages.html" class="acct-nav__item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Messages
+          <span class="acct-nav__badge">3</span>
+        </a>
+        <div class="acct-nav__divider"></div>
+        <span class="acct-nav__section">Account</span>
+        <a href="account-details.html" class="acct-nav__item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Account Details
+        </a>
+        <a href="account-payment.html" class="acct-nav__item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Payment Methods
+        </a>
+        <a href="account-preferences.html" class="acct-nav__item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="8" cy="6" r="2" fill="currentColor" stroke="none"/><circle cx="16" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="10" cy="18" r="2" fill="currentColor" stroke="none"/></svg>
+          Your Preferences
+        </a>
+        <a href="account-comms.html" class="acct-nav__item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Communications
+        </a>
+        <div class="acct-nav__divider"></div>
+        <a href="index.html" class="acct-nav__item acct-nav__item--danger">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign Out
+        </a>
+      </nav>
+    </aside>
+
+    <main class="acct-main">
+
+      <a href="account-bookings.html" class="acct-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        My Account
+      </a>
+
+      <div class="acct-page-header">
+        <h1>Saved Retreats</h1>
+        <p>Your shortlist — retreats you're considering or want to return to</p>
+      </div>
+
+      <!-- Filters + count -->
+      <div class="saved-filters">
+        <button class="saved-filter is-active" onclick="filterSaved('all', this)">All</button>
+        <button class="saved-filter" onclick="filterSaved('yoga', this)">Yoga</button>
+        <button class="saved-filter" onclick="filterSaved('detox', this)">Detox</button>
+        <button class="saved-filter" onclick="filterSaved('fitness', this)">Fitness</button>
+        <button class="saved-filter" onclick="filterSaved('europe', this)">Europe</button>
+        <span class="saved-count" id="saved-count">4 retreats saved</span>
+      </div>
+
+      <div id="remove-toast" class="acct-toast" style="display:none;margin-bottom:var(--s5)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        Retreat removed from your saved list.
+      </div>
+
+      <!-- Saved grid -->
+      <div class="saved-grid" id="saved-grid">
+
+        <!-- Card 1: Les Marguerites -->
+        <article class="saved-card" data-tags="detox europe">
+          <div class="saved-card__img-wrap">
+            <img class="saved-card__img" src="images/header_les-marguerites.jpg" alt="Les Marguerites">
+            <button class="saved-card__remove" onclick="removeSaved(this)" aria-label="Remove from saved">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <div class="saved-card__body">
+            <div class="saved-card__location">Provence, France</div>
+            <div class="saved-card__title">Les Marguerites</div>
+            <div class="saved-card__tags">
+              <span class="badge badge--sage">Detox &amp; Cleanse</span>
+              <span class="badge badge--stone">7 nights</span>
+            </div>
+            <div class="saved-card__price">From <strong>£2,200</strong> per person</div>
+            <div class="saved-card__avail">Next available: Jun 2026</div>
+          </div>
+          <div class="saved-card__footer">
+            <a href="pdp.html" class="btn btn--secondary btn--sm" style="flex:1;justify-content:center">View retreat</a>
+            <a href="enquiry.html" class="btn btn--primary btn--sm" style="flex:1;justify-content:center">Enquire</a>
+          </div>
+        </article>
+
+        <!-- Card 2: Mellulah -->
+        <article class="saved-card" data-tags="yoga europe">
+          <div class="saved-card__img-wrap">
+            <img class="saved-card__img" src="images/header_mellulah-yoga-retreats_20240514092216.jpg" alt="Mellulah Yoga Retreats">
+            <button class="saved-card__remove" onclick="removeSaved(this)" aria-label="Remove from saved">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <div class="saved-card__body">
+            <div class="saved-card__location">Ibiza, Spain</div>
+            <div class="saved-card__title">Mellulah Yoga Retreats</div>
+            <div class="saved-card__tags">
+              <span class="badge badge--sage">Yoga</span>
+              <span class="badge badge--stone">5 nights</span>
+            </div>
+            <div class="saved-card__price">From <strong>£1,650</strong> per person</div>
+            <div class="saved-card__avail">Next available: May 2026</div>
+          </div>
+          <div class="saved-card__footer">
+            <a href="pdp.html" class="btn btn--secondary btn--sm" style="flex:1;justify-content:center">View retreat</a>
+            <a href="enquiry.html" class="btn btn--primary btn--sm" style="flex:1;justify-content:center">Enquire</a>
+          </div>
+        </article>
+
+        <!-- Card 3: Ananda -->
+        <article class="saved-card" data-tags="yoga detox">
+          <div class="saved-card__img-wrap">
+            <img class="saved-card__img" src="images/general/14.jpg" alt="Ananda in the Himalayas">
+            <button class="saved-card__remove" onclick="removeSaved(this)" aria-label="Remove from saved">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <div class="saved-card__body">
+            <div class="saved-card__location">Narendra Nagar, India</div>
+            <div class="saved-card__title">Ananda in the Himalayas</div>
+            <div class="saved-card__tags">
+              <span class="badge badge--sage">Ayurveda</span>
+              <span class="badge badge--stone">7 nights</span>
+            </div>
+            <div class="saved-card__price">From <strong>£3,800</strong> per person</div>
+            <div class="saved-card__avail">Next available: Oct 2026</div>
+          </div>
+          <div class="saved-card__footer">
+            <a href="pdp.html" class="btn btn--secondary btn--sm" style="flex:1;justify-content:center">View retreat</a>
+            <a href="enquiry.html" class="btn btn--primary btn--sm" style="flex:1;justify-content:center">Enquire</a>
+          </div>
+        </article>
+
+        <!-- Card 4: Elevation Barn -->
+        <article class="saved-card" data-tags="fitness europe">
+          <div class="saved-card__img-wrap">
+            <img class="saved-card__img" src="images/general/17.jpg" alt="Elevation Barn">
+            <button class="saved-card__remove" onclick="removeSaved(this)" aria-label="Remove from saved">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <div class="saved-card__body">
+            <div class="saved-card__location">Verbier, Switzerland</div>
+            <div class="saved-card__title">Elevation Barn</div>
+            <div class="saved-card__tags">
+              <span class="badge badge--sage">Fitness</span>
+              <span class="badge badge--stone">6 nights</span>
+            </div>
+            <div class="saved-card__price">From <strong>£4,200</strong> per person</div>
+            <div class="saved-card__avail">Next available: Jul 2026</div>
+          </div>
+          <div class="saved-card__footer">
+            <a href="pdp.html" class="btn btn--secondary btn--sm" style="flex:1;justify-content:center">View retreat</a>
+            <a href="booking.html" class="btn btn--primary btn--sm" style="flex:1;justify-content:center">Book now</a>
+          </div>
+        </article>
+
+      </div><!-- /saved-grid -->
+
+      <!-- Empty state (hidden until all removed) -->
+      <div id="saved-empty" style="display:none">
+        <div class="acct-empty">
+          <div class="acct-empty__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <h3>No saved retreats yet</h3>
+          <p>Browse our retreats and tap the heart icon to save ones you love — they'll appear here for easy comparison.</p>
+          <a href="listings.html" class="btn btn--primary">Browse retreats</a>
+        </div>
+      </div>
+
+      <!-- "Because you saved this" recommendations -->
+      <div class="recommendation-strip">
+        <div class="recommendation-strip__header">
+          <h3>Because you saved Les Marguerites…</h3>
+          <a href="listings.html">View all →</a>
+        </div>
+        <div class="rec-grid">
+          <article class="rec-card">
+            <img class="rec-card__img" src="images/general/08.jpg" alt="Château du Launay">
+            <div class="rec-card__body">
+              <div class="rec-card__location">Brittany, France</div>
+              <div class="rec-card__title">Château du Launay</div>
+              <div class="rec-card__price">From <strong>£1,950</strong> · 7 nights</div>
+            </div>
+            <div class="rec-card__footer">
+              <a href="pdp.html" class="btn btn--ghost btn--sm" style="flex:1;justify-content:center">View</a>
+              <button class="btn btn--secondary btn--sm" style="flex:1;justify-content:center" onclick="quickSave(this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                Save
+              </button>
+            </div>
+          </article>
+
+          <article class="rec-card">
+            <img class="rec-card__img" src="images/general/04.jpg" alt="Mas de Lafeuillade">
+            <div class="rec-card__body">
+              <div class="rec-card__location">Dordogne, France</div>
+              <div class="rec-card__title">Mas de Lafeuillade</div>
+              <div class="rec-card__price">From <strong>£1,750</strong> · 6 nights</div>
+            </div>
+            <div class="rec-card__footer">
+              <a href="pdp.html" class="btn btn--ghost btn--sm" style="flex:1;justify-content:center">View</a>
+              <button class="btn btn--secondary btn--sm" style="flex:1;justify-content:center" onclick="quickSave(this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                Save
+              </button>
+            </div>
+          </article>
+
+          <article class="rec-card">
+            <img class="rec-card__img" src="images/general/11.jpg" alt="La Bastide de Moustiers">
+            <div class="rec-card__body">
+              <div class="rec-card__location">Alpes-de-Haute-Provence, France</div>
+              <div class="rec-card__title">La Bastide de Moustiers</div>
+              <div class="rec-card__price">From <strong>£2,400</strong> · 7 nights</div>
+            </div>
+            <div class="rec-card__footer">
+              <a href="pdp.html" class="btn btn--ghost btn--sm" style="flex:1;justify-content:center">View</a>
+              <button class="btn btn--secondary btn--sm" style="flex:1;justify-content:center" onclick="quickSave(this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                Save
+              </button>
+            </div>
+          </article>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    function removeSaved(btn) {
+      const card = btn.closest('.saved-card');
+      card.style.transition = 'opacity 0.3s, transform 0.3s';
+      card.style.opacity = '0';
+      card.style.transform = 'scale(0.96)';
+      setTimeout(() => {
+        card.remove();
+        updateCount();
+        const toast = document.getElementById('remove-toast');
+        toast.style.display = 'flex';
+        setTimeout(() => toast.style.display = 'none', 2500);
+      }, 300);
+    }
+    function updateCount() {
+      const cards = document.querySelectorAll('#saved-grid .saved-card');
+      const n = cards.length;
+      document.getElementById('saved-count').textContent = n + ' retreat' + (n !== 1 ? 's' : '') + ' saved';
+      if (n === 0) {
+        document.getElementById('saved-grid').style.display = 'none';
+        document.getElementById('saved-empty').style.display = 'block';
+      }
+    }
+    function filterSaved(tag, btn) {
+      document.querySelectorAll('.saved-filter').forEach(f => f.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      document.querySelectorAll('#saved-grid .saved-card').forEach(card => {
+        if (tag === 'all' || card.dataset.tags.includes(tag)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      const visible = [...document.querySelectorAll('#saved-grid .saved-card')].filter(c => c.style.display !== 'none').length;
+      document.getElementById('saved-count').textContent = visible + ' retreat' + (visible !== 1 ? 's' : '') + (tag !== 'all' ? ' matching' : ' saved');
+    }
+    function quickSave(btn) {
+      btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="var(--sage)" stroke="var(--sage)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> Saved';
+      btn.style.color = 'var(--sage)';
+      btn.disabled = true;
+    }
+  </script>
+
+</body>
+</html>
