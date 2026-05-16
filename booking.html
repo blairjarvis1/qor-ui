@@ -146,11 +146,18 @@
     }
     .cal-arrow-btn:hover { border-color: var(--charcoal); }
     .cal-arrow-btn:disabled { opacity: 0.3; cursor: default; }
+    .cal-arrow-btn--float {
+      position: absolute;
+      top: 9px;
+      z-index: 2;
+    }
+    .cal-arrow-btn--left  { left: 0; }
+    .cal-arrow-btn--right { right: 0; }
     .cal-nav-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: var(--s4) var(--s6);
+      padding: var(--s4) var(--s6) 24px;
       border-bottom: 1px solid var(--ink);
     }
     .cal-months .calendar { position: relative; }
@@ -165,9 +172,11 @@
       transform: translateX(calc(var(--s5) / 2));
     }
     .cal-nav-bar h4 {
-      font-family: var(--serif);
-      font-size: var(--t-lg);
+      font-family: var(--sans);
+      font-size: 13px;
       font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
     }
     .cal-legend {
       display: flex;
@@ -280,10 +289,13 @@
     #step-5 .pay-section { padding-bottom: var(--s8); }
     #step-5 .pay-section + .pay-section { border-top: 1px solid var(--border); padding-top: var(--s8); }
     #step-5 .pay-section__title { font-size: 32px; font-family: var(--serif); font-weight: 400; color: var(--ink); margin-bottom: 48px; }
+    #step-5 .pay-section__title--label { font-size: 18px; font-family: var(--sans); font-weight: 400; }
     #step-5 .form-section { background: transparent; border: none; border-radius: 0; padding-bottom: 0; margin-bottom: 0; }
     #step-5 .form-section__header { background: transparent; border-bottom: none; padding: 0 0 48px; }
     #step-5 .form-section__header h4 { font-size: 32px; font-family: var(--serif); font-weight: 400; color: var(--ink); }
     #step-5 .form-section__body { padding: 0; }
+    #step-5 .pay-section .form-group { margin-bottom: var(--s4); }
+    #step-5 .pay-section .form-group:last-of-type { margin-bottom: 0; }
     .booking-summary-card__title {
       font-size: 32px;
       font-family: var(--serif);
@@ -315,11 +327,10 @@
       align-items: center;
       justify-content: center;
       gap: var(--s5);
-      padding: var(--s4);
-      background: var(--parchment);
-      border: 1px solid var(--border);
-      border-radius: var(--r-md);
-      margin-top: var(--s4);
+      padding: var(--s5) 0;
+      background: transparent;
+      border-top: 1px solid var(--border);
+      margin-top: var(--s6);
     }
     .payment-security__item {
       display: flex;
@@ -613,13 +624,17 @@
     .extra-card--overflow { display: none; }
     .extra-card--overflow.is-visible { display: flex; }
 
-    /* ── View more button — full width, same style as Select room ── */
+    /* ── View more button ── */
     #extras-view-more {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--s2);
       width: 100%;
       padding: var(--s3) var(--s5);
       border: none;
       border-radius: var(--r-sm);
-      background: var(--surface);
+      background: var(--white);
       font-family: var(--sans);
       font-size: 14px;
       font-weight: 400;
@@ -627,7 +642,7 @@
       cursor: pointer;
       text-align: center;
       transition: background 0.15s;
-      margin-top: var(--s9);
+      margin-top: var(--s4);
     }
     #extras-view-more:hover { background: var(--cloud); }
 
@@ -946,37 +961,32 @@
             </div>
 
             <!-- View Toggle -->
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--s6);">
-              <div style="display:flex; align-items:center; gap: var(--s6);">
-                <div class="view-toggle">
-                  <button class="view-toggle__btn is-active" data-view="calendar">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                    Calendar
-                  </button>
-                  <button class="view-toggle__btn" data-view="list">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-                    List
-                  </button>
-                </div>
-                <div class="cal-legend" style="margin:0;">
-                  <div class="cal-legend__item"><div class="cal-legend__dot cal-legend__dot--available"></div> Available</div>
-                  <div class="cal-legend__item"><div class="cal-legend__dot cal-legend__dot--limited"></div> Limited spaces</div>
-                  <div class="cal-legend__item"><div class="cal-legend__dot cal-legend__dot--soldout"></div> Sold out</div>
-                </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: var(--s6); border-bottom: 1px solid var(--border); margin-bottom: var(--s7);">
+              <div class="view-toggle">
+                <button class="view-toggle__btn is-active" data-view="calendar">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  Calendar
+                </button>
+                <button class="view-toggle__btn" data-view="list">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                  List
+                </button>
               </div>
-              <!-- Calendar carousel arrows -->
-              <div id="cal-arrows" style="display:flex; gap: var(--s2);">
-                <button id="cal-prev" class="cal-arrow-btn" disabled aria-label="Previous months">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                </button>
-                <button id="cal-next" class="cal-arrow-btn" aria-label="Next months">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-                </button>
+              <div class="cal-legend" style="margin:0;">
+                <div class="cal-legend__item"><div class="cal-legend__dot cal-legend__dot--available"></div> Available</div>
+                <div class="cal-legend__item"><div class="cal-legend__dot cal-legend__dot--limited"></div> Limited spaces</div>
+                <div class="cal-legend__item"><div class="cal-legend__dot cal-legend__dot--soldout"></div> Sold out</div>
               </div>
             </div>
 
             <!-- Calendar view -->
-            <div id="cal-view">
+            <div id="cal-view" style="position: relative;">
+              <button id="cal-prev" class="cal-arrow-btn cal-arrow-btn--float cal-arrow-btn--left" disabled aria-label="Previous months">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <button id="cal-next" class="cal-arrow-btn cal-arrow-btn--float cal-arrow-btn--right" aria-label="Next months">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
               <div class="cal-months-viewport">
               <div class="cal-months">
 
@@ -984,7 +994,7 @@
                 <div class="calendar" id="cal-june">
                   <div class="cal-nav-bar">
                     <div style="width:32px"></div>
-                    <h4>June 2026</h4>
+                    <h4>Jun 2026</h4>
                     <div style="width:32px"></div>
                   </div>
                   <div class="calendar__grid-header">
@@ -997,7 +1007,7 @@
                 <div class="calendar" id="cal-july">
                   <div class="cal-nav-bar">
                     <div style="width:32px"></div>
-                    <h4>July 2026</h4>
+                    <h4>Jul 2026</h4>
                     <div style="width:32px"></div>
                   </div>
                   <div class="calendar__grid-header">
@@ -1010,7 +1020,7 @@
                 <div class="calendar" id="cal-aug">
                   <div class="cal-nav-bar">
                     <div style="width:32px"></div>
-                    <h4>August 2026</h4>
+                    <h4>Aug 2026</h4>
                     <div style="width:32px"></div>
                   </div>
                   <div class="calendar__grid-header">
@@ -1023,7 +1033,7 @@
                 <div class="calendar" id="cal-sep">
                   <div class="cal-nav-bar">
                     <div style="width:32px"></div>
-                    <h4>September 2026</h4>
+                    <h4>Sep 2026</h4>
                     <div style="width:32px"></div>
                   </div>
                   <div class="calendar__grid-header">
@@ -1036,7 +1046,7 @@
                 <div class="calendar" id="cal-oct">
                   <div class="cal-nav-bar">
                     <div style="width:32px"></div>
-                    <h4>October 2026</h4>
+                    <h4>Oct 2026</h4>
                     <div style="width:32px"></div>
                   </div>
                   <div class="calendar__grid-header">
@@ -1049,7 +1059,7 @@
                 <div class="calendar" id="cal-nov">
                   <div class="cal-nav-bar">
                     <div style="width:32px"></div>
-                    <h4>November 2026</h4>
+                    <h4>Nov 2026</h4>
                     <div style="width:32px"></div>
                   </div>
                   <div class="calendar__grid-header">
@@ -1062,7 +1072,7 @@
                 <div class="calendar" id="cal-dec">
                   <div class="cal-nav-bar">
                     <div style="width:32px"></div>
-                    <h4>December 2026</h4>
+                    <h4>Dec 2026</h4>
                     <div style="width:32px"></div>
                   </div>
                   <div class="calendar__grid-header">
@@ -1075,7 +1085,7 @@
                 <div class="calendar" id="cal-jan27">
                   <div class="cal-nav-bar">
                     <div style="width:32px"></div>
-                    <h4>January 2027</h4>
+                    <h4>Jan 2027</h4>
                     <div style="width:32px"></div>
                   </div>
                   <div class="calendar__grid-header">
@@ -1088,7 +1098,7 @@
                 <div class="calendar" id="cal-feb27">
                   <div class="cal-nav-bar">
                     <div style="width:32px"></div>
-                    <h4>February 2027</h4>
+                    <h4>Feb 2027</h4>
                     <div style="width:32px"></div>
                   </div>
                   <div class="calendar__grid-header">
@@ -1105,10 +1115,7 @@
 
             <!-- List view -->
             <div id="list-view" class="hidden">
-              <div style="display: grid; grid-template-columns: 1fr var(--sidebar-w); gap: var(--s8); align-items: start;">
-
-                <!-- Left: date list -->
-                <div class="date-list">
+              <div class="date-list">
 
                   <p class="label-caps" style="padding: var(--s4) 0 var(--s3); color: var(--stone); font-size: calc(var(--t-xs) * 1.25);">2026</p>
 
@@ -1312,26 +1319,11 @@
                     </div>
                   </div>
 
-                </div>
-
-                <!-- Right: selected date card -->
-                <div style="align-self: start;">
-                  <div class="selected-date-info is-hidden" id="date-selected-panel">
-                    <div>
-                      <p class="label-caps" style="margin-bottom: var(--s1);">Selected</p>
-                      <p id="date-selected-label" style="font-family: var(--serif); font-size: var(--t-xl); color: var(--ink);"></p>
-                    </div>
-                    <div style="text-align: right;">
-                      <p style="font-size: var(--t-sm); color: var(--stone);">7 nights · From £2,195 pp</p>
-                      <button class="edit-link" style="margin-top: var(--s2);" onclick="document.getElementById('date-selected-panel').classList.add('is-hidden')">Change dates</button>
-                    </div>
-                  </div>
-                </div>
-
               </div>
 
-
             </div>
+
+            <div style="border-top: 1px solid var(--border); margin-top: var(--s6);"></div>
 
           </div>
 
@@ -1586,9 +1578,6 @@
                 </button>
               </div>
 
-              <!-- View more trigger -->
-              <button id="extras-view-more" onclick="toggleExtrasOverflow(this)">View more +</button>
-
               <div class="extra-card extra-card--overflow" data-extra-id="e5" data-extra-category="coaching">
                 <img src="images/extras/life-coaching.png" alt="Life Coaching Session" class="extra-card__thumb">
                 <div class="extra-card__info">
@@ -1645,14 +1634,17 @@
                   <svg class="icon-minus" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="4" y1="12" x2="20" y2="12"/></svg>
                 </button>
               </div>
+
+              <!-- View more trigger -->
+              <button id="extras-view-more" onclick="toggleExtrasOverflow(this)">
+                <span class="view-more-label">View more</span>
+                <svg class="view-more-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
             </div>
           </div>
 
-          <div style="margin-top: var(--s8);">
-            <button class="btn btn--primary btn--lg btn--full" onclick="document.getElementById('nav-continue').click()">
-              Continue
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
+          <div style="margin-top: var(--s7); border-top: 1px solid var(--border); padding-top: var(--s7);">
+            <button id="step1-continue" class="btn-continue" disabled onclick="document.getElementById('nav-continue').click()">Continue +</button>
           </div>
 
         </section>
@@ -1891,7 +1883,13 @@
                   </div>
                   <div class="form-group" style="margin-bottom: var(--s5);">
                     <label class="form-label" for="login-password">Password</label>
-                    <input class="form-input" type="password" id="login-password" placeholder="Minimum 8 characters">
+                    <div style="position:relative">
+                      <input class="form-input" type="password" id="login-password" placeholder="Minimum 8 characters" style="padding-right:42px">
+                      <button type="button" onclick="togglePw('login-password','pw-show-1','pw-hide-1')" aria-label="Show password" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;padding:0;cursor:pointer;color:var(--charcoal);display:flex;align-items:center;line-height:1;transition:color 0.15s" onmouseenter="this.style.color='var(--ink)'" onmouseleave="this.style.color='var(--charcoal)'">
+                        <svg id="pw-show-1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <svg id="pw-hide-1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                      </button>
+                    </div>
                   </div>
                   <p style="font-size: var(--t-sm); margin-bottom: var(--s6);"><a href="#" style="color: var(--sage);">Forgot your password?</a></p>
                   <button class="btn-amend" type="button">Login</button>
@@ -1932,9 +1930,17 @@
                 </div>
               </label>
               <div id="password-field" class="hidden">
-                <div class="form-group">
-                  <label class="form-label" for="password">Choose a password</label>
-                  <input class="form-input" type="password" id="password" placeholder="Minimum 8 characters">
+                <div class="form-row form-row--2">
+                  <div class="form-group">
+                    <label class="form-label" for="password">Choose a password</label>
+                    <div style="position:relative">
+                      <input class="form-input" type="password" id="password" placeholder="Minimum 8 characters" style="padding-right:42px">
+                      <button type="button" onclick="togglePw('password','pw-show-2','pw-hide-2')" aria-label="Show password" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;padding:0;cursor:pointer;color:var(--charcoal);display:flex;align-items:center;line-height:1;transition:color 0.15s" onmouseenter="this.style.color='var(--ink)'" onmouseleave="this.style.color='var(--charcoal)'">
+                        <svg id="pw-show-2" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <svg id="pw-hide-2" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -2026,6 +2032,37 @@
             <p class="step-panel__desc">To ensure we create the best possible experience, please share a little about yourself. All information is confidential and shared only with your facilitators.</p>
           </div>
 
+          <!-- Experience -->
+          <div class="form-section">
+            <div class="form-section__header">
+              <h4>Movement &amp; Practice Experience</h4>
+            </div>
+            <div class="form-section__body">
+              <div class="form-group">
+                <label class="form-label">How would you describe your yoga or movement experience?</label>
+                <div class="pill-group">
+                  <input type="radio" name="experience" id="exp-none" value="none">
+                  <label for="exp-none">Complete beginner</label>
+                  <input type="radio" name="experience" id="exp-some" value="some" checked>
+                  <label for="exp-some">Some experience</label>
+                  <input type="radio" name="experience" id="exp-regular" value="regular">
+                  <label for="exp-regular">Regular practitioner</label>
+                  <input type="radio" name="experience" id="exp-teacher" value="teacher">
+                  <label for="exp-teacher">Teacher / Advanced</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="intentions">
+                  What are you hoping to take away from this retreat? <span class="optional">Optional</span>
+                </label>
+                <textarea class="form-textarea" id="intentions" maxlength="500"
+                  placeholder="There are no right answers here. Write freely — this helps us hold the space in a way that serves you."
+                  oninput="document.getElementById('intentions-count').textContent = this.value.length"></textarea>
+                <p class="char-count"><span id="intentions-count">0</span> / 500</p>
+              </div>
+            </div>
+          </div>
+
           <!-- Health -->
           <div class="form-section">
             <div class="form-section__header">
@@ -2098,37 +2135,6 @@
             </div>
           </div>
 
-          <!-- Experience -->
-          <div class="form-section">
-            <div class="form-section__header">
-              <h4>Movement &amp; Practice Experience</h4>
-            </div>
-            <div class="form-section__body">
-              <div class="form-group">
-                <label class="form-label">How would you describe your yoga or movement experience?</label>
-                <div class="pill-group">
-                  <input type="radio" name="experience" id="exp-none" value="none">
-                  <label for="exp-none">Complete beginner</label>
-                  <input type="radio" name="experience" id="exp-some" value="some" checked>
-                  <label for="exp-some">Some experience</label>
-                  <input type="radio" name="experience" id="exp-regular" value="regular">
-                  <label for="exp-regular">Regular practitioner</label>
-                  <input type="radio" name="experience" id="exp-teacher" value="teacher">
-                  <label for="exp-teacher">Teacher / Advanced</label>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="intentions">
-                  What are you hoping to take away from this retreat? <span class="optional">Optional</span>
-                </label>
-                <textarea class="form-textarea" id="intentions" maxlength="500"
-                  placeholder="There are no right answers here. Write freely — this helps us hold the space in a way that serves you."
-                  oninput="document.getElementById('intentions-count').textContent = this.value.length"></textarea>
-                <p class="char-count"><span id="intentions-count">0</span> / 500</p>
-              </div>
-            </div>
-          </div>
-
           <!-- Travel logistics -->
           <div class="form-section">
             <div class="form-section__header">
@@ -2189,7 +2195,7 @@
 
           <!-- Payment option toggle -->
           <div class="pay-section">
-            <h2 class="pay-section__title">How would you like to pay?</h2>
+            <h2 class="pay-section__title pay-section__title--label">How would you like to pay?</h2>
             <div class="payment-toggle" style="margin-bottom: var(--s7);">
               <div class="payment-option" data-payment="deposit">
                 <div class="payment-option__label">Pay deposit today</div>
@@ -2207,59 +2213,34 @@
 
           <!-- Payment method selector -->
           <div class="pay-section">
-            <h2 class="pay-section__title">Payment method</h2>
+            <h2 class="pay-section__title pay-section__title--label">Payment method</h2>
             <div class="pay-method-grid">
-            <!-- Credit / Debit card -->
-            <div class="pay-method-card" data-method="card">
-              <div class="pay-method-card__logo">
-                <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="0.5" y="0.5" width="31" height="21" rx="3.5" fill="white" stroke="#D1D5DB"/>
-                  <rect x="0" y="6" width="32" height="5" fill="#374151"/>
-                  <rect x="4" y="14" width="10" height="3" rx="1" fill="#D1D5DB"/>
-                </svg>
+              <div class="pay-method-card" data-method="card">
+                <div class="pay-method-card__logo"><img src="images/payment/Credit Card.svg" data-logo-default="images/payment/Credit Card.svg" data-logo-active="images/payment/Credit Card White.svg" height="28" alt="Credit / Debit card"></div>
+                <div class="pay-method-card__label">Credit / Debit</div>
               </div>
-              <div class="pay-method-card__label">Credit / Debit</div>
-            </div>
-            <!-- Google Pay -->
-            <div class="pay-method-card" data-method="gpay">
-              <div class="pay-method-card__logo">
-                <svg width="46" height="18" viewBox="0 0 46 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <text x="0" y="14" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#4285F4">G</text>
-                  <text x="11" y="14" font-family="Arial, sans-serif" font-size="14" fill="#34A853">o</text>
-                  <text x="19" y="14" font-family="Arial, sans-serif" font-size="14" fill="#EA4335">o</text>
-                  <text x="27" y="14" font-family="Arial, sans-serif" font-size="14" fill="#FBBC04">g</text>
-                  <text x="34" y="14" font-family="Arial, sans-serif" font-size="14" fill="#4285F4">le</text>
-                </svg>
+              <div class="pay-method-card" data-method="gpay">
+                <div class="pay-method-card__logo"><img src="images/payment/GooglePay.svg" data-logo-default="images/payment/GooglePay.svg" data-logo-active="images/payment/GooglePay White.svg" height="28" alt="Google Pay"></div>
+                <div class="pay-method-card__label">Google Pay</div>
               </div>
-              <div class="pay-method-card__label">Google Pay</div>
-            </div>
-            <!-- Apple Pay -->
-            <div class="pay-method-card" data-method="applepay">
-              <div class="pay-method-card__logo">
-                <svg width="36" height="24" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <text x="50%" y="17" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="600" fill="#000"> Pay</text>
-                </svg>
+              <div class="pay-method-card" data-method="applepay">
+                <div class="pay-method-card__logo"><img src="images/payment/ApplePay.svg" height="28" alt="Apple Pay"></div>
+                <div class="pay-method-card__label">Apple Pay</div>
               </div>
-              <div class="pay-method-card__label">Apple Pay</div>
-            </div>
-            <!-- Klarna -->
-            <div class="pay-method-card" data-method="klarna">
-              <div class="pay-method-card__logo">
-                <svg width="54" height="18" viewBox="0 0 54 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <text x="0" y="14" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#000">Klarna</text>
-                </svg>
+              <div class="pay-method-card" data-method="stripe">
+                <div class="pay-method-card__logo"><img src="images/payment/Stripe.svg" height="28" alt="Stripe"></div>
+                <div class="pay-method-card__label">Pay with Stripe</div>
               </div>
-              <div class="pay-method-card__label">Buy now, pay later</div>
             </div>
-          </div>
+          </div><!-- /.pay-section (Payment method) -->
 
-          <!-- Panel: Credit / Debit card (default) -->
-          <div class="pay-panel" id="pay-panel-card">
-            <div class="form-section">
-              <div class="form-section__header">
-                <h4>Card details</h4>
-              </div>
-              <div class="form-section__body">
+          <!-- Revealed on method selection -->
+          <div id="pay-details" style="display: none;">
+
+            <!-- Card details + billing (card only) -->
+            <div id="pay-panel-card" style="display: none;">
+              <div class="pay-section">
+                <h2 class="pay-section__title">Card details</h2>
                 <div class="form-group">
                   <label class="form-label" for="card-name">Name on card</label>
                   <input class="form-input" type="text" id="card-name" placeholder="As it appears on your card">
@@ -2281,87 +2262,91 @@
                 </div>
                 <div style="margin-top: var(--s6);">
                   <label style="display: flex; align-items: flex-start; gap: var(--s4); cursor: pointer;">
-                    <input type="checkbox" id="billing-same" style="width: 18px; height: 18px; margin-top: 1px; flex-shrink: 0; accent-color: var(--ink); cursor: pointer;" onchange="document.getElementById('billing-address-section').style.display = this.checked ? 'none' : 'block'">
-                    <span style="font-size: var(--t-base); color: var(--ink); line-height: 1.5;">My billing address is the same as my home address</span>
+                    <input type="checkbox" id="billing-same" checked style="width: 18px; height: 18px; margin-top: 1px; flex-shrink: 0; accent-color: var(--ink); cursor: pointer;" onchange="document.getElementById('billing-address-section').style.display = this.checked ? 'none' : 'block'">
+                    <span style="font-size: var(--t-base); color: var(--ink); line-height: 1.5;">Use registered address / lead guest's address as billing address</span>
                   </label>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <!-- Panel: Google Pay -->
-          <div class="pay-panel" id="pay-panel-gpay">
-            <button class="gpay-btn">
-              <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><text x="0" y="17" font-family="Arial" font-size="18" font-weight="700" fill="#4285F4">G</text></svg>
-              Pay with Google Pay
-            </button>
-            <p class="pay-alt-note">You'll be redirected to Google Pay to complete your payment securely.</p>
-          </div>
-
-          <!-- Panel: Apple Pay -->
-          <div class="pay-panel" id="pay-panel-applepay">
-            <button class="applepay-btn">
-              <svg width="18" height="22" viewBox="0 0 18 22" fill="white"><path d="M14.98 11.47c-.02-2.37 1.94-3.51 2.03-3.57-1.1-1.62-2.82-1.84-3.43-1.86-1.46-.15-2.86.87-3.6.87-.75 0-1.9-.85-3.12-.83-1.6.02-3.08.94-3.9 2.38-1.67 2.9-.43 7.18 1.19 9.53.8 1.15 1.74 2.44 2.98 2.39 1.2-.05 1.65-.77 3.1-.77 1.44 0 1.85.77 3.11.75 1.29-.02 2.1-1.17 2.88-2.33.92-1.33 1.29-2.63 1.31-2.7-.03-.01-2.52-.97-2.55-3.86z"/><path d="M12.54 4.44c.66-.81 1.11-1.93.99-3.06-.96.04-2.12.64-2.81 1.44-.61.7-1.15 1.83-.1 2.93 1.07.04 2.26-.55 2.92-1.31z"/></svg>
-              Pay with Apple Pay
-            </button>
-            <p class="pay-alt-note">You'll use Face ID or Touch ID to complete your payment securely.</p>
-          </div>
-
-          <!-- Panel: Klarna -->
-          <div class="pay-panel" id="pay-panel-klarna">
-            <button class="klarna-btn">
-              <svg width="60" height="18" viewBox="0 0 60 18"><text x="0" y="14" font-family="Arial" font-size="14" font-weight="700" fill="#000">Klarna</text></svg>
-              Pay in 3 interest-free instalments
-            </button>
-            <p class="pay-alt-note">No interest. No fees. Split your payment into 3 equal parts. Provided by Klarna.</p>
-          </div>
-
-          <!-- Security badges -->
-          <div class="payment-security">
-            <div class="payment-security__item">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              256-bit SSL encrypted
-            </div>
-            <div class="payment-security__item">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              3D Secure verified
-            </div>
-            <div class="payment-security__item">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-              Stripe payment processing
-            </div>
-          </div>
-
-          <!-- Cancellation reminder -->
-          <div class="alert alert--info" style="margin-top: var(--s5);">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <span><strong>Free cancellation</strong> up to 90 days before your arrival date. Your deposit is fully refundable within this window.</span>
-          </div>
-          </div><!-- /.pay-section (Payment method) -->
-
-          <!-- Billing address -->
-          <div class="pay-section" id="billing-address-section">
-            <h2 class="pay-section__title">Billing address</h2>
-            <div class="form-group">
-              <label class="form-label" for="billing-address1">Address line 1</label>
-              <input class="form-input" type="text" id="billing-address1" placeholder="Street address">
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--s5); margin-top: var(--s4);">
-              <div class="form-group">
-                <label class="form-label" for="billing-city">City</label>
-                <input class="form-input" type="text" id="billing-city" placeholder="London">
+              <div class="pay-section" id="billing-address-section" style="display: none;">
+                <h2 class="pay-section__title">Billing address</h2>
+                <div class="form-group">
+                  <label class="form-label" for="billing-address1">Address line 1</label>
+                  <input class="form-input" type="text" id="billing-address1" placeholder="Street address">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--s5); margin-top: var(--s4);">
+                  <div class="form-group">
+                    <label class="form-label" for="billing-city">City</label>
+                    <input class="form-input" type="text" id="billing-city" placeholder="London">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="billing-postcode">Postcode</label>
+                    <input class="form-input" type="text" id="billing-postcode" placeholder="SW1A 1AA">
+                  </div>
+                </div>
               </div>
-              <div class="form-group">
-                <label class="form-label" for="billing-postcode">Postcode</label>
-                <input class="form-input" type="text" id="billing-postcode" placeholder="SW1A 1AA">
+            </div><!-- /#pay-panel-card -->
+
+            <!-- Google Pay panel -->
+            <div id="pay-panel-gpay" style="display: none;">
+              <div class="pay-section">
+                <button class="gpay-btn">
+                  Pay with
+                  <img src="images/payment/GooglePay White.svg" height="30" alt="Google Pay">
+                </button>
+                <p class="pay-alt-note">You'll be redirected to Google Pay to complete your payment securely.</p>
               </div>
             </div>
-          </div>
 
-          <!-- Pay CTA -->
-          <button id="pay-now-label" class="btn btn--ink btn--lg btn--full" style="margin-top: var(--s6);" onclick="window.bookingApp && bookingApp.renderStep(6)">
-            Pay £724 &amp; Confirm Booking
-          </button>
+            <!-- Apple Pay panel -->
+            <div id="pay-panel-applepay" style="display: none;">
+              <div class="pay-section">
+                <button class="applepay-btn">
+                  Pay with
+                  <img src="images/payment/ApplePay.svg" height="30" alt="Apple Pay">
+                </button>
+                <p class="pay-alt-note">You'll use Face ID or Touch ID to complete your payment securely.</p>
+              </div>
+            </div>
+
+            <!-- Stripe panel -->
+            <div id="pay-panel-stripe" style="display: none;">
+              <div class="pay-section">
+                <button class="stripe-btn">
+                  Pay with
+                  <img src="images/payment/Stripe.svg" height="30" alt="Stripe">
+                </button>
+                <p class="pay-alt-note">You'll be redirected to Stripe to complete your payment securely.</p>
+              </div>
+            </div>
+
+            <!-- Cancellation reminder -->
+            <div class="alert alert--info" style="margin-top: var(--s5);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span><strong>Free cancellation</strong> up to 90 days before your arrival date. Your deposit is fully refundable within this window.</span>
+            </div>
+
+            <!-- Security bar -->
+            <div class="payment-security">
+              <div class="payment-security__item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                256-bit SSL encrypted
+              </div>
+              <div class="payment-security__item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                3D Secure verified
+              </div>
+              <div class="payment-security__item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                Stripe payment processing
+              </div>
+            </div>
+
+            <!-- Pay CTA -->
+            <button id="pay-now-label" class="btn btn--ink btn--lg btn--full" style="margin-top: var(--s6);" onclick="window.bookingApp && bookingApp.renderStep(6)">
+              Pay £724 &amp; Confirm Booking
+            </button>
+
+          </div><!-- /#pay-details -->
 
         </section>
 
@@ -2371,23 +2356,91 @@
         ───────────────────────────────────────────────── -->
         <section id="step-6" class="step-panel">
 
-          <div class="confirmation-hero">
-            <div class="confirmation-hero__icon">
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#637A5E" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <p class="label-caps" style="color: var(--sage); margin-bottom: var(--s3);">Booking confirmed</p>
-            <h1 style="font-size: var(--t-3xl); font-weight: 300;">Your retreat is confirmed.</h1>
-            <p style="font-size: var(--t-md); color: var(--stone); margin-top: var(--s3); max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.6;">
-              We're looking forward to welcoming you to Elevation Barn. A detailed confirmation has been sent to your email.
+          <!-- Title block -->
+          <div class="booking-summary-card" style="padding-bottom: var(--s8); border-bottom: 1px solid var(--border);">
+            <h1 class="step-panel__title">Your retreat is confirmed.</h1>
+            <p style="font-size: var(--t-base); color: var(--stone); line-height: 1.6; margin-bottom: var(--s5);">
+              We're looking forward to welcoming you. A detailed confirmation has been sent to your email.
             </p>
-            <span class="confirmation-hero__ref">Booking ref: QR-2026-08847</span>
+            <div style="margin-bottom: 0; display: inline-flex; align-items: center; background: #D5D8D4; padding: var(--s4) var(--s5); border-radius: 4px;">
+              <span style="font-size: var(--t-sm); font-weight: 500; color: var(--ink);">Booking ref: QR-2026-08847</span>
+            </div>
           </div>
 
-          <div class="confirmation-grid">
+          <!-- Retreat section -->
+          <div class="booking-summary-card" style="padding-top: var(--s8); border-bottom: 1px solid var(--border);">
+            <div class="booking-summary-card__header">
+              <span class="booking-summary-card__title">Retreat</span>
+            </div>
+            <div class="booking-summary-card__body">
+              <div style="display: grid; grid-template-columns: 180px 1fr; gap: 48px; align-items: start;">
+                <img src="images/header_vale-de-moses.jpg" alt="Retreat Yourself" style="width:180px; height:auto; object-fit:cover; border-radius:4px; display:block;">
+                <div>
+                  <p style="font-size: 18px; font-family: var(--sans); font-weight: 400; color: var(--ink); margin-bottom: 2px;">Retreat Yourself</p>
+                  <p style="font-size: 18px; font-family: var(--sans); font-weight: 400; color: var(--stone); margin-bottom: var(--s2);">Seeds of Silence</p>
+                  <p style="font-size: var(--t-base); font-weight: 300; color: var(--stone);">King's Lynn, Norfolk, United Kingdom</p>
+                  <p style="font-size: var(--t-base); font-weight: 300; color: var(--stone); margin-top: 2px;">7 – 14 June 2026 &nbsp;·&nbsp; 7 nights / 8 days</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-            <!-- Left: Next steps -->
-            <div>
-              <h3 style="font-family: var(--sans); font-size: var(--t-lg); font-weight: 600; margin-bottom: var(--s6);">What happens next</h3>
+          <!-- Accommodation section -->
+          <div class="booking-summary-card" style="padding-top: var(--s8); border-bottom: 1px solid var(--border);">
+            <div class="booking-summary-card__header">
+              <span class="booking-summary-card__title">Accommodation</span>
+            </div>
+            <div class="booking-summary-card__body">
+
+              <!-- Guest 1 -->
+              <div style="display: grid; grid-template-columns: 180px 1fr; gap: 48px; align-items: start; margin-bottom: var(--s6);">
+                <img src="images/rooms/room-1.png" alt="Garden Room" style="width:180px; height:auto; object-fit:cover; border-radius:4px; display:block;">
+                <div>
+                  <p style="font-size: var(--t-xs); font-family: var(--sans); font-weight: 500; color: var(--stone); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: var(--s2);">Guest 1</p>
+                  <p style="font-size: 18px; font-family: var(--sans); font-weight: 400; color: var(--ink); margin-bottom: 2px;">Garden Room</p>
+                  <p style="font-size: var(--t-base); font-weight: 300; color: var(--stone);">Sleeps 2 &nbsp;·&nbsp; Private ensuite &nbsp;·&nbsp; Valley view</p>
+                </div>
+              </div>
+
+              <!-- Guest 2 -->
+              <div style="display: grid; grid-template-columns: 180px 1fr; gap: 48px; align-items: start; padding-top: var(--s6); border-top: 1px solid var(--border);">
+                <img src="images/rooms/room-1.png" alt="Garden Room" style="width:180px; height:auto; object-fit:cover; border-radius:4px; display:block;">
+                <div>
+                  <p style="font-size: var(--t-xs); font-family: var(--sans); font-weight: 500; color: var(--stone); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: var(--s2);">Guest 2</p>
+                  <p style="font-size: 18px; font-family: var(--sans); font-weight: 400; color: var(--ink); margin-bottom: 2px;">Garden Room</p>
+                  <p style="font-size: var(--t-base); font-weight: 300; color: var(--stone);">Sleeps 2 &nbsp;·&nbsp; Private ensuite &nbsp;·&nbsp; Valley view</p>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+
+              <!-- Included amenities -->
+              <p style="font-size: 18px; font-family: var(--sans); font-weight: 400; color: var(--ink); margin-bottom: var(--s4);">Included Amenities</p>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2) var(--s5); margin-bottom: var(--s6);">
+                <div style="display:flex; gap: var(--s2); font-size: var(--t-sm); color: var(--charcoal);">✓ &nbsp;Return Denpasar International Airport transfers</div>
+                <div style="display:flex; gap: var(--s2); font-size: var(--t-sm); color: var(--charcoal);">✓ &nbsp;All meals included</div>
+                <div style="display:flex; gap: var(--s2); font-size: var(--t-sm); color: var(--charcoal);">✓ &nbsp;2× daily yoga sessions</div>
+                <div style="display:flex; gap: var(--s2); font-size: var(--t-sm); color: var(--charcoal);">✓ &nbsp;Guided forest bathing</div>
+                <div style="display:flex; gap: var(--s2); font-size: var(--t-sm); color: var(--charcoal);">✓ &nbsp;Daily meditation</div>
+                <div style="display:flex; gap: var(--s2); font-size: var(--t-sm); color: var(--charcoal);">✓ &nbsp;Closing ceremony &amp; dinner</div>
+              </div>
+
+              <!-- Purchased extras -->
+              <p style="font-size: 18px; font-family: var(--sans); font-weight: 400; color: var(--ink); margin-bottom: var(--s4);">Purchased extras</p>
+              <div style="display: flex; flex-direction: column; gap: var(--s2);">
+                <div style="display:flex; gap: var(--s2); font-size: var(--t-sm); color: var(--charcoal);">+ &nbsp;1:1 Breathwork session</div>
+                <div style="display:flex; gap: var(--s2); font-size: var(--t-sm); color: var(--charcoal);">+ &nbsp;Sound bath experience</div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- What happens next -->
+          <div class="booking-summary-card" style="padding-top: var(--s8); border-bottom: 1px solid var(--border);">
+            <div class="booking-summary-card__header">
+              <span class="booking-summary-card__title">What happens next</span>
+            </div>
+            <div class="booking-summary-card__body">
               <div class="next-steps">
                 <div class="next-step">
                   <div class="next-step__number">1</div>
@@ -2420,79 +2473,25 @@
                 <div class="next-step">
                   <div class="next-step__number">5</div>
                   <div class="next-step__content">
-                    <h5>Arrival — Saturday 21 June 2026</h5>
-                    <p>Meet your group at Lisbon Airport at 08:30. You'll travel together to Quinta da Levada, arriving in time for lunch.</p>
+                    <h5>Arrival — Saturday 7 June 2026</h5>
+                    <p>Meet your group at King's Lynn station at 14:00. You'll travel together to the retreat, arriving in time for dinner.</p>
                   </div>
-                </div>
-              </div>
-
-              <div style="display: flex; gap: var(--s3); margin-top: var(--s8);">
-                <a href="index.html" class="btn btn--secondary">← Return to Queen of Retreats</a>
-                <button class="btn btn--primary">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                  Add to calendar
-                </button>
-              </div>
-            </div>
-
-            <!-- Right: Receipt -->
-            <div>
-              <div class="receipt-card">
-                <img src="images/header_vale-de-moses.jpg"
-                     alt="Quinta da Levada" class="receipt-image">
-                <div class="receipt-card__header">
-                  <p style="font-family: var(--serif); font-size: var(--t-lg); color: var(--ink);">Elevation Barn</p>
-                  <p style="font-size: var(--t-sm); color: var(--stone);">Gianyar, Bali</p>
-                </div>
-                <div class="receipt-card__body">
-                  <div class="receipt-row">
-                    <span class="receipt-row__key">Booking ref</span>
-                    <span class="receipt-row__val" style="font-family: monospace; letter-spacing: 0.05em;">QR-2026-08847</span>
-                  </div>
-                  <div class="receipt-row">
-                    <span class="receipt-row__key">Dates</span>
-                    <span class="receipt-row__val" id="conf-dates">21 – 28 June 2026</span>
-                  </div>
-                  <div class="receipt-row">
-                    <span class="receipt-row__key">Room</span>
-                    <span class="receipt-row__val" id="conf-room">Private Valley Room</span>
-                  </div>
-                  <div class="receipt-row">
-                    <span class="receipt-row__key">Guest</span>
-                    <span class="receipt-row__val" id="conf-guests">1 person</span>
-                  </div>
-                  <div class="receipt-row">
-                    <span class="receipt-row__key" id="conf-deposit-label">Deposit paid</span>
-                    <span class="receipt-row__val" id="conf-deposit" style="color: var(--success); font-weight: 600;">£724 ✓</span>
-                  </div>
-                  <div class="receipt-row" id="conf-balance-row">
-                    <span class="receipt-row__key">Balance due</span>
-                    <span class="receipt-row__val" id="conf-balance">£2,171</span>
-                  </div>
-                  <div class="receipt-row" id="conf-balance-date-row">
-                    <span class="receipt-row__key">Balance due date</span>
-                    <span class="receipt-row__val" id="conf-balance-date">22 April 2026</span>
-                  </div>
-                </div>
-                <div class="receipt-total">
-                  <span style="font-size: var(--t-sm); color: var(--stone);">Total booking value</span>
-                  <span style="font-family: var(--serif); font-size: var(--t-xl); color: var(--ink); font-weight: 500;" id="conf-total">£2,895</span>
-                </div>
-              </div>
-
-              <div class="sidebar-trust" style="margin-top: var(--s5);">
-                <div class="trust-item">
-                  <svg class="trust-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                  <div class="trust-item__text"><strong>QoR Vetted</strong><span>This retreat has been personally assessed by our team</span></div>
-                </div>
-                <div class="trust-item">
-                  <svg class="trust-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                  <div class="trust-item__text"><strong>Secure booking</strong><span>Payment processed via Stripe with 256-bit encryption</span></div>
                 </div>
               </div>
             </div>
-
           </div>
+
+          <!-- Can we help? -->
+          <div class="booking-summary-card" style="padding-top: var(--s8); border-bottom: 1px solid var(--border);">
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s8);">
+              <div>
+                <span class="booking-summary-card__title" style="display: block; margin-bottom: var(--s3);">Can we help?</span>
+                <p style="font-size: var(--t-base); color: var(--stone); line-height: 1.6;">If you have any questions about your booking, travel arrangements, or retreat details, our team is here to help.</p>
+              </div>
+              <button class="btn-amend" style="flex-shrink: 0; width: auto; padding: 0 var(--s6);">Get in touch +</button>
+            </div>
+          </div>
+
         </section>
 
       </div><!-- end booking-steps -->
@@ -2567,6 +2566,15 @@
   <!-- ===== Right Basket Panel ===== -->
   <aside class="booking-basket" id="booking-basket">
 
+    <!-- Confirmation actions — shown only on step 6 -->
+    <div id="basket-conf-actions" style="display:none; flex-direction:column; gap:var(--s3); padding: 64px 48px var(--s5);">
+      <button class="btn-continue" style="background: var(--ink); color: var(--white); gap: var(--s3);">
+        Add to calendar
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="4" x2="12" y2="20"/><line x1="4" y1="12" x2="20" y2="12"/></svg>
+      </button>
+      <a href="index.html" class="btn-continue" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:4px;">← Return to Queen of Retreats</a>
+    </div>
+
     <div class="booking-basket__body">
 
       <div class="booking-basket__retreat-header">
@@ -2605,7 +2613,7 @@
     </div><!-- /.booking-basket__body -->
 
     <!-- Total + trust signals — anchored to bottom -->
-    <div style="flex-shrink:0; padding: 0 48px var(--s5); background: var(--white);">
+    <div id="basket-total-section" style="flex-shrink:0; padding: 0 48px var(--s5); background: var(--white);">
 
       <div class="booking-basket__hdivider"></div>
 
@@ -2654,12 +2662,26 @@
   <script src="booking.js"></script>
   <script>
 
+    function togglePw(inputId, showId, hideId) {
+      const input = document.getElementById(inputId);
+      const show  = document.getElementById(showId);
+      const hide  = document.getElementById(hideId);
+      const revealing = input.type === 'password';
+      input.type = revealing ? 'text' : 'password';
+      show.style.display = revealing ? 'none' : '';
+      hide.style.display = revealing ? '' : 'none';
+    }
+
     // Expose app for inline onclick
     window.bookingApp = { renderStep };
 
     function toggleExtrasOverflow(btn) {
-      document.querySelectorAll('.extra-card--overflow').forEach(c => c.classList.add('is-visible'));
-      btn.style.display = 'none';
+      const isOpen = btn.dataset.open === 'true';
+      document.querySelectorAll('.extra-card--overflow').forEach(c => c.classList.toggle('is-visible', !isOpen));
+      btn.dataset.open = !isOpen;
+      btn.querySelector('.view-more-label').textContent = isOpen ? 'View more' : 'Show less';
+      const chevron = btn.querySelector('.view-more-chevron');
+      chevron.querySelector('polyline').setAttribute('points', isOpen ? '6 9 12 15 18 9' : '6 15 12 9 18 15');
     }
 
     function filterRooms(cat, btn) {
@@ -2755,14 +2777,32 @@
     // Payment method selector
     document.querySelectorAll('.pay-method-card').forEach(card => {
       card.addEventListener('click', () => {
-        // Update active card
-        document.querySelectorAll('.pay-method-card').forEach(c => c.classList.remove('is-active'));
+        // Reset all cards — restore Credit Card to default src
+        document.querySelectorAll('.pay-method-card').forEach(c => {
+          c.classList.remove('is-active');
+          const img = c.querySelector('img[data-logo-default]');
+          if (img) img.src = img.dataset.logoDefault;
+        });
         card.classList.add('is-active');
-        // Show matching panel
+        // Swap Credit Card to its explicit white version
+        const activeImg = card.querySelector('img[data-logo-active]');
+        if (activeImg) activeImg.src = activeImg.dataset.logoActive;
         const method = card.dataset.method;
-        document.querySelectorAll('.pay-panel').forEach(p => p.classList.remove('is-active'));
+        const isCard = method === 'card';
+        // Show the revealed content wrapper
+        document.getElementById('pay-details').style.display = 'block';
+        // Hide all method panels, then show the selected one
+        ['card', 'gpay', 'applepay', 'stripe'].forEach(m => {
+          const p = document.getElementById('pay-panel-' + m);
+          if (p) p.style.display = 'none';
+        });
         const panel = document.getElementById('pay-panel-' + method);
-        if (panel) panel.classList.add('is-active');
+        if (panel) panel.style.display = 'block';
+        // Security bar and Pay CTA only shown for credit card
+        const security = document.querySelector('#step-5 .payment-security');
+        const payCta = document.getElementById('pay-now-label');
+        if (security) security.style.display = isCard ? 'flex' : 'none';
+        if (payCta) payCta.style.display = isCard ? 'block' : 'none';
       });
     });
 

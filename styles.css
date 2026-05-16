@@ -296,7 +296,7 @@ h5 { font-size: var(--t-base); font-family: var(--sans); }
   width: 100%;
   padding: var(--s3) var(--s4);
   border: 1.5px solid var(--border);
-  border-radius: var(--r-md);
+  border-radius: 4px;
   color: var(--ink);
   background: var(--white);
   outline: none;
@@ -802,10 +802,12 @@ h5 { font-size: var(--t-base); font-family: var(--sans); }
   border-bottom: 1px solid var(--border);
 }
 .calendar__month-title {
-  font-family: var(--serif);
-  font-size: var(--t-lg);
+  font-family: var(--sans);
+  font-size: 13px;
   font-weight: 400;
   color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 .calendar__nav { display: flex; gap: var(--s2); }
 .calendar__nav-btn {
@@ -850,6 +852,7 @@ h5 { font-size: var(--t-base); font-family: var(--sans); }
   color: var(--charcoal);
   cursor: default;
   position: relative;
+  background: #f7f7f7;
 }
 .cal-day--empty { }
 .cal-day--available {
@@ -869,6 +872,7 @@ h5 { font-size: var(--t-base); font-family: var(--sans); }
 }
 .cal-day--limited:hover { background: var(--warning); color: var(--white); }
 .cal-day--soldout {
+  background: #f0f0f0;
   color: var(--mist);
   text-decoration: line-through;
 }
@@ -879,27 +883,33 @@ h5 { font-size: var(--t-base); font-family: var(--sans); }
 }
 
 /* Date list view */
-.date-list { display: flex; flex-direction: column; gap: var(--s3); }
+.date-list { display: flex; flex-direction: column; gap: var(--s2); }
 .date-list-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--s4) var(--s6);
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-sm);
+  padding: var(--s6) var(--s5);
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 4px;
   cursor: pointer;
   transition: all var(--dur-fast);
 }
-.date-list-item:hover { border-color: var(--sage-mid); box-shadow: var(--shadow-xs); }
+.date-list-item:hover { background: var(--surface); }
 .date-list-item.is-selected {
-  border-color: var(--sage);
-  border-width: 2px;
-  background: var(--sage-pale);
+  background: var(--ink);
+  border-color: var(--ink);
 }
+.date-list-item.is-selected + .date-list-item { border-top-color: var(--border); }
+.date-list-item.is-selected .date-list-item__dates,
+.date-list-item.is-selected .date-list-item__price,
+.date-list-item.is-selected p { color: var(--white); }
+.date-list-item.is-selected .badge { opacity: 0.7; }
 .date-list-item.is-soldout { opacity: 0.5; cursor: not-allowed; }
-.date-list-item__dates { font-family: var(--serif); font-size: var(--t-lg); color: var(--ink); }
+.date-list-item__dates { font-family: var(--sans); font-size: var(--t-base); font-weight: 400; color: var(--ink); }
+.date-list-item p { font-size: var(--t-base) !important; }
 .date-list-item__meta { display: flex; align-items: center; gap: var(--s4); }
-.date-list-item__price { font-size: var(--t-base); font-weight: 500; color: var(--charcoal); }
+.date-list-item__price { font-size: var(--t-base); font-weight: 400; color: var(--charcoal); }
 
 /* --- Room Cards --------------------------------------------- */
 .room-grid {
@@ -1063,6 +1073,9 @@ h5 { font-size: var(--t-base); font-family: var(--sans); }
 .pay-method-card.is-active .pay-method-card__label {
   color: var(--white);
 }
+.pay-method-card[data-method="applepay"].is-active .pay-method-card__logo img {
+  filter: brightness(0) invert(1);
+}
 .pay-method-card.is-active svg rect,
 .pay-method-card.is-active svg path,
 .pay-method-card.is-active svg text {
@@ -1120,6 +1133,27 @@ h5 { font-size: var(--t-base); font-family: var(--sans); }
   border: none;
   margin-bottom: var(--s4);
 }
+/* Stripe panel */
+.stripe-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px;
+  background: #000;
+  border-radius: var(--r-md);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  border: none;
+  margin-bottom: var(--s4);
+}
+/* White logos inside dark payment buttons */
+.applepay-btn img,
+.stripe-btn img { filter: brightness(0) invert(1); }
 /* Klarna panel */
 .klarna-btn {
   display: flex;
@@ -1214,7 +1248,7 @@ h5 { font-size: var(--t-base); font-family: var(--sans); }
   justify-content: center;
   flex-shrink: 0;
 }
-.next-step__content h5 { margin-bottom: var(--s1); font-family: var(--sans); font-size: var(--t-base); font-weight: 600; }
+.next-step__content h5 { margin-bottom: var(--s1); font-family: var(--sans); font-size: var(--t-base); font-weight: 400; }
 .next-step__content p { font-size: var(--t-sm); color: var(--stone); }
 
 /* --- Index Page Specific ------------------------------------ */

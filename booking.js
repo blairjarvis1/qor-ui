@@ -219,7 +219,15 @@ function renderStep(n, animate = true) {
     bookingNav.classList.toggle('booking-nav--no-summary', n === 7);
   }
   const bookingBasket = document.getElementById('booking-basket');
-  if (bookingBasket) bookingBasket.classList.toggle('hidden', n === 6);
+  if (bookingBasket) bookingBasket.classList.toggle('hidden', false);
+
+  const isConfirmation = n === 6;
+  const confActions = document.getElementById('basket-conf-actions');
+  const totalSection = document.getElementById('basket-total-section');
+  const basketFooter = document.querySelector('.booking-basket__footer');
+  if (confActions)  confActions.style.display  = isConfirmation ? 'flex' : 'none';
+  if (totalSection) totalSection.style.display = isConfirmation ? 'none' : '';
+  if (basketFooter) basketFooter.style.display = isConfirmation ? 'none' : '';
 
   // Don't scroll to top or alter hash (preserves scroll position on step change)
   history.replaceState(null, '', `#step-${n}`);
@@ -907,6 +915,10 @@ function updateSidebar() {
 
   // Price breakdown
   updatePriceBreakdown();
+
+  // Step 1 continue button — enabled only when date and room are both selected
+  const step1Btn = document.getElementById('step1-continue');
+  if (step1Btn) step1Btn.disabled = !(state.selectedDate && state.selectedRoom);
 }
 
 function updatePriceBreakdown() {
