@@ -39,14 +39,14 @@
       flex-direction: column;
       gap: 2px;
       align-self: center;
-      padding: 0 58px 0 26px;
+      padding: 0 calc(var(--s7) * 2) 0 var(--s7);
     }
     .booking-nav__retreat-name-group {
       display: flex;
       align-items: center;
       gap: var(--s5);
       align-self: center;
-      padding: 0 2px 0 26px;
+      padding: 0 var(--s7);
     }
     .booking-nav__retreat-name {
       font-family: var(--serif);
@@ -91,7 +91,7 @@
     .booking-nav__total-wrap {
       background: var(--sage-light);
       border-radius: 0;
-      padding: 0 74px 0 34px;
+      padding: 0 calc(var(--s5) * 4) 0 calc(var(--s5) * 2);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -146,17 +146,37 @@
     }
     .cal-arrow-btn:hover { border-color: var(--charcoal); }
     .cal-arrow-btn:disabled { opacity: 0.3; cursor: default; }
+    .cal-arrow-btn--float {
+      position: absolute;
+      top: 9px;
+      z-index: 2;
+    }
+    .cal-arrow-btn--left  { left: 0; }
+    .cal-arrow-btn--right { right: 0; }
     .cal-nav-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: var(--s4) var(--s6);
-      border-bottom: 1px solid var(--border);
+      padding: var(--s4) var(--s6) 24px;
+      border-bottom: 1px solid var(--ink);
+    }
+    .cal-months .calendar { position: relative; }
+    .cal-months .calendar:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 1px;
+      background: var(--border);
+      transform: translateX(calc(var(--s5) / 2));
     }
     .cal-nav-bar h4 {
-      font-family: var(--serif);
-      font-size: var(--t-lg);
+      font-family: var(--sans);
+      font-size: 13px;
       font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
     }
     .cal-legend {
       display: flex;
@@ -195,28 +215,84 @@
 
     /* Step 3 summary layout */
     .booking-summary-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--r-lg);
-      overflow: hidden;
-      margin-bottom: var(--s5);
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      overflow: visible;
+      margin-bottom: 0;
+      padding-bottom: var(--s8);
+    }
+    #step-2 .booking-summary-card + .booking-summary-card {
+      border-top: 1px solid var(--border);
+      padding-top: var(--s8);
     }
     .booking-summary-card__header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: var(--s4) var(--s6);
-      background: var(--parchment);
-      border-bottom: 1px solid var(--border);
+      padding: 0 0 var(--s5);
+      background: transparent;
+      margin-bottom: var(--s5);
     }
     .booking-summary-card__title {
-      font-size: var(--t-sm);
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      color: var(--charcoal);
-      text-transform: uppercase;
+      font-size: 32px;
+      font-family: var(--serif);
+      font-weight: 400;
+      color: var(--ink);
     }
-    .booking-summary-card__body { padding: var(--s5) var(--s6); }
+    .booking-summary-card__body { padding: 0; }
+    .btn-amend {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      width: 218px;
+      height: 48px;
+      padding: 0;
+      background: var(--surface);
+      border: none;
+      border-radius: 4px;
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--ink);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .btn-amend:hover { background: var(--cloud); }
+    .btn-social { transition: background 0.15s; }
+    .btn-social:hover { background: var(--surface) !important; }
+    .btn-continue {
+      display: flex; align-items: center; justify-content: center; gap: 4px;
+      width: 100%; height: 48px; padding: 0;
+      background: var(--surface); border: none; border-radius: 4px;
+      font-family: var(--sans); font-size: 14px; font-weight: 400; color: var(--ink);
+      cursor: pointer; transition: background 0.15s;
+    }
+    .btn-continue:hover:not(:disabled) { background: var(--cloud); }
+    .btn-continue:disabled { opacity: 0.35; cursor: not-allowed; }
+    .price-table tr:not(.subtotal) td { border-bottom: 1px solid var(--border); padding-top: var(--s4); padding-bottom: var(--s4); }
+    .price-table tr:first-child td { padding-top: 0; }
+    /* Steps 3–5: strip card chrome */
+    #step-3 .step-panel__header { border-bottom: 1px solid var(--border); padding-bottom: var(--s8); margin-bottom: var(--s8); }
+    #step-3 .form-section { background: transparent; border: none; border-radius: 0; padding-bottom: var(--s8); margin-bottom: 0; }
+    #step-3 .form-section + .form-section { border-top: 1px solid var(--border); padding-top: var(--s8); }
+    #step-3 .form-section__header { background: transparent; border-bottom: none; padding: 0 0 48px; }
+    #step-3 .form-section__header h4 { font-size: 32px; font-family: var(--serif); font-weight: 400; color: var(--ink); }
+    #step-3 .form-section__body { padding: 0; }
+    #step-4 .step-panel__header { border-bottom: 1px solid var(--border); padding-bottom: var(--s8); margin-bottom: var(--s8); }
+    #step-4 .form-section { background: transparent; border: none; border-radius: 0; padding-bottom: var(--s8); margin-bottom: 0; }
+    #step-4 .form-section + .form-section { border-top: 1px solid var(--border); padding-top: var(--s8); }
+    #step-4 .form-section__header { background: transparent; border-bottom: none; padding: 0 0 48px; }
+    #step-4 .form-section__header h4 { font-size: 32px; font-family: var(--serif); font-weight: 400; color: var(--ink); }
+    #step-4 .form-section__body { padding: 0; }
+    #step-5 .step-panel__header { border-bottom: 1px solid var(--border); padding-bottom: var(--s8); margin-bottom: var(--s8); }
+    #step-5 .form-section { background: transparent; border: none; border-radius: 0; padding-bottom: var(--s8); margin-bottom: 0; }
+    #step-5 .form-section + .form-section { border-top: 1px solid var(--border); padding-top: var(--s8); }
+    #step-5 .form-section__header { background: transparent; border-bottom: none; padding: 0 0 48px; }
+    #step-5 .form-section__header h4 { font-size: 32px; font-family: var(--serif); font-weight: 400; color: var(--ink); }
+    #step-5 .form-section__body { padding: 0; }
 
     /* Char count */
     .char-count {
@@ -786,24 +862,21 @@
               <p class="step-panel__desc" style="white-space: nowrap;">Select your check-in and check-out dates. Click a date to set your arrival, then click again to set your departure.</p>
             </div>
 
-            <!-- Date range chip + calendar arrows -->
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--s6);">
+            <!-- Date range chip -->
+            <div style="display: flex; align-items: center; padding-bottom: var(--s6); border-bottom: 1px solid var(--border); margin-bottom: var(--s7);">
               <div id="date-chip-wrap">
                 <span id="date-chip-text" class="flex-date-chip flex-date-chip--empty">No dates selected</span>
-              </div>
-              <!-- Calendar carousel arrows -->
-              <div id="cal-arrows" style="display:flex; gap: var(--s2);">
-                <button id="cal-prev" class="cal-arrow-btn" disabled aria-label="Previous months">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                </button>
-                <button id="cal-next" class="cal-arrow-btn" aria-label="Next months">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-                </button>
               </div>
             </div>
 
             <!-- Calendar view -->
-            <div id="cal-view" class="flex-cal">
+            <div id="cal-view" class="flex-cal" style="position: relative;">
+              <button id="cal-prev" class="cal-arrow-btn cal-arrow-btn--float cal-arrow-btn--left" disabled aria-label="Previous months">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <button id="cal-next" class="cal-arrow-btn cal-arrow-btn--float cal-arrow-btn--right" aria-label="Next months">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
               <div class="cal-months-viewport">
               <div class="cal-months">
 

@@ -162,7 +162,7 @@ function renderStep(n, animate = true) {
   target.classList.add('is-active');
 
   state.currentStep = n;
-  window.scrollTo(0, 0);
+  if (animate) window.scrollTo(0, 0);
   updateProgressBar(n);
   updateSidebar();
   updateNavButtons(n);
