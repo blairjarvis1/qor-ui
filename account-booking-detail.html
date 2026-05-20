@@ -86,18 +86,17 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: var(--s5) var(--s7);
+      padding: var(--s5) 0;
       background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--r-lg);
+      border: none;
+      border-bottom: 1px solid var(--border);
+      border-radius: 0;
       cursor: pointer;
       transition: background var(--dur-fast);
       text-align: left;
     }
     .accordion.is-open .accordion__trigger {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-      border-bottom-color: var(--cloud);
+      border-bottom: none;
     }
     .accordion__trigger:hover { background: var(--sage-pale); }
     .accordion__trigger-left {
@@ -106,9 +105,9 @@
       gap: var(--s4);
     }
     .accordion__icon {
-      width: 36px;
-      height: 36px;
-      border-radius: var(--r-md);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
       background: var(--sage-pale);
       display: flex;
       align-items: center;
@@ -117,8 +116,8 @@
       flex-shrink: 0;
     }
     .accordion__title {
-      font-family: var(--serif);
-      font-size: var(--t-md);
+      font-size: var(--t-base);
+      font-weight: 500;
       color: var(--ink);
     }
     .accordion__sub {
@@ -135,11 +134,10 @@
     .accordion__body {
       display: none;
       background: var(--white);
-      border: 1px solid var(--border);
-      border-top: none;
-      border-bottom-left-radius: var(--r-lg);
-      border-bottom-right-radius: var(--r-lg);
-      padding: var(--s6) var(--s7);
+      border: none;
+      border-bottom: 1px solid var(--border);
+      border-radius: 0;
+      padding: var(--s6) 0;
     }
     .accordion.is-open .accordion__body { display: block; }
 
@@ -286,6 +284,60 @@
       color: var(--warning);
       opacity: 0.8;
       margin-top: 2px;
+    }
+
+    /* ── About your host ────────────────────────────────────── */
+    .host-section {
+      margin-top: var(--s9);
+    }
+    .host-section__title {
+      font-family: var(--serif);
+      font-size: var(--t-xl);
+      color: var(--ink);
+      margin-bottom: var(--s4);
+    }
+    .host-section__desc {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      line-height: 1.6;
+      margin-bottom: var(--s6);
+    }
+    .host-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: var(--s7);
+    }
+    .host-card__avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: var(--s5);
+    }
+    .host-card__name {
+      font-size: var(--t-base);
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .host-card__role {
+      font-size: var(--t-sm);
+      color: var(--sage);
+      font-weight: 500;
+      margin-bottom: var(--s5);
+    }
+    .host-card__bio {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      line-height: 1.6;
+      margin-bottom: var(--s4);
+    }
+    .host-card__msg {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s2);
+      margin-top: var(--s3);
     }
 
     @media (max-width: 768px) {
@@ -568,14 +620,10 @@
             Frome, Somerset, UK
           </div>
         </div>
-        <button class="detail-hero__msg" onclick="toggleAccordion('acc-support');document.getElementById('acc-support').scrollIntoView({behavior:'smooth',block:'start'})">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          Message the host
-        </button>
       </div>
 
       <!-- Booking meta bar -->
-      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--s5) var(--s7);margin-bottom:var(--s6);display:flex;align-items:center;gap:var(--s8);flex-wrap:wrap;">
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r-sm);padding:var(--s5) var(--s7);margin-bottom:var(--s6);display:flex;align-items:center;gap:var(--s8);flex-wrap:wrap;">
         <div style="display:flex;flex-direction:column;gap:3px;">
           <span style="font-family:var(--ui);font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--mist)">Dates</span>
           <span style="font-size:var(--t-sm);font-weight:500;color:var(--charcoal)">14–21 Jun 2026 · 7 nights</span>
@@ -918,6 +966,24 @@
 
         <!-- RIGHT: Sidebar summary -->
         <div class="detail-right">
+
+          <!-- About your host -->
+          <div class="host-section">
+            <h2 class="host-section__title">About your host</h2>
+            <p class="host-section__desc">Led by credentialed practitioners with a combined 22 years of retreat facilitation across Europe and Southeast Asia.</p>
+            <div class="host-card">
+              <img class="host-card__avatar" src="images/avatar.png" alt="Sofia Nunes">
+              <div class="host-card__name">Sofia Nunes</div>
+              <div class="host-card__role">Lead facilitator · Trauma-informed yoga</div>
+              <p class="host-card__bio">Sofia has been teaching and facilitating since 2014, working across Portugal, Bali, and the UK. Her work draws on trauma-informed yoga, somatic experiencing, and Jungian depth psychology.</p>
+              <p class="host-card__bio">Sofia looks forward to welcoming you and is on hand to answer any questions before your arrival.</p>
+              <button class="btn btn--ghost host-card__msg">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Message the host
+              </button>
+            </div>
+          </div>
+
           <div class="summary-card">
             <div class="summary-card__header">
               <div style="display:flex;align-items:center;justify-content:space-between">
@@ -972,6 +1038,7 @@
               <button class="btn btn--ghost btn--sm btn--full" style="color:var(--stone)">View retreat listing →</button>
             </div>
           </div>
+
         </div><!-- /detail-right -->
 
       </div><!-- /detail-layout -->

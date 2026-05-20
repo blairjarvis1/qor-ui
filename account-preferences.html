@@ -185,18 +185,18 @@
         </div>
         <div class="acct-panel__body">
           <div class="pref-chips">
-            <span class="pref-chip is-selected" onclick="toggleChip(this)"><span class="pref-chip__icon">🧘</span> Yoga &amp; Meditation</span>
-            <span class="pref-chip" onclick="toggleChip(this)"><span class="pref-chip__icon">🌿</span> Detox &amp; Cleanse</span>
-            <span class="pref-chip is-selected" onclick="toggleChip(this)"><span class="pref-chip__icon">🏃</span> Fitness &amp; Adventure</span>
-            <span class="pref-chip" onclick="toggleChip(this)"><span class="pref-chip__icon">🧠</span> Mental Wellbeing</span>
-            <span class="pref-chip is-selected" onclick="toggleChip(this)"><span class="pref-chip__icon">💆</span> Health &amp; Healing</span>
-            <span class="pref-chip" onclick="toggleChip(this)"><span class="pref-chip__icon">📵</span> Digital Detox</span>
-            <span class="pref-chip" onclick="toggleChip(this)"><span class="pref-chip__icon">🔮</span> Spiritual &amp; Inner Work</span>
-            <span class="pref-chip" onclick="toggleChip(this)"><span class="pref-chip__icon">🥗</span> Nutrition &amp; Fasting</span>
-            <span class="pref-chip is-selected" onclick="toggleChip(this)"><span class="pref-chip__icon">🌊</span> Surf &amp; Outdoor</span>
-            <span class="pref-chip" onclick="toggleChip(this)"><span class="pref-chip__icon">✍️</span> Creative &amp; Writing</span>
-            <span class="pref-chip" onclick="toggleChip(this)"><span class="pref-chip__icon">💑</span> Couples Retreat</span>
-            <span class="pref-chip" onclick="toggleChip(this)"><span class="pref-chip__icon">👨‍👩‍👧</span> Family Friendly</span>
+            <span class="pref-chip is-selected" onclick="toggleChip(this)">Yoga &amp; Meditation</span>
+            <span class="pref-chip" onclick="toggleChip(this)">Detox &amp; Cleanse</span>
+            <span class="pref-chip is-selected" onclick="toggleChip(this)">Fitness &amp; Adventure</span>
+            <span class="pref-chip" onclick="toggleChip(this)">Mental Wellbeing</span>
+            <span class="pref-chip is-selected" onclick="toggleChip(this)">Health &amp; Healing</span>
+            <span class="pref-chip" onclick="toggleChip(this)">Digital Detox</span>
+            <span class="pref-chip" onclick="toggleChip(this)">Spiritual &amp; Inner Work</span>
+            <span class="pref-chip" onclick="toggleChip(this)">Nutrition &amp; Fasting</span>
+            <span class="pref-chip is-selected" onclick="toggleChip(this)">Surf &amp; Outdoor</span>
+            <span class="pref-chip" onclick="toggleChip(this)">Creative &amp; Writing</span>
+            <span class="pref-chip" onclick="toggleChip(this)">Couples Retreat</span>
+            <span class="pref-chip" onclick="toggleChip(this)">Family Friendly</span>
           </div>
         </div>
       </div>
@@ -312,27 +312,22 @@
         <div class="acct-panel__body">
           <div class="pref-cards">
             <div class="pref-style-card is-selected" onclick="toggleStyleCard(this)">
-              <span class="pref-style-card__icon">🧍</span>
               <div class="pref-style-card__label">Solo</div>
               <div class="pref-style-card__desc">Just me</div>
             </div>
             <div class="pref-style-card" onclick="toggleStyleCard(this)">
-              <span class="pref-style-card__icon">💑</span>
               <div class="pref-style-card__label">Couple</div>
               <div class="pref-style-card__desc">Me &amp; a partner</div>
             </div>
             <div class="pref-style-card" onclick="toggleStyleCard(this)">
-              <span class="pref-style-card__icon">👫</span>
               <div class="pref-style-card__label">Friends</div>
               <div class="pref-style-card__desc">Small group</div>
             </div>
             <div class="pref-style-card" onclick="toggleStyleCard(this)">
-              <span class="pref-style-card__icon">👨‍👩‍👧</span>
               <div class="pref-style-card__label">Family</div>
               <div class="pref-style-card__desc">With children</div>
             </div>
             <div class="pref-style-card" onclick="toggleStyleCard(this)">
-              <span class="pref-style-card__icon">🏢</span>
               <div class="pref-style-card__label">Corporate</div>
               <div class="pref-style-card__desc">Team retreat</div>
             </div>
@@ -349,16 +344,19 @@
           </div>
         </div>
         <div class="acct-panel__body">
-          <div class="pref-chips">
-            <span class="pref-chip" onclick="toggleSingle(this, 'exp')">
-              <span class="pref-chip__icon">🌱</span> First timer — I'm new to retreats
-            </span>
-            <span class="pref-chip" onclick="toggleSingle(this, 'exp')">
-              <span class="pref-chip__icon">🌿</span> Some experience — I've done a few
-            </span>
-            <span class="pref-chip is-selected" onclick="toggleSingle(this, 'exp')">
-              <span class="pref-chip__icon">🌳</span> Experienced — retreats are part of my life
-            </span>
+          <div class="pref-cards">
+            <div class="pref-style-card" onclick="toggleSingle(this, 'exp')">
+              <div class="pref-style-card__label">First timer</div>
+              <div class="pref-style-card__desc">I'm new to retreats</div>
+            </div>
+            <div class="pref-style-card" onclick="toggleSingle(this, 'exp')">
+              <div class="pref-style-card__label">Some experience</div>
+              <div class="pref-style-card__desc">I've done a few</div>
+            </div>
+            <div class="pref-style-card is-selected" onclick="toggleSingle(this, 'exp')">
+              <div class="pref-style-card__label">Experienced</div>
+              <div class="pref-style-card__desc">Retreats are part of my life</div>
+            </div>
           </div>
         </div>
       </div>
@@ -377,7 +375,8 @@
       el.classList.toggle('is-selected');
     }
     function toggleSingle(el, group) {
-      el.closest('.pref-chips').querySelectorAll('.pref-chip').forEach(c => c.classList.remove('is-selected'));
+      const container = el.closest('.pref-chips') || el.closest('.pref-cards');
+      container.querySelectorAll('.pref-chip, .pref-style-card').forEach(c => c.classList.remove('is-selected'));
       el.classList.add('is-selected');
     }
     function toggleStyleCard(el) {

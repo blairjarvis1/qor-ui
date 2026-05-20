@@ -69,7 +69,7 @@
   color: var(--stone);
   transition: color var(--dur-fast);
   text-transform: uppercase;
-  margin-bottom: var(--s6);
+  margin-bottom: var(--s8);
 }
 .acct-back svg { transition: transform var(--dur-fast); }
 .acct-back:hover { color: var(--ink); }
@@ -204,12 +204,14 @@
 
 /* --- Account Main -------------------------------------------- */
 .acct-main {
-  padding: var(--s9) var(--s9);
-  background: var(--parchment);
+  padding: var(--s9) 90px;
+  background: var(--white);
   min-height: calc(100vh - 60px);
 }
 .acct-page-header {
   margin-bottom: var(--s7);
+  padding-bottom: var(--s7);
+  border-bottom: 1px solid var(--border);
 }
 .acct-page-header h1 {
   font-size: var(--t-2xl);
@@ -279,7 +281,7 @@
 .booking-card {
   background: var(--white);
   border: 1px solid var(--border);
-  border-radius: var(--r-lg);
+  border-radius: var(--r-sm);
   overflow: hidden;
   margin-bottom: var(--s5);
   transition: box-shadow var(--dur-fast);
@@ -351,7 +353,7 @@
   justify-content: space-between;
   padding: var(--s4) var(--s6);
   border-top: 1px solid var(--border);
-  background: var(--parchment);
+  background: var(--white);
 }
 .booking-card__next-step {
   display: flex;
@@ -370,7 +372,7 @@
 .enquiry-card {
   background: var(--white);
   border: 1px solid var(--border);
-  border-radius: var(--r-lg);
+  border-radius: var(--r-sm);
   overflow: hidden;
   margin-bottom: var(--s5);
 }
@@ -421,7 +423,7 @@
   justify-content: space-between;
   padding: var(--s4) var(--s6);
   border-top: 1px solid var(--border);
-  background: var(--parchment);
+  background: var(--white);
 }
 
 /* --- Messaging Thread --------------------------------------- */
@@ -434,7 +436,7 @@
 .msg-thread__header {
   padding: var(--s3) var(--s5);
   border-bottom: 1px solid var(--border);
-  background: var(--parchment);
+  background: var(--white);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -519,7 +521,7 @@
 .past-card {
   background: var(--white);
   border: 1px solid var(--border);
-  border-radius: var(--r-lg);
+  border-radius: var(--r-sm);
   overflow: hidden;
   margin-bottom: var(--s4);
   display: grid;
@@ -554,22 +556,26 @@
 
 /* --- Account Section Panel ---------------------------------- */
 .acct-panel {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-  overflow: hidden;
-  margin-bottom: var(--s6);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--s9);
+  margin-bottom: var(--s9);
+}
+.acct-panel:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 .acct-panel__header {
-  padding: var(--s5) var(--s7);
-  border-bottom: 1px solid var(--border);
+  padding: 0 0 var(--s5);
+  border-bottom: 1px solid var(--ink);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: var(--s6);
 }
 .acct-panel__header h2 {
-  font-family: var(--serif);
-  font-size: var(--t-lg);
+  font-family: var(--ui);
+  font-size: 20px;
   color: var(--ink);
 }
 .acct-panel__header p {
@@ -578,34 +584,40 @@
   margin-top: 2px;
 }
 .acct-panel__body {
-  padding: var(--s7);
+  padding: 0;
 }
 .acct-panel__footer {
-  padding: var(--s5) var(--s7);
+  padding: var(--s5) 0 0;
   border-top: 1px solid var(--border);
-  background: var(--parchment);
+  background: var(--white);
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: var(--s3);
+  margin-top: var(--s6);
 }
 
 /* --- Payment Cards ------------------------------------------ */
 .payment-card {
   border: 1.5px solid var(--border);
-  border-radius: var(--r-lg);
+  border-radius: var(--r-sm);
   padding: var(--s5) var(--s6);
   display: flex;
   align-items: center;
   gap: var(--s5);
   margin-bottom: var(--s4);
-  transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
+  transition: all var(--dur-fast);
   background: var(--white);
+  cursor: pointer;
 }
+.payment-card:hover { border-color: var(--sage-mid); }
 .payment-card.is-default {
   border-color: var(--sage);
-  box-shadow: 0 0 0 3px var(--sage-light);
+  border-width: 2px;
+  background: var(--sage);
 }
+.payment-card.is-default .payment-card__name,
+.payment-card.is-default .payment-card__detail { color: var(--white); }
 .payment-card__icon {
   width: 52px;
   height: 34px;
@@ -640,7 +652,7 @@
 }
 .add-card {
   border: 1.5px dashed var(--border-mid);
-  border-radius: var(--r-lg);
+  border-radius: var(--r-sm);
   padding: var(--s5) var(--s6);
   display: flex;
   align-items: center;
@@ -683,7 +695,7 @@
 }
 .pref-chip {
   padding: var(--s2) var(--s4);
-  border: 1.5px solid var(--border);
+  border: 1px solid var(--border);
   border-radius: var(--r-pill);
   font-size: var(--t-sm);
   color: var(--charcoal);
@@ -706,39 +718,40 @@
 /* Selectable cards for travel style */
 .pref-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: var(--s3);
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: var(--s4);
 }
 .pref-style-card {
+  padding: var(--s5) var(--s6);
   border: 1.5px solid var(--border);
-  border-radius: var(--r-lg);
-  padding: var(--s5) var(--s4);
-  text-align: center;
+  border-radius: var(--r-sm);
   cursor: pointer;
   transition: all var(--dur-fast);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   background: var(--white);
   user-select: none;
 }
-.pref-style-card:hover { border-color: var(--sage-mid); background: var(--sage-pale); }
+.pref-style-card:hover { border-color: var(--sage-mid); }
 .pref-style-card.is-selected {
   border-color: var(--sage);
-  background: var(--sage-pale);
-  box-shadow: 0 0 0 3px var(--sage-light);
+  border-width: 2px;
+  background: var(--sage);
 }
-.pref-style-card__icon {
-  font-size: 28px;
-  margin-bottom: var(--s2);
-  display: block;
-}
+.pref-style-card.is-selected .pref-style-card__label,
+.pref-style-card.is-selected .pref-style-card__desc { color: var(--white); }
 .pref-style-card__label {
-  font-size: var(--t-sm);
-  font-weight: 500;
+  font-weight: 400;
+  font-size: var(--t-base);
   color: var(--ink);
+  margin-bottom: var(--s1);
 }
 .pref-style-card__desc {
-  font-size: var(--t-xs);
+  font-size: var(--t-sm);
   color: var(--stone);
-  margin-top: 2px;
 }
 
 /* Budget range */
@@ -843,7 +856,7 @@
 .saved-card {
   background: var(--white);
   border: 1px solid var(--border);
-  border-radius: var(--r-lg);
+  border-radius: var(--r-sm);
   overflow: hidden;
   transition: box-shadow var(--dur-fast), border-color var(--dur-fast);
   display: flex;
@@ -925,7 +938,7 @@
   gap: var(--s3);
   padding: var(--s4) var(--s5);
   border-top: 1px solid var(--border);
-  background: var(--parchment);
+  background: var(--white);
 }
 
 /* --- Inline edit -------------------------------------------- */
@@ -977,7 +990,7 @@
   display: flex;
   gap: var(--s4);
   padding: var(--s5) var(--s6);
-  border-radius: var(--r-md);
+  border-radius: var(--r-sm);
   margin-bottom: var(--s5);
 }
 .acct-info-box--warning {
@@ -988,6 +1001,11 @@
   background: var(--sage-pale);
   border: 1px solid var(--sage-light);
 }
+.acct-info-box--success {
+  background: var(--success-bg);
+  border: 1px solid #b8d9c3;
+}
+.acct-info-box--success .acct-info-box__text { color: var(--success); }
 .acct-info-box__icon { flex-shrink: 0; margin-top: 1px; }
 .acct-info-box__text { font-size: var(--t-sm); line-height: 1.6; }
 .acct-info-box--warning .acct-info-box__text { color: var(--warning); }
@@ -1230,9 +1248,9 @@
   }
 
   /* Account panels */
-  .acct-panel__header { padding: var(--s4) var(--s5); }
-  .acct-panel__body { padding: var(--s5); }
-  .acct-panel__footer { padding: var(--s4) var(--s5); flex-wrap: wrap; }
+  .acct-panel__header { padding: 0 0 var(--s4); }
+  .acct-panel__body { padding: 0; }
+  .acct-panel__footer { padding: var(--s4) 0 0; flex-wrap: wrap; }
 
   /* Field rows — stack label above value */
   .field-row { flex-direction: column; gap: var(--s2); }
