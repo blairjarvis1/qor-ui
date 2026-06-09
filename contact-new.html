@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Queen of Retreats</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+
+    /* ─── Page layout ─── */
+    .contact-page {
+      padding-top: 60px;
+      min-height: 100vh;
+      background: var(--white);
+    }
+
+    /* ─── Hero ─── */
+    .contact-hero {
+      background: var(--sage-light);
+      padding: var(--s12) var(--s7) var(--s10);
+      text-align: center;
+    }
+    .contact-hero__label {
+      font-family: var(--sans);
+      font-size: var(--t-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--stone);
+      font-weight: 500;
+      margin-bottom: var(--s5);
+    }
+    .contact-hero__heading {
+      font-family: var(--serif);
+      font-size: 52px;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.1;
+      margin-bottom: var(--s5);
+    }
+    .contact-hero__sub {
+      font-size: var(--t-lg);
+      color: var(--stone);
+      max-width: 540px;
+      margin: 0 auto var(--s8);
+      line-height: 1.65;
+    }
+    .contact-hero__actions {
+      display: flex;
+      gap: var(--s4);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .contact-hero__note {
+      margin-top: var(--s5);
+      font-size: var(--t-sm);
+      color: var(--stone);
+    }
+    .contact-hero__note span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--success);
+      display: inline-block;
+    }
+
+    /* ─── Section wrapper ─── */
+    .contact-section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: var(--s11) var(--s7);
+    }
+    .contact-section--wide {
+      max-width: 1100px;
+    }
+    .contact-section--bordered {
+      border-top: 1px solid var(--border);
+    }
+    .contact-section__label {
+      font-size: var(--t-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--stone);
+      font-weight: 500;
+      margin-bottom: var(--s4);
+    }
+    .contact-section__heading {
+      font-family: var(--serif);
+      font-size: 32px;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: var(--s4);
+    }
+    .contact-section__intro {
+      font-size: var(--t-base);
+      color: var(--stone);
+      line-height: 1.7;
+      max-width: 600px;
+      margin-bottom: var(--s9);
+    }
+
+    /* ─── Ways to reach us ─── */
+    .contact-channels {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s5);
+    }
+    .contact-channel {
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--s7) var(--s6);
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      gap: var(--s4);
+    }
+    .contact-channel__icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--r-md);
+      background: var(--sage-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink);
+      flex-shrink: 0;
+    }
+    .contact-channel__title {
+      font-family: var(--serif);
+      font-size: var(--t-lg);
+      font-weight: 400;
+      color: var(--ink);
+    }
+    .contact-channel__value {
+      font-size: var(--t-base);
+      color: var(--ink);
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .contact-channel__value:hover { text-decoration: underline; }
+    .contact-channel__desc {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      line-height: 1.6;
+    }
+    .contact-channel__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: var(--t-xs);
+      color: var(--success);
+      background: var(--success-bg);
+      padding: 4px var(--s3);
+      border-radius: var(--r-pill);
+      font-weight: 500;
+      width: fit-content;
+      margin-top: auto;
+    }
+
+    /* ─── Topics grid ─── */
+    .contact-topics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s4);
+    }
+    .contact-topic {
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--s6);
+      background: var(--white);
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+      display: flex;
+      flex-direction: column;
+      gap: var(--s3);
+    }
+    .contact-topic:hover {
+      border-color: var(--border-mid);
+      background: var(--parchment);
+      box-shadow: var(--shadow-sm);
+    }
+    .contact-topic__emoji {
+      font-size: 22px;
+      line-height: 1;
+    }
+    .contact-topic__title {
+      font-family: var(--serif);
+      font-size: var(--t-lg);
+      font-weight: 400;
+      color: var(--ink);
+    }
+    .contact-topic__desc {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      line-height: 1.6;
+    }
+    .contact-topic__cta {
+      font-size: var(--t-sm);
+      color: var(--ink);
+      font-weight: 500;
+      margin-top: auto;
+      padding-top: var(--s3);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* ─── FAQ accordion ─── */
+    .contact-faqs {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-question {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--s5) var(--s6);
+      background: var(--white);
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      gap: var(--s5);
+      transition: background 0.15s;
+    }
+    .faq-question:hover { background: var(--parchment); }
+    .faq-question__text {
+      font-family: var(--serif);
+      font-size: var(--t-lg);
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+    .faq-question__icon {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--sage-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink);
+      transition: transform 0.25s var(--ease-in-out), background 0.15s;
+    }
+    .faq-item.is-open .faq-question__icon { transform: rotate(45deg); background: var(--border-mid); }
+    .faq-answer {
+      display: none;
+      padding: 0 var(--s6) var(--s6);
+      font-size: var(--t-base);
+      color: var(--stone);
+      line-height: 1.75;
+    }
+    .faq-answer a { color: var(--ink); }
+    .faq-item.is-open .faq-answer { display: block; }
+
+    /* ─── Response / trust strip ─── */
+    .contact-trust-strip {
+      background: var(--sage-light);
+      padding: var(--s9) var(--s7);
+    }
+    .contact-trust-strip__inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--s6);
+    }
+    .trust-item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s3);
+      align-items: flex-start;
+    }
+    .trust-item__icon {
+      color: var(--ink);
+      opacity: 0.55;
+    }
+    .trust-item__title {
+      font-family: var(--serif);
+      font-size: var(--t-base);
+      font-weight: 400;
+      color: var(--ink);
+    }
+    .trust-item__desc {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      line-height: 1.6;
+    }
+
+    /* ─── Office / location ─── */
+    .contact-office {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s10);
+      align-items: start;
+    }
+    .contact-office__address-block {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s5);
+    }
+    .contact-office__address {
+      font-size: var(--t-base);
+      color: var(--stone);
+      line-height: 2;
+    }
+    .contact-office__hours-table {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s2);
+    }
+    .contact-office__hours-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: var(--t-sm);
+      color: var(--stone);
+      padding: var(--s2) 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .contact-office__hours-row:last-child { border-bottom: none; }
+    .contact-office__hours-row span:first-child { color: var(--ink); font-weight: 500; }
+    .contact-office__map {
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      aspect-ratio: 4/3;
+      background: var(--sage-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .contact-office__map-placeholder {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--s3);
+      color: var(--stone);
+    }
+    .contact-office__map-placeholder svg { opacity: 0.35; }
+    .contact-office__map-placeholder p { font-size: var(--t-sm); }
+
+    /* ─── Bottom CTA band ─── */
+    .contact-cta-band {
+      padding: var(--s11) var(--s7);
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+    .contact-cta-band__heading {
+      font-family: var(--serif);
+      font-size: 36px;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: var(--s4);
+    }
+    .contact-cta-band__sub {
+      font-size: var(--t-base);
+      color: var(--stone);
+      max-width: 480px;
+      margin: 0 auto var(--s7);
+      line-height: 1.65;
+    }
+    .contact-cta-band__actions {
+      display: flex;
+      gap: var(--s4);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ─────────────────────────────────────────────
+       CHAT LAUNCHER + INTERCOM-STYLE WINDOW
+    ───────────────────────────────────────────── */
+
+    /* Floating launcher */
+    .chat-launcher {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--white);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.28), 0 1px 4px rgba(0,0,0,0.12);
+      z-index: 1000;
+      transition: transform 0.2s var(--ease-out), background 0.15s;
+    }
+    .chat-launcher:hover { transform: scale(1.06); background: #1a1a08; }
+    .chat-launcher.is-open { background: var(--charcoal); }
+    .chat-launcher__icon-open  { display: flex; }
+    .chat-launcher__icon-close { display: none; }
+    .chat-launcher.is-open .chat-launcher__icon-open  { display: none; }
+    .chat-launcher.is-open .chat-launcher__icon-close { display: flex; }
+
+    /* Window */
+    .chat-window {
+      position: fixed;
+      bottom: 92px;
+      right: 24px;
+      width: 400px;
+      height: 700px;
+      max-height: calc(100vh - 112px);
+      background: var(--white);
+      border-radius: 20px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.10);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      /* closed state */
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.92) translateY(12px);
+      transform-origin: bottom right;
+      transition: opacity 0.25s var(--ease-out), transform 0.28s var(--ease-out);
+    }
+    .chat-window.is-open {
+      opacity: 1;
+      pointer-events: all;
+      transform: scale(1) translateY(0);
+    }
+
+    /* Window header — rich dark panel like Intercom */
+    .chat-header {
+      background: var(--ink);
+      padding: var(--s6) var(--s6) var(--s7);
+      flex-shrink: 0;
+      position: relative;
+    }
+    .chat-header__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--s5);
+    }
+    .chat-header__brand {
+      font-family: var(--serif);
+      font-size: var(--t-base);
+      color: rgba(255,255,255,0.9);
+      font-weight: 400;
+      letter-spacing: 0.01em;
+    }
+    .chat-header__close {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.8);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+      flex-shrink: 0;
+    }
+    .chat-header__close:hover { background: rgba(255,255,255,0.22); color: white; }
+
+    .chat-header__avatars {
+      display: flex;
+      align-items: center;
+      margin-bottom: var(--s4);
+    }
+    .chat-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid var(--ink);
+      background: #3a3328;
+      margin-right: -10px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--serif);
+      font-size: 14px;
+      color: rgba(255,255,255,0.7);
+      overflow: hidden;
+    }
+    .chat-avatar:last-child { margin-right: 0; }
+
+    .chat-header__heading {
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: var(--s2);
+    }
+    .chat-header__sub {
+      font-size: var(--t-sm);
+      color: rgba(255,255,255,0.55);
+      line-height: 1.5;
+    }
+    .chat-header__status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: var(--t-xs);
+      color: rgba(255,255,255,0.5);
+      margin-top: var(--s3);
+    }
+    .chat-header__status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4ade80;
+      flex-shrink: 0;
+    }
+
+    /* Screens */
+    .chat-screen {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+      overflow: hidden;
+    }
+    .chat-screen.is-active { display: flex; }
+
+    /* Sub-screen nav */
+    .chat-screen-nav {
+      display: flex;
+      align-items: center;
+      gap: var(--s3);
+      padding: var(--s4) var(--s5);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .chat-back {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--parchment);
+      color: var(--stone);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.15s, color 0.15s;
+    }
+    .chat-back:hover { background: var(--border); color: var(--ink); }
+    .chat-screen-nav__title {
+      font-family: var(--serif);
+      font-size: var(--t-lg);
+      font-weight: 400;
+      color: var(--ink);
+    }
+
+    /* Scrollable body */
+    .chat-body {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Dashboard */
+    .chat-dashboard {
+      padding: var(--s5) var(--s5) var(--s5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--s4);
+    }
+
+    /* Option cards */
+    .chat-options { display: flex; flex-direction: column; gap: var(--s3); }
+    .chat-option {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: var(--s4) var(--s5);
+      background: var(--parchment);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .chat-option:hover { border-color: var(--border-mid); background: #f3f3f0; }
+    .chat-option__icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--r-md);
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--ink);
+      margin-right: var(--s4);
+      border: 1px solid var(--border);
+    }
+    .chat-option__content { flex: 1; }
+    .chat-option__title {
+      font-family: var(--serif);
+      font-size: var(--t-base);
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+    .chat-option__desc {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      line-height: 1.45;
+      margin-bottom: 4px;
+    }
+    .chat-option__eta {
+      font-size: var(--t-xs);
+      color: var(--success);
+      font-weight: 500;
+    }
+    .chat-option__arrow {
+      color: var(--border-mid);
+      align-self: center;
+      flex-shrink: 0;
+      margin-left: var(--s3);
+    }
+
+    /* Trust footer inside dashboard */
+    .chat-trust {
+      padding: var(--s4) var(--s5);
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: var(--s2);
+      flex-shrink: 0;
+    }
+    .chat-trust-item {
+      display: flex;
+      align-items: center;
+      gap: var(--s3);
+      font-size: var(--t-xs);
+      color: var(--stone);
+      line-height: 1.4;
+    }
+    .chat-trust-item svg { flex-shrink: 0; opacity: 0.5; }
+
+    /* Form screens */
+    .chat-form-inner {
+      padding: var(--s5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--s4);
+      flex: 1;
+    }
+    .chat-context-card {
+      background: #f5f8f5;
+      border-left: 3px solid #b5c4b2;
+      border-radius: 0 var(--r-md) var(--r-md) 0;
+      padding: var(--s3) var(--s4);
+      font-size: var(--t-sm);
+      color: var(--ink);
+      line-height: 1.55;
+      display: flex;
+      gap: var(--s3);
+      align-items: flex-start;
+    }
+    .chat-context-card svg { flex-shrink: 0; color: var(--brand-nature); margin-top: 1px; }
+
+    .chat-field {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s2);
+    }
+    .chat-field label {
+      font-size: var(--t-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--stone);
+      font-weight: 500;
+    }
+    .chat-field label span { color: var(--border-mid); font-weight: 400; text-transform: none; letter-spacing: 0; font-size: var(--t-xs); }
+    .chat-field .form-input,
+    .chat-field select,
+    .chat-field textarea {
+      width: 100%;
+      box-sizing: border-box;
+      font-size: var(--t-sm);
+    }
+    .chat-field textarea {
+      min-height: 80px;
+      resize: vertical;
+      font-family: var(--sans);
+      font-size: var(--t-sm);
+      padding: var(--s3) var(--s4);
+      border: 1px solid var(--border-mid);
+      border-radius: var(--r-md);
+      background: var(--white);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+    .chat-field textarea:focus { outline: none; border-color: var(--ink); }
+    .chat-field select {
+      appearance: none;
+      height: 40px;
+      padding: 0 var(--s4);
+      border: 1px solid var(--border-mid);
+      border-radius: var(--r-md);
+      background: var(--white);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: var(--t-sm);
+      cursor: pointer;
+    }
+    .chat-field select:focus { outline: none; border-color: var(--ink); }
+    .chat-field .form-input { height: 40px; font-size: var(--t-sm); }
+
+    .chat-form-footer {
+      padding: 0 var(--s5) var(--s5);
+      flex-shrink: 0;
+    }
+
+    /* Time slots */
+    .chat-time-slots {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--s2);
+    }
+    .chat-time-slot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: var(--s3) var(--s2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      cursor: pointer;
+      text-align: center;
+      background: var(--white);
+      transition: background 0.15s, border-color 0.15s;
+      gap: 2px;
+    }
+    .chat-time-slot.is-selected { background: #f0f4ef; border-color: #8faa8b; }
+    .chat-time-slot.is-selected .chat-time-slot__label { color: var(--brand-nature); font-weight: 600; }
+    .chat-time-slot:hover:not(.is-selected) { border-color: var(--border-mid); }
+    .chat-time-slot__label { font-size: var(--t-sm); color: var(--ink); font-weight: 500; }
+    .chat-time-slot__hours { font-size: 10px; color: var(--stone); }
+
+    /* Date chips */
+    .chat-date-chips { display: flex; gap: var(--s2); flex-wrap: wrap; }
+    .chat-date-chip {
+      padding: var(--s2) var(--s3);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: var(--t-sm);
+      color: var(--ink);
+      background: var(--white);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .chat-date-chip.is-selected { background: #f0f4ef; border-color: #8faa8b; color: var(--brand-nature); font-weight: 500; }
+    .chat-date-chip:hover:not(.is-selected) { border-color: var(--border-mid); }
+
+    /* Success screens */
+    .chat-success-body {
+      padding: var(--s8) var(--s5) var(--s5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: var(--s4);
+    }
+    .chat-success-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #f0f4ef;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--brand-nature);
+      flex-shrink: 0;
+    }
+    .chat-success-title {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+    .chat-success-desc {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      line-height: 1.7;
+      max-width: 280px;
+    }
+    .chat-summary-card {
+      width: 100%;
+      background: var(--parchment);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--s4) var(--s5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--s2);
+      text-align: left;
+    }
+    .chat-summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--s4);
+      font-size: var(--t-sm);
+    }
+    .chat-summary-row__label { color: var(--stone); flex-shrink: 0; }
+    .chat-summary-row__val { color: var(--ink); font-weight: 500; text-align: right; }
+
+    /* Message thread */
+    .chat-thread {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s4);
+      padding: var(--s5);
+      flex: 1;
+    }
+    .chat-bubble-wrap { display: flex; flex-direction: column; }
+    .chat-bubble-wrap--user { align-items: flex-end; }
+    .chat-bubble-wrap--team { align-items: flex-start; }
+    .chat-bubble {
+      max-width: 84%;
+      padding: var(--s3) var(--s4);
+      border-radius: 14px;
+      font-size: var(--t-sm);
+      line-height: 1.6;
+    }
+    .chat-bubble--user { background: var(--ink); color: var(--white); border-bottom-right-radius: 4px; }
+    .chat-bubble--team { background: var(--parchment); color: var(--ink); border-bottom-left-radius: 4px; border: 1px solid var(--border); }
+    .chat-bubble__meta { font-size: 10px; color: var(--stone); margin-top: 4px; }
+
+    .chat-thread-footer {
+      padding: var(--s4) var(--s5) var(--s5);
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--s3);
+    }
+
+    /* Mobile */
+    @media (max-width: 480px) {
+      .chat-window { width: calc(100vw - 16px); right: 8px; bottom: 80px; border-radius: 16px; }
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 900px) {
+      .contact-channels,
+      .contact-topics { grid-template-columns: 1fr 1fr; }
+      .contact-trust-strip__inner { grid-template-columns: 1fr 1fr; }
+      .contact-office { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .contact-hero__heading { font-size: 38px; }
+      .contact-channels,
+      .contact-topics,
+      .contact-trust-strip__inner { grid-template-columns: 1fr; }
+      .contact-section { padding: var(--s9) var(--s5); }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ===== Site header ===== -->
+  <header class="site-header is-scrolled" id="site-header">
+    <div class="site-header__inner">
+      <nav class="site-header__nav">
+        <div class="nav-item--mega">
+          <a href="listings.html">Retreats</a>
+          <div class="mega-menu">
+            <div class="mega-menu__inner">
+              <div class="mega-menu__footer" style="margin-top:0; margin-bottom:24px; padding-top:24px; padding-bottom:20px; border-top:none; border-bottom:1px solid var(--border);">
+                <a href="listings.html" class="mega-menu__footer-link">View all retreats →</a>
+              </div>
+              <div class="mega-menu__rail">
+                <div class="mega-menu__rail-label">Browse by category</div>
+                <div class="mega-menu__scroll">
+                  <a href="#" class="mega-cat-card"><img src="images/general/05.jpg" alt="Yoga & Meditation"><div class="mega-cat-card__overlay"><span class="mega-cat-card__name">Yoga &amp; Meditation</span></div></a>
+                  <a href="#" class="mega-cat-card"><img src="images/general/19.jpg" alt="Detox & Cleanse"><div class="mega-cat-card__overlay"><span class="mega-cat-card__name">Detox &amp; Cleanse</span></div></a>
+                  <a href="#" class="mega-cat-card"><img src="images/general/17.jpg" alt="Fitness & Adventure"><div class="mega-cat-card__overlay"><span class="mega-cat-card__name">Fitness &amp; Adventure</span></div></a>
+                  <a href="#" class="mega-cat-card"><img src="images/general/01.jpg" alt="Meditation & Mindfulness"><div class="mega-cat-card__overlay"><span class="mega-cat-card__name">Meditation &amp; Mindfulness</span></div></a>
+                  <a href="#" class="mega-cat-card"><img src="images/general/13.jpg" alt="Health & Healing"><div class="mega-cat-card__overlay"><span class="mega-cat-card__name">Health &amp; Healing</span></div></a>
+                  <a href="#" class="mega-cat-card"><img src="images/general/04.jpg" alt="Personal Growth"><div class="mega-cat-card__overlay"><span class="mega-cat-card__name">Personal Growth</span></div></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="#">Destinations</a>
+        <a href="#">Inspiration</a>
+        <a href="#">About</a>
+      </nav>
+      <a href="index.html" class="site-header__logo">Queen of Retreats</a>
+      <div class="site-header__actions">
+        <button class="btn btn--ghost" style="gap:6px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Search
+        </button>
+        <a href="signup.html" class="btn btn--ghost" style="gap:6px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Sign In
+        </a>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- ===== Page ===== -->
+  <main class="contact-page">
+
+    <!-- ── Hero ── -->
+    <section class="contact-hero">
+      <p class="contact-hero__label">Get in touch</p>
+      <h1 class="contact-hero__heading">We're here to help</h1>
+      <p class="contact-hero__sub">Our retreat specialists are on hand to help you find the right experience, answer questions, and guide you every step of the way.</p>
+      <div class="contact-hero__actions">
+        <button class="btn btn--primary btn--lg" onclick="openChat('message')">Message our team</button>
+        <button class="btn btn--secondary btn--lg" onclick="openChat('callback')">Request a callback</button>
+      </div>
+      <p class="contact-hero__note">
+        <span><span class="status-dot"></span> Available Mon–Fri, 9am–5pm GMT &nbsp;·&nbsp; We reply within 4 hours</span>
+      </p>
+    </section>
+
+
+    <!-- ── Ways to reach us ── -->
+    <section class="contact-section">
+      <p class="contact-section__label">Ways to reach us</p>
+      <h2 class="contact-section__heading">However you prefer to get in touch</h2>
+      <p class="contact-section__intro">Whether you'd rather type, talk, or simply drop us a line — we make it easy to reach a real person who knows retreats inside out.</p>
+
+      <div class="contact-channels">
+
+        <div class="contact-channel">
+          <div class="contact-channel__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <p class="contact-channel__title">Live chat</p>
+          <p class="contact-channel__desc">Chat with our team directly from any page using the chat icon at the bottom right. Get quick answers without picking up the phone.</p>
+          <div class="contact-channel__badge">
+            <span class="status-dot"></span> Online now
+          </div>
+        </div>
+
+        <div class="contact-channel">
+          <div class="contact-channel__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <p class="contact-channel__title">Email us</p>
+          <a href="mailto:hello@queenofretreats.com" class="contact-channel__value">hello@queenofretreats.com</a>
+          <p class="contact-channel__desc">Drop us a line at any time. We respond to all enquiries Mon–Fri and aim to reply within 4 working hours.</p>
+          <div class="contact-channel__badge">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Replies within 4 hours
+          </div>
+        </div>
+
+        <div class="contact-channel">
+          <div class="contact-channel__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.13 1 .36 1.97.71 2.91a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.94.35 1.91.58 2.91.71a2 2 0 0 1 1.72 2.02z"/></svg>
+          </div>
+          <p class="contact-channel__title">Request a callback</p>
+          <a href="tel:+442071234567" class="contact-channel__value">+44 (0)20 7123 4567</a>
+          <p class="contact-channel__desc">Prefer to speak with someone? Book a time and a specialist will call you back at your convenience.</p>
+          <div class="contact-channel__badge">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Mon–Fri, 9am–5pm GMT
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ── What can we help with ── -->
+    <section class="contact-section contact-section--bordered">
+      <p class="contact-section__label">What can we help with?</p>
+      <h2 class="contact-section__heading">Find the right kind of help</h2>
+      <p class="contact-section__intro">From discovering your perfect retreat to sorting the finer details of a booking, our specialists are here for all of it.</p>
+
+      <div class="contact-topics">
+
+        <button class="contact-topic" onclick="openChat('message')">
+          <span class="contact-topic__emoji">🌿</span>
+          <p class="contact-topic__title">Finding the right retreat</p>
+          <p class="contact-topic__desc">Not sure where to start? We'll listen to what you're looking for and match you with retreats that genuinely fit.</p>
+          <span class="contact-topic__cta">Speak to a specialist <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
+        </button>
+
+        <button class="contact-topic" onclick="openChat('message')">
+          <span class="contact-topic__emoji">📋</span>
+          <p class="contact-topic__title">Booking questions & amendments</p>
+          <p class="contact-topic__desc">Need to change dates, add guests, or query your booking? We'll sort it quickly and without fuss.</p>
+          <span class="contact-topic__cta">Get help with a booking <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
+        </button>
+
+        <button class="contact-topic" onclick="openChat('message')">
+          <span class="contact-topic__emoji">🎁</span>
+          <p class="contact-topic__title">Gift vouchers & experiences</p>
+          <p class="contact-topic__desc">Looking to give the gift of a retreat? We can help you choose the right voucher and make it feel special.</p>
+          <span class="contact-topic__cta">Ask about gift vouchers <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
+        </button>
+
+        <button class="contact-topic" onclick="openChat('message')">
+          <span class="contact-topic__emoji">♿</span>
+          <p class="contact-topic__title">Accessibility & special requirements</p>
+          <p class="contact-topic__desc">We want every guest to feel welcome. Let us know your requirements and we'll find options that work for you.</p>
+          <span class="contact-topic__cta">Discuss your needs <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
+        </button>
+
+        <button class="contact-topic" onclick="openChat('message')">
+          <span class="contact-topic__emoji">✍️</span>
+          <p class="contact-topic__title">Press & editorial</p>
+          <p class="contact-topic__desc">For media enquiries, press trips, or editorial collaborations, our team would love to hear from you.</p>
+          <span class="contact-topic__cta">Get in touch <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
+        </button>
+
+        <button class="contact-topic" onclick="openChat('message')">
+          <span class="contact-topic__emoji">🏡</span>
+          <p class="contact-topic__title">List your retreat with us</p>
+          <p class="contact-topic__desc">Are you a retreat operator? We'd love to learn more about what you offer and explore working together.</p>
+          <span class="contact-topic__cta">Partner with us <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
+        </button>
+
+      </div>
+    </section>
+
+
+    <!-- ── FAQ ── -->
+    <section class="contact-section contact-section--bordered">
+      <p class="contact-section__label">FAQ</p>
+      <h2 class="contact-section__heading">Common questions</h2>
+      <p class="contact-section__intro">A few things people often ask us. If you don't find what you need here, our team are always happy to help.</p>
+
+      <div class="contact-faqs">
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-question__text">How do I know which retreat is right for me?</span>
+            <span class="faq-question__icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </button>
+          <p class="faq-answer">Every retreat on Queen of Retreats has been personally vetted by our editorial team. We recommend starting with our style filters — whether you're after deep relaxation, a fitness challenge, or an inner transformation — and then reading our honest expert reviews. Still unsure? Our specialists can match you to the right retreat over chat or a phone call, completely free of charge.</p>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-question__text">Can I modify or cancel a booking?</span>
+            <span class="faq-question__icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </button>
+          <p class="faq-answer">Amendment and cancellation policies vary by retreat provider. The specific terms applicable to your booking will be shown clearly during checkout before payment is taken. If you need help with a change after booking, please get in touch with us and we'll liaise directly with the retreat on your behalf.</p>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-question__text">Do you offer gift vouchers?</span>
+            <span class="faq-question__icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </button>
+          <p class="faq-answer">Yes — Queen of Retreats gift vouchers can be used against any retreat on the platform. They're valid for 12 months from purchase and can be sent as a beautifully designed digital card. Get in touch with our team to arrange a gift voucher or to discuss a personalised recommendation for the recipient.</p>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-question__text">How does Queen of Retreats curate its retreats?</span>
+            <span class="faq-question__icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </button>
+          <p class="faq-answer">We only list retreats that meet our editorial standards. Every property is reviewed by our team — either in person or through a rigorous remote vetting process — and assessed on the quality of teaching, environment, food, and overall guest experience. We don't list everything; we list what we believe is genuinely worth your time and money.</p>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-question__text">Is there a fee to use Queen of Retreats?</span>
+            <span class="faq-question__icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </button>
+          <p class="faq-answer">No — using Queen of Retreats is completely free for guests. You pay the same price as you would booking directly with the retreat, and in return you get the benefit of our curation, our reviews, and the support of our specialist team throughout.</p>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-question__text">Do you cater for solo travellers?</span>
+            <span class="faq-question__icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </button>
+          <p class="faq-answer">Absolutely. A significant number of retreat-goers travel alone, and most of the retreats we feature actively welcome solo guests. Many have single occupancy room options, and the communal nature of retreat life often makes it easier to connect with like-minded people than a traditional holiday. Our team can highlight retreats that are particularly well-suited to solo travellers.</p>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-question__text">I'm a retreat operator — how do I list with you?</span>
+            <span class="faq-question__icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </button>
+          <p class="faq-answer">We'd love to hear from you. Please get in touch via our chat or by emailing <a href="mailto:partners@queenofretreats.com">partners@queenofretreats.com</a> with a brief overview of your retreat — including location, format, and dates — and our partnerships team will be in touch.</p>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ── Trust strip ── -->
+    <div class="contact-trust-strip">
+      <div class="contact-trust-strip__inner">
+
+        <div class="trust-item">
+          <svg class="trust-item__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <p class="trust-item__title">Reply within 4 hours</p>
+          <p class="trust-item__desc">We respond to all enquiries Mon–Fri during business hours. Most messages receive a reply much sooner.</p>
+        </div>
+
+        <div class="trust-item">
+          <svg class="trust-item__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <p class="trust-item__title">Real people, real expertise</p>
+          <p class="trust-item__desc">Every enquiry is handled by a member of our editorial team — specialists who have experienced many of the retreats themselves.</p>
+        </div>
+
+        <div class="trust-item">
+          <svg class="trust-item__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <p class="trust-item__title">Your privacy is protected</p>
+          <p class="trust-item__desc">We never share your personal details with third parties, and all conversations are treated in the strictest confidence.</p>
+        </div>
+
+        <div class="trust-item">
+          <svg class="trust-item__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <p class="trust-item__title">Independent & unbiased</p>
+          <p class="trust-item__desc">We're not affiliated with any retreat provider. Our recommendations are editorially led and completely unsponsored.</p>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ── Office / location ── -->
+    <section class="contact-section contact-section--bordered">
+      <p class="contact-section__label">Our office</p>
+      <h2 class="contact-section__heading">Find us in London</h2>
+      <p class="contact-section__intro">We're based in London but our retreats span the globe. Pop in if you're nearby, or simply get in touch online — we're just as helpful at a distance.</p>
+
+      <div class="contact-office">
+        <div class="contact-office__address-block">
+          <address class="contact-office__address" style="font-style: normal;">
+            Queen of Retreats<br>
+            12 Bermondsey Street<br>
+            London<br>
+            SE1 3UD<br>
+            United Kingdom
+          </address>
+
+          <div class="contact-office__hours-table">
+            <div class="contact-office__hours-row">
+              <span>Monday – Friday</span>
+              <span>9:00am – 5:00pm GMT</span>
+            </div>
+            <div class="contact-office__hours-row">
+              <span>Saturday</span>
+              <span>Closed</span>
+            </div>
+            <div class="contact-office__hours-row">
+              <span>Sunday</span>
+              <span>Closed</span>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: var(--s3);">
+            <a href="mailto:hello@queenofretreats.com" style="font-size: var(--t-sm); color: var(--stone); text-decoration: none; display: flex; align-items: center; gap: var(--s3);">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              hello@queenofretreats.com
+            </a>
+            <a href="tel:+442071234567" style="font-size: var(--t-sm); color: var(--stone); text-decoration: none; display: flex; align-items: center; gap: var(--s3);">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.13 1 .36 1.97.71 2.91a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.94.35 1.91.58 2.91.71a2 2 0 0 1 1.72 2.02z"/></svg>
+              +44 (0)20 7123 4567
+            </a>
+          </div>
+        </div>
+
+        <div class="contact-office__map">
+          <div class="contact-office__map-placeholder">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <p>Map — Bermondsey Street, London SE1</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── Bottom CTA ── -->
+    <div class="contact-cta-band">
+      <h2 class="contact-cta-band__heading">Still have a question?</h2>
+      <p class="contact-cta-band__sub">Our team are always happy to help — however big or small your question. We're here to make your retreat experience as good as it can be.</p>
+      <div class="contact-cta-band__actions">
+        <button class="btn btn--primary btn--lg" onclick="openChat('message')">Message our team</button>
+        <button class="btn btn--secondary btn--lg" onclick="openChat('callback')">Request a callback</button>
+      </div>
+    </div>
+
+  </main>
+
+
+  <!-- ===== Chat launcher ===== -->
+  <button class="chat-launcher" id="chat-launcher" onclick="toggleChat()" aria-label="Open chat">
+    <span class="chat-launcher__icon-open">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </span>
+    <span class="chat-launcher__icon-close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </span>
+  </button>
+
+
+  <!-- ===== Chat window ===== -->
+  <div class="chat-window" id="chat-window">
+
+    <!-- Header — always visible -->
+    <div class="chat-header">
+      <div class="chat-header__top">
+        <span class="chat-header__brand">Queen of Retreats</span>
+        <button class="chat-header__close" onclick="closeChat()" aria-label="Close">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="chat-header__avatars">
+        <div class="chat-avatar">S</div>
+        <div class="chat-avatar">J</div>
+        <div class="chat-avatar">A</div>
+      </div>
+      <h2 class="chat-header__heading">How can we help?</h2>
+      <p class="chat-header__sub">Our retreat specialists are here to help you find the perfect experience.</p>
+      <div class="chat-header__status">
+        <span class="chat-header__status-dot"></span>
+        Responds Mon–Fri, 9am–5pm
+      </div>
+    </div>
+
+    <!-- ── Screen 1: Dashboard ── -->
+    <div class="chat-screen is-active" id="cscreen-dashboard">
+      <div class="chat-body">
+        <div class="chat-dashboard">
+          <div class="chat-options">
+
+            <button class="chat-option" onclick="showChatScreen('message')">
+              <div class="chat-option__icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              </div>
+              <div class="chat-option__content">
+                <p class="chat-option__title">Message our team</p>
+                <p class="chat-option__desc">Ask questions, get recommendations, or clarify a booking.</p>
+                <p class="chat-option__eta">We reply within 4 hours</p>
+              </div>
+              <div class="chat-option__arrow">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              </div>
+            </button>
+
+            <button class="chat-option" onclick="showChatScreen('callback')">
+              <div class="chat-option__icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.13 1 .36 1.97.71 2.91a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.94.35 1.91.58 2.91.71a2 2 0 0 1 1.72 2.02z"/></svg>
+              </div>
+              <div class="chat-option__content">
+                <p class="chat-option__title">Request a callback</p>
+                <p class="chat-option__desc">Prefer to speak with someone? A specialist will call you.</p>
+                <p class="chat-option__eta">We'll call within 24 hours</p>
+              </div>
+              <div class="chat-option__arrow">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              </div>
+            </button>
+
+          </div>
+        </div>
+      </div>
+      <div class="chat-trust">
+        <div class="chat-trust-item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Concierge-led guidance — not generic support
+        </div>
+        <div class="chat-trust-item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Your details are kept private and secure
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Screen 2: Message form ── -->
+    <div class="chat-screen" id="cscreen-message">
+      <div class="chat-screen-nav">
+        <button class="chat-back" onclick="showChatScreen('dashboard')" aria-label="Back">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="chat-screen-nav__title">Message our team</span>
+      </div>
+      <div class="chat-body">
+        <div class="chat-form-inner">
+          <div class="chat-context-card">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span>We typically reply within <strong>4 hours</strong>, Mon–Fri. We'll respond to the email address below.</span>
+          </div>
+          <div class="chat-field">
+            <label for="cmsg-name">Your name</label>
+            <input type="text" id="cmsg-name" class="form-input" placeholder="e.g. Sarah Collins" autocomplete="given-name">
+          </div>
+          <div class="chat-field">
+            <label for="cmsg-email">Email address</label>
+            <input type="email" id="cmsg-email" class="form-input" placeholder="e.g. sarah@email.com" autocomplete="email">
+          </div>
+          <div class="chat-field">
+            <label for="cmsg-retreat">Retreat you're interested in <span>— optional</span></label>
+            <select id="cmsg-retreat">
+              <option value="">Select a retreat…</option>
+              <option>Four Seasons Bali at Sayan</option>
+              <option>Quinta da Levada, Portugal</option>
+              <option>Elevation Barn, Bali</option>
+              <option>London Meditation Centre</option>
+              <option>I'm not sure yet</option>
+            </select>
+          </div>
+          <div class="chat-field">
+            <label for="cmsg-message">Your message</label>
+            <textarea id="cmsg-message" placeholder="Tell us what you'd like to know…"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="chat-form-footer">
+        <button class="btn btn--primary btn--lg btn--full" onclick="submitChatMessage()">Send message</button>
+        <p style="font-size:10px; color:var(--stone); text-align:center; margin-top:var(--s3); line-height:1.5;">By sending, you agree to our <a href="#" style="color:var(--stone);">Privacy Policy</a>.</p>
+      </div>
+    </div>
+
+    <!-- ── Screen 3: Message sent ── -->
+    <div class="chat-screen" id="cscreen-message-sent">
+      <div class="chat-body">
+        <div class="chat-thread">
+          <div class="chat-bubble-wrap chat-bubble-wrap--user">
+            <div class="chat-bubble chat-bubble--user" id="csent-bubble-text">—</div>
+            <div class="chat-bubble__meta" id="csent-bubble-meta">Sent · just now</div>
+          </div>
+          <div class="chat-bubble-wrap chat-bubble-wrap--team">
+            <div class="chat-bubble chat-bubble--team" id="csent-auto-reply">Thanks for your message — we'll reply within 4 hours, Mon–Fri.</div>
+            <div class="chat-bubble__meta">Queen of Retreats · automated</div>
+          </div>
+        </div>
+      </div>
+      <div class="chat-thread-footer">
+        <div style="background:var(--parchment); border-radius:var(--r-md); padding:var(--s3) var(--s4); font-size:var(--t-sm); color:var(--ink); line-height:1.6; text-align:center;">
+          We'll reply to <strong id="csent-email-display">your email</strong> shortly.
+        </div>
+        <button class="btn btn--secondary btn--full" onclick="closeChat()">Continue browsing</button>
+      </div>
+    </div>
+
+    <!-- ── Screen 4: Callback form ── -->
+    <div class="chat-screen" id="cscreen-callback">
+      <div class="chat-screen-nav">
+        <button class="chat-back" onclick="showChatScreen('dashboard')" aria-label="Back">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="chat-screen-nav__title">Request a callback</span>
+      </div>
+      <div class="chat-body">
+        <div class="chat-form-inner">
+          <div class="chat-context-card">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span>A specialist will call you at your chosen time. Calls are Mon–Fri within the times you select.</span>
+          </div>
+          <div class="chat-field">
+            <label for="ccb-name">Your name</label>
+            <input type="text" id="ccb-name" class="form-input" placeholder="e.g. Sarah Collins" autocomplete="given-name">
+          </div>
+          <div class="chat-field">
+            <label for="ccb-phone">Phone number</label>
+            <input type="tel" id="ccb-phone" class="form-input" placeholder="e.g. +44 7700 900 123" autocomplete="tel">
+          </div>
+          <div class="chat-field">
+            <label>Preferred time</label>
+            <div class="chat-time-slots">
+              <button type="button" class="chat-time-slot" data-slot="morning" onclick="selectChatSlot(this)">
+                <span class="chat-time-slot__label">Morning</span>
+                <span class="chat-time-slot__hours">9am–12pm</span>
+              </button>
+              <button type="button" class="chat-time-slot" data-slot="afternoon" onclick="selectChatSlot(this)">
+                <span class="chat-time-slot__label">Afternoon</span>
+                <span class="chat-time-slot__hours">12pm–5pm</span>
+              </button>
+              <button type="button" class="chat-time-slot" data-slot="evening" onclick="selectChatSlot(this)">
+                <span class="chat-time-slot__label">Evening</span>
+                <span class="chat-time-slot__hours">5pm–7pm</span>
+              </button>
+            </div>
+          </div>
+          <div class="chat-field">
+            <label>Preferred date</label>
+            <div class="chat-date-chips">
+              <button type="button" class="chat-date-chip is-selected" data-date="today" onclick="selectChatDate(this)">Today</button>
+              <button type="button" class="chat-date-chip" data-date="tomorrow" onclick="selectChatDate(this)">Tomorrow</button>
+              <button type="button" class="chat-date-chip" data-date="thisweek" onclick="selectChatDate(this)">This week</button>
+            </div>
+          </div>
+          <div class="chat-field">
+            <label for="ccb-notes">Anything we should know? <span>— optional</span></label>
+            <textarea id="ccb-notes" placeholder="Questions, preferences, budget range…"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="chat-form-footer">
+        <button class="btn btn--primary btn--lg btn--full" onclick="submitChatCallback()">Request callback</button>
+        <p style="font-size:10px; color:var(--stone); text-align:center; margin-top:var(--s3); line-height:1.5;">By submitting, you agree to our <a href="#" style="color:var(--stone);">Privacy Policy</a>.</p>
+      </div>
+    </div>
+
+    <!-- ── Screen 5: Callback confirmed ── -->
+    <div class="chat-screen" id="cscreen-callback-confirmed">
+      <div class="chat-body">
+        <div class="chat-success-body">
+          <div class="chat-success-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <p class="chat-success-title">Callback requested</p>
+          <p class="chat-success-desc">A member of our team will call <strong id="cconf-phone">you</strong> <span id="cconf-time-desc">within 24 hours</span>. We look forward to speaking with you.</p>
+          <div class="chat-summary-card">
+            <div class="chat-summary-row">
+              <span class="chat-summary-row__label">Name</span>
+              <span class="chat-summary-row__val" id="cconf-name">—</span>
+            </div>
+            <div class="chat-summary-row">
+              <span class="chat-summary-row__label">Phone</span>
+              <span class="chat-summary-row__val" id="cconf-phone-display">—</span>
+            </div>
+            <div class="chat-summary-row">
+              <span class="chat-summary-row__label">Preferred time</span>
+              <span class="chat-summary-row__val" id="cconf-slot">—</span>
+            </div>
+            <div class="chat-summary-row">
+              <span class="chat-summary-row__label">Date</span>
+              <span class="chat-summary-row__val" id="cconf-date">—</span>
+            </div>
+          </div>
+          <button class="btn btn--secondary btn--full" onclick="closeChat()" style="width:100%;">Continue browsing</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.chat-window -->
+
+
+  <script>
+    /* ── FAQ ── */
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('is-open');
+      document.querySelectorAll('.faq-item.is-open').forEach(el => el.classList.remove('is-open'));
+      if (!isOpen) item.classList.add('is-open');
+    }
+
+    /* ── Chat state ── */
+    let chatSlot = null;
+    let chatDate = 'today';
+
+    /* ── Open / close ── */
+    function openChat(screen) {
+      document.getElementById('chat-window').classList.add('is-open');
+      document.getElementById('chat-launcher').classList.add('is-open');
+      showChatScreen(screen || 'dashboard');
+    }
+    function closeChat() {
+      document.getElementById('chat-window').classList.remove('is-open');
+      document.getElementById('chat-launcher').classList.remove('is-open');
+    }
+    function toggleChat() {
+      const win = document.getElementById('chat-window');
+      if (win.classList.contains('is-open')) { closeChat(); } else { openChat('dashboard'); }
+    }
+
+    /* ── Screen navigation ── */
+    function showChatScreen(id) {
+      document.querySelectorAll('.chat-screen').forEach(s => s.classList.remove('is-active'));
+      const target = document.getElementById('cscreen-' + id);
+      if (target) target.classList.add('is-active');
+    }
+
+    /* ── Slot / date selection ── */
+    function selectChatSlot(el) {
+      document.querySelectorAll('.chat-time-slot').forEach(s => s.classList.remove('is-selected'));
+      el.classList.add('is-selected');
+      chatSlot = el.dataset.slot;
+    }
+    function selectChatDate(el) {
+      document.querySelectorAll('.chat-date-chip').forEach(c => c.classList.remove('is-selected'));
+      el.classList.add('is-selected');
+      chatDate = el.dataset.date;
+    }
+
+    /* ── Submit: message ── */
+    function submitChatMessage() {
+      const name    = document.getElementById('cmsg-name').value.trim();
+      const email   = document.getElementById('cmsg-email').value.trim();
+      const message = document.getElementById('cmsg-message').value.trim();
+      if (!name || !email || !message) { alert('Please fill in your name, email and message.'); return; }
+      document.getElementById('csent-bubble-text').textContent = message;
+      document.getElementById('csent-email-display').textContent = email;
+      document.getElementById('csent-auto-reply').textContent =
+        `Thanks ${name} — we've received your message and will reply to ${email} within 4 hours, Mon–Fri.`;
+      showChatScreen('message-sent');
+    }
+
+    /* ── Submit: callback ── */
+    function submitChatCallback() {
+      const name  = document.getElementById('ccb-name').value.trim();
+      const phone = document.getElementById('ccb-phone').value.trim();
+      if (!name || !phone || !chatSlot) { alert('Please fill in your name, phone number and preferred time.'); return; }
+      const slotLabels = { morning: 'Morning (9am–12pm)', afternoon: 'Afternoon (12pm–5pm)', evening: 'Evening (5pm–7pm)' };
+      const dateLabels = { today: 'Today', tomorrow: 'Tomorrow', thisweek: 'This week' };
+      document.getElementById('cconf-name').textContent         = name;
+      document.getElementById('cconf-phone').textContent        = phone;
+      document.getElementById('cconf-phone-display').textContent = phone;
+      document.getElementById('cconf-slot').textContent         = slotLabels[chatSlot];
+      document.getElementById('cconf-date').textContent         = dateLabels[chatDate];
+      document.getElementById('cconf-time-desc').textContent    =
+        dateLabels[chatDate].toLowerCase() + ', ' + slotLabels[chatSlot].toLowerCase();
+      showChatScreen('callback-confirmed');
+    }
+  </script>
+
+</body>
+</html>
