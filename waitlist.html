@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waitlist — Queen of Retreats</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="waitlist-widget.css">
+  <style>
+    .demo-page {
+      min-height: 100vh;
+      background: var(--parchment);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--s8);
+      padding: var(--s10) var(--s6);
+    }
+
+    .demo-header {
+      text-align: center;
+    }
+    .demo-header__eyebrow {
+      font-size: var(--t-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--stone);
+      font-weight: 500;
+      margin-bottom: var(--s3);
+    }
+    .demo-header__title {
+      font-family: var(--serif);
+      font-size: 32px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: var(--s3);
+    }
+    .demo-header__sub {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      line-height: 1.6;
+      max-width: 400px;
+    }
+
+    .demo-cards {
+      display: flex;
+      gap: var(--s5);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .demo-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: var(--s7) var(--s7);
+      display: flex;
+      flex-direction: column;
+      gap: var(--s5);
+      width: 300px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    }
+    .demo-card__tag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s2);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      padding: 4px var(--s3);
+      border-radius: 12px;
+      width: fit-content;
+    }
+    .demo-card__tag--guest { background: var(--parchment); color: var(--stone); border: 1px solid var(--border); }
+    .demo-card__tag--member { background: var(--sage-pale); color: var(--sage); }
+    .demo-card__tag-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+    .demo-card__retreat {
+      font-family: var(--serif);
+      font-size: var(--t-xl);
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+    .demo-card__location {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      display: flex;
+      align-items: center;
+      gap: var(--s2);
+      margin-top: calc(var(--s2) * -1);
+    }
+    .demo-card__coming-soon {
+      background: var(--parchment);
+      border: 1px dashed var(--border-mid);
+      border-radius: var(--r-md);
+      padding: var(--s4) var(--s5);
+      font-size: var(--t-sm);
+      color: var(--stone);
+      line-height: 1.5;
+      display: flex;
+      align-items: center;
+      gap: var(--s3);
+    }
+    .demo-card__coming-soon svg { flex-shrink: 0; color: var(--border-mid); }
+
+    .demo-card__desc {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      line-height: 1.65;
+    }
+    .demo-card__user {
+      display: flex;
+      align-items: center;
+      gap: var(--s3);
+      font-size: var(--t-xs);
+      color: var(--stone);
+    }
+    .demo-card__avatar {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--sage-light);
+      color: var(--sage);
+      font-family: var(--serif);
+      font-size: 12px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="demo-page">
+
+    <div class="demo-header">
+      <p class="demo-header__eyebrow">Prototype · Waitlist flow</p>
+      <h1 class="demo-header__title">Waitlist widget</h1>
+      <p class="demo-header__sub">Two states — guest (not signed in) and member (signed in). Both launch from the retreat detail page.</p>
+    </div>
+
+    <div class="demo-cards">
+
+      <!-- Guest card -->
+      <div class="demo-card">
+        <div class="demo-card__tag demo-card__tag--guest">
+          <span class="demo-card__tag-dot"></span>
+          Not signed in
+        </div>
+        <div>
+          <p class="demo-card__retreat">Awaken Bali Retreat</p>
+          <p class="demo-card__location">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Ubud, Bali
+          </p>
+        </div>
+        <div class="demo-card__coming-soon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Dates &amp; pricing coming soon — join the waitlist to be notified first.
+        </div>
+        <p class="demo-card__desc">A 7-night immersive retreat in the rice terraces of Ubud. Yoga, breathwork, and sound healing.</p>
+        <button class="btn btn--primary btn--lg btn--full"
+          onclick="openWaitlist('Awaken Bali Retreat', false)">
+          Join waitlist
+        </button>
+      </div>
+
+      <!-- Member card -->
+      <div class="demo-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div class="demo-card__tag demo-card__tag--member">
+            <span class="demo-card__tag-dot"></span>
+            Signed in
+          </div>
+          <div class="demo-card__user">
+            <div class="demo-card__avatar">S</div>
+            Sarah Collins
+          </div>
+        </div>
+        <div>
+          <p class="demo-card__retreat">Awaken Bali Retreat</p>
+          <p class="demo-card__location">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Ubud, Bali
+          </p>
+        </div>
+        <div class="demo-card__coming-soon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Dates &amp; pricing coming soon — join the waitlist to be notified first.
+        </div>
+        <p class="demo-card__desc">A 7-night immersive retreat in the rice terraces of Ubud. Yoga, breathwork, and sound healing.</p>
+        <button class="btn btn--primary btn--lg btn--full"
+          onclick="openWaitlist('Awaken Bali Retreat', true, { name: 'Sarah Collins', email: 'sarah@email.com' })">
+          Join waitlist
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="waitlist-widget.js"></script>
+</body>
+</html>

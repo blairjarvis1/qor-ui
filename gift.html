@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gift a Retreat — Queen of Retreats</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+
+    html, body { height: 100%; overflow: hidden; }
+    body { background: var(--sand); display: flex; flex-direction: column; }
+
+    /* ── Header ─────────────────────────────────────────────── */
+    .gift-header {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--s8);
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      position: relative;
+      z-index: 10;
+    }
+    .gift-header__logo {
+      font-family: var(--serif);
+      font-size: 24px;
+      color: var(--ink);
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .gift-header__exit {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s2);
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stone);
+      transition: color var(--dur-fast);
+    }
+    .gift-header__exit:hover { color: var(--ink); }
+    .gift-header__help {
+      font-size: var(--t-sm);
+      color: var(--stone);
+    }
+    .gift-header__help a { color: var(--sage); font-weight: 500; }
+
+    /* ── Split layout ───────────────────────────────────────── */
+    .gift-layout {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    /* ── Brand panel ────────────────────────────────────────── */
+    .gift-brand {
+      position: relative;
+      background: #5a6058;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: var(--s10);
+    }
+    .gift-brand__img {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 1;
+    }
+    .gift-brand__content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+    }
+    .gift-brand__top { display: flex; flex-direction: column; }
+    .gift-brand__tag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s2);
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 5px var(--s3);
+      border-radius: 20px;
+      width: fit-content;
+      margin-bottom: var(--s5);
+    }
+    .gift-brand__headline {
+      font-family: var(--serif);
+      font-size: 60px;
+      color: var(--white);
+      line-height: 1.05;
+      margin-bottom: var(--s7);
+      letter-spacing: -0.02em;
+      max-width: 66.67%;
+    }
+    .gift-brand__benefits {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s3);
+      margin-bottom: 0;
+      list-style: none;
+    }
+    .gift-brand__benefit {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--s3);
+      font-size: var(--t-sm);
+      color: rgba(255,255,255,0.8);
+      line-height: 1.5;
+    }
+    .gift-brand__benefit svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; color: rgba(255,255,255,0.7); }
+    .gift-brand__quote { padding-top: var(--s6); }
+    .gift-brand__quote-text {
+      font-family: 'Slussen', var(--sans);
+      font-size: 16px;
+      color: var(--white);
+      line-height: 1.55;
+      margin-bottom: var(--s3);
+    }
+    .gift-brand__quote-attr {
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* ── Right panel ────────────────────────────────────────── */
+    .gift-right {
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Progress bar */
+    .gift-progress {
+      height: 3px;
+      background: var(--cloud);
+      flex-shrink: 0;
+    }
+    .gift-progress__fill {
+      height: 100%;
+      background: var(--sage);
+      transition: width 0.45s var(--ease-out);
+      width: 20%;
+    }
+
+    /* Step indicator */
+    .gift-step-indicator {
+      display: flex;
+      align-items: center;
+      gap: var(--s4);
+      padding: var(--s4) var(--s8);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .gift-step-pip {
+      display: flex;
+      align-items: center;
+      gap: var(--s2);
+      font-size: var(--t-xs);
+      color: var(--mist);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .gift-step-pip__dot {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--mist);
+      flex-shrink: 0;
+    }
+    .gift-step-pip.is-active .gift-step-pip__dot { border-color: var(--sage); background: var(--sage); color: var(--white); }
+    .gift-step-pip.is-active { color: var(--ink); font-weight: 500; }
+    .gift-step-pip.is-done .gift-step-pip__dot { border-color: var(--sage); background: var(--sage-pale); color: var(--sage); }
+    .gift-step-pip.is-done { color: var(--sage); }
+    .gift-step-connector { width: 24px; height: 1px; background: var(--border); flex-shrink: 0; }
+
+    /* Scrollable content */
+    .gift-scroll {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--s8) var(--s9);
+    }
+
+    /* Views */
+    .gift-view { display: none; width: 100%; max-width: 460px; }
+    .gift-view.is-active { display: block; }
+
+    /* Eyebrow + title */
+    .gift-eyebrow {
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: var(--s3);
+    }
+    .gift-title {
+      font-family: var(--serif);
+      font-size: clamp(26px, 2.2vw, 34px);
+      color: var(--ink);
+      line-height: 1.1;
+      margin-bottom: var(--s2);
+      letter-spacing: -0.01em;
+    }
+    .gift-sub {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      line-height: 1.55;
+      margin-bottom: var(--s7);
+    }
+
+    /* ── Step 1: Gift amounts ────────────────────────────────── */
+    .gift-amounts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s3);
+      margin-bottom: var(--s5);
+    }
+    .gift-amount-card {
+      background: var(--parchment);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--s5) var(--s5);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, transform 0.15s;
+      text-align: left;
+      user-select: none;
+      position: relative;
+    }
+    .gift-amount-card:hover { border-color: var(--sage-mid); transform: translateY(-1px); }
+    .gift-amount-card.is-selected { border-color: var(--sage); background: var(--sage-pale); box-shadow: 0 0 0 3px rgba(99,122,94,0.1); }
+    .gift-amount-card__amount {
+      font-family: var(--serif);
+      font-size: 28px;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: var(--s2);
+    }
+    .gift-amount-card__desc {
+      font-size: var(--t-xs);
+      color: var(--stone);
+      line-height: 1.4;
+    }
+    .gift-amount-card__badge {
+      position: absolute;
+      top: var(--s3);
+      right: var(--s3);
+      font-family: var(--ui);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--sage);
+      color: var(--white);
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+    .gift-amount-card--custom {
+      grid-column: span 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--s4);
+    }
+    .gift-amount-card--custom .gift-amount-card__left { flex: 1; }
+    .gift-custom-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: var(--s2);
+    }
+    .gift-custom-symbol {
+      font-family: var(--serif);
+      font-size: 22px;
+      color: var(--ink);
+    }
+    .gift-custom-input {
+      width: 90px;
+      font-family: var(--serif);
+      font-size: 22px;
+      color: var(--ink);
+      border: none;
+      border-bottom: 2px solid var(--border);
+      background: transparent;
+      outline: none;
+      padding: var(--s1) 0;
+      text-align: center;
+    }
+    .gift-custom-input:focus { border-bottom-color: var(--sage); }
+    .gift-amount-note {
+      font-size: var(--t-xs);
+      color: var(--mist);
+      text-align: center;
+      margin-bottom: var(--s6);
+    }
+
+    /* ── Step 2: Personalise ────────────────────────────────── */
+    .gift-field { display: flex; flex-direction: column; gap: var(--s2); margin-bottom: var(--s5); }
+    .gift-field label {
+      font-size: var(--t-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--stone);
+      font-weight: 500;
+    }
+    .gift-field label span { color: var(--border-mid); font-weight: 400; text-transform: none; letter-spacing: 0; }
+    .gift-field .form-input { width: 100%; box-sizing: border-box; }
+    .gift-field textarea {
+      width: 100%; box-sizing: border-box;
+      min-height: 110px; resize: none;
+      font-family: var(--sans); font-size: var(--t-base);
+      padding: var(--s3) var(--s4);
+      border: 1px solid var(--border-mid); border-radius: var(--r-md);
+      background: var(--white); color: var(--ink); line-height: 1.6;
+    }
+    .gift-field textarea:focus { outline: none; border-color: var(--sage); }
+    .gift-char-count {
+      text-align: right;
+      font-size: 11px;
+      color: var(--mist);
+      margin-top: 4px;
+    }
+    .gift-message-preview {
+      background: var(--parchment);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--s5) var(--s6);
+      margin-top: var(--s5);
+    }
+    .gift-message-preview__label {
+      font-size: var(--t-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--stone);
+      font-weight: 500;
+      margin-bottom: var(--s3);
+    }
+    .gift-message-preview__text {
+      font-family: var(--serif);
+      font-size: var(--t-md);
+      color: var(--ink);
+      line-height: 1.6;
+      font-style: italic;
+      min-height: 44px;
+    }
+    .gift-message-preview__from {
+      font-size: var(--t-xs);
+      color: var(--stone);
+      margin-top: var(--s3);
+    }
+
+    /* ── Step 3: Delivery ───────────────────────────────────── */
+    .gift-delivery-options {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s3);
+      margin-bottom: var(--s6);
+    }
+    .gift-delivery-card {
+      background: var(--parchment);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--s5) var(--s6);
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: var(--s4);
+      transition: border-color 0.15s, background 0.15s;
+      user-select: none;
+    }
+    .gift-delivery-card:hover { border-color: var(--sage-mid); }
+    .gift-delivery-card.is-selected { border-color: var(--sage); background: var(--sage-pale); box-shadow: 0 0 0 3px rgba(99,122,94,0.1); }
+    .gift-delivery-card__icon {
+      width: 40px; height: 40px;
+      border-radius: var(--r-md);
+      background: var(--white);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      color: var(--ink);
+    }
+    .gift-delivery-card.is-selected .gift-delivery-card__icon { border-color: var(--sage-light); background: var(--sage-pale); color: var(--sage); }
+    .gift-delivery-card__content { flex: 1; }
+    .gift-delivery-card__title { font-size: var(--t-base); font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+    .gift-delivery-card__desc { font-size: var(--t-sm); color: var(--stone); line-height: 1.5; }
+    .gift-delivery-card__radio {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      margin-top: 2px;
+      position: relative;
+      background: var(--white);
+    }
+    .gift-delivery-card.is-selected .gift-delivery-card__radio { border-color: var(--sage); }
+    .gift-delivery-card.is-selected .gift-delivery-card__radio::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border-radius: 50%;
+      background: var(--sage);
+    }
+    /* Recipient email field — only shown when send-to-recipient is selected */
+    .gift-recipient-email { display: none; }
+    .gift-recipient-email.is-visible { display: block; }
+    /* Scheduled send */
+    .gift-schedule { margin-top: var(--s5); display: none; }
+    .gift-schedule.is-visible { display: block; }
+
+    /* ── Step 4: Payment ────────────────────────────────────── */
+    .gift-order-summary {
+      background: var(--parchment);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--s5) var(--s6);
+      margin-bottom: var(--s6);
+    }
+    .gift-order-summary__label {
+      font-size: var(--t-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--stone);
+      font-weight: 500;
+      margin-bottom: var(--s4);
+    }
+    .gift-order-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: var(--t-sm);
+      padding: var(--s2) 0;
+    }
+    .gift-order-row__key { color: var(--stone); }
+    .gift-order-row__val { font-weight: 500; color: var(--ink); }
+    .gift-order-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-top: var(--s4);
+      margin-top: var(--s3);
+      border-top: 1px solid var(--border);
+    }
+    .gift-order-total__label { font-weight: 600; color: var(--ink); }
+    .gift-order-total__amount {
+      font-family: var(--serif);
+      font-size: var(--t-xl);
+      color: var(--ink);
+    }
+    .form-section {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      margin-bottom: var(--s5);
+    }
+    .form-section__header {
+      padding: var(--s4) var(--s6);
+      background: var(--parchment);
+      border-bottom: 1px solid var(--border);
+    }
+    .form-section__header h4 {
+      font-size: var(--t-base);
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .form-section__body {
+      padding: var(--s6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--s5);
+    }
+    .card-field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s4);
+    }
+    .payment-security {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--s5);
+      padding: var(--s4);
+      background: var(--parchment);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      margin-top: var(--s4);
+      flex-wrap: wrap;
+    }
+    .payment-security__item {
+      display: flex;
+      align-items: center;
+      gap: var(--s2);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      color: var(--stone);
+    }
+
+    /* ── Step 5: Confirmed ──────────────────────────────────── */
+    .gift-confirmed { text-align: center; }
+    .gift-confirmed__icon {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: var(--sage-pale);
+      border: 1.5px solid var(--sage-light);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto var(--s5);
+      color: var(--sage);
+    }
+    .gift-confirmed__eyebrow { font-family: var(--ui); font-size: var(--t-xs); font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sage); margin-bottom: var(--s3); }
+    .gift-confirmed__title { font-family: var(--serif); font-size: clamp(26px, 2.2vw, 34px); color: var(--ink); line-height: 1.1; margin-bottom: var(--s3); }
+    .gift-confirmed__sub { font-size: var(--t-sm); color: var(--stone); line-height: 1.65; margin-bottom: var(--s6); max-width: 360px; margin-left: auto; margin-right: auto; }
+    .gift-code-card {
+      background: var(--ink);
+      border-radius: var(--r-lg);
+      padding: var(--s6);
+      margin-bottom: var(--s6);
+      text-align: center;
+    }
+    .gift-code-card__label {
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: var(--s3);
+    }
+    .gift-code-card__code {
+      font-family: var(--ui);
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: var(--white);
+      margin-bottom: var(--s2);
+    }
+    .gift-code-card__amount {
+      font-family: var(--serif);
+      font-size: var(--t-lg);
+      color: rgba(255,255,255,0.65);
+    }
+    .gift-confirmed__actions { display: flex; flex-direction: column; gap: var(--s3); max-width: 360px; margin: 0 auto; }
+
+    /* ── Nav footer ─────────────────────────────────────────── */
+    .gift-nav {
+      padding: var(--s5) var(--s9);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .gift-nav__back {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s2);
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stone);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: color var(--dur-fast);
+      visibility: hidden;
+    }
+    .gift-nav__back.is-visible { visibility: visible; }
+    .gift-nav__back:hover { color: var(--ink); }
+    .gift-nav__right { display: flex; align-items: center; gap: var(--s5); }
+    .gift-nav__amount {
+      font-family: var(--serif);
+      font-size: var(--t-lg);
+      color: var(--ink);
+    }
+
+    /* ── Responsive ─────────────────────────────────────────── */
+    @media (max-width: 960px) {
+      .gift-layout { grid-template-columns: 1fr; }
+      .gift-brand { display: none; }
+      html, body { overflow: auto; height: auto; }
+      .gift-right { min-height: calc(100dvh - 64px); }
+      .gift-scroll { padding: var(--s6) var(--s6); align-items: flex-start; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ───────────────────────────────────────────────── -->
+  <header class="gift-header">
+    <a href="index.html" class="gift-header__exit">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Exit
+    </a>
+    <a href="index.html" class="gift-header__logo">Queen of Retreats</a>
+    <p class="gift-header__help">Questions? <a href="contact.html">Talk to us</a></p>
+  </header>
+
+  <!-- ── Layout ───────────────────────────────────────────────── -->
+  <div class="gift-layout">
+
+    <!-- ── Brand panel ──────────────────────────────────────────── -->
+    <div class="gift-brand">
+      <img class="gift-brand__img" src="images/general/promo-half-width.jpg" alt="">
+      <div class="gift-brand__content">
+        <div class="gift-brand__top">
+          <div class="gift-brand__tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+            Gift a retreat
+          </div>
+          <div class="gift-brand__headline">Give the gift of transformation</div>
+          <ul class="gift-brand__benefits">
+            <li class="gift-brand__benefit">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Five curated gift amounts from £100
+            </li>
+            <li class="gift-brand__benefit">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Redeemable against any retreat on QoR
+            </li>
+            <li class="gift-brand__benefit">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Send to yourself or straight to the recipient
+            </li>
+            <li class="gift-brand__benefit">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Valid for 24 months from date of purchase
+            </li>
+          </ul>
+        </div>
+        <div class="gift-brand__quote">
+          <div class="gift-brand__quote-text">"I gave my best friend a QoR gift for her birthday. She cried. Best present I've ever given."</div>
+          <div class="gift-brand__quote-attr">Emma T. — QoR Member since 2023</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Right panel ───────────────────────────────────────────── -->
+    <div class="gift-right">
+
+      <div class="gift-progress">
+        <div class="gift-progress__fill" id="gift-progress-fill"></div>
+      </div>
+
+      <!-- Step indicator -->
+      <div class="gift-step-indicator">
+        <div class="gift-step-pip is-active" id="pip-1">
+          <div class="gift-step-pip__dot">1</div>
+          Amount
+        </div>
+        <div class="gift-step-connector"></div>
+        <div class="gift-step-pip" id="pip-2">
+          <div class="gift-step-pip__dot">2</div>
+          Message
+        </div>
+        <div class="gift-step-connector"></div>
+        <div class="gift-step-pip" id="pip-3">
+          <div class="gift-step-pip__dot">3</div>
+          Delivery
+        </div>
+        <div class="gift-step-connector"></div>
+        <div class="gift-step-pip" id="pip-4">
+          <div class="gift-step-pip__dot">4</div>
+          Payment
+        </div>
+        <div class="gift-step-connector"></div>
+        <div class="gift-step-pip" id="pip-5">
+          <div class="gift-step-pip__dot">✓</div>
+          Confirmed
+        </div>
+      </div>
+
+      <div class="gift-scroll" id="gift-scroll">
+
+        <!-- ──────────────────────────────────────────────────────
+             STEP 1: Choose amount
+        ────────────────────────────────────────────────────── -->
+        <div class="gift-view is-active" id="gift-step-1">
+          <div class="gift-eyebrow">Step 1 of 4</div>
+          <h1 class="gift-title">Choose a gift amount</h1>
+          <p class="gift-sub">Gift cards are redeemable against any retreat on Queen of Retreats — the recipient chooses where to go.</p>
+
+          <div class="gift-amounts">
+            <div class="gift-amount-card" data-amount="100" onclick="selectAmount(this)">
+              <div class="gift-amount-card__amount">£100</div>
+              <div class="gift-amount-card__desc">Towards a shorter UK retreat</div>
+            </div>
+            <div class="gift-amount-card" data-amount="250" onclick="selectAmount(this)">
+              <div class="gift-amount-card__amount">£250</div>
+              <div class="gift-amount-card__desc">Contribution to a weekend retreat</div>
+            </div>
+            <div class="gift-amount-card" data-amount="500" onclick="selectAmount(this)">
+              <div class="gift-amount-card__amount">£500</div>
+              <div class="gift-amount-card__desc">Towards a 5-night experience</div>
+              <div class="gift-amount-card__badge">Popular</div>
+            </div>
+            <div class="gift-amount-card" data-amount="1000" onclick="selectAmount(this)">
+              <div class="gift-amount-card__amount">£1,000</div>
+              <div class="gift-amount-card__desc">Covers most week-long retreats</div>
+            </div>
+            <div class="gift-amount-card gift-amount-card--custom" data-amount="custom" onclick="selectAmount(this)">
+              <div class="gift-amount-card__left">
+                <div class="gift-amount-card__amount" style="font-size:var(--t-lg);margin-bottom:3px;">Custom amount</div>
+                <div class="gift-amount-card__desc">Enter any amount from £50</div>
+              </div>
+              <div class="gift-custom-input-wrap">
+                <span class="gift-custom-symbol">£</span>
+                <input class="gift-custom-input" type="number" id="custom-amount-input" min="50" placeholder="—" onclick="event.stopPropagation(); selectAmount(this.closest('.gift-amount-card'));" oninput="updateCustomAmount(this.value)">
+              </div>
+            </div>
+          </div>
+
+          <p class="gift-amount-note">All gift cards are valid for 24 months. No fees, no expiry surprises.</p>
+        </div>
+
+        <!-- ──────────────────────────────────────────────────────
+             STEP 2: Personal message
+        ────────────────────────────────────────────────────── -->
+        <div class="gift-view" id="gift-step-2">
+          <div class="gift-eyebrow">Step 2 of 4</div>
+          <h1 class="gift-title">Add a personal message</h1>
+          <p class="gift-sub">Your message will be included with the gift. Keep it heartfelt — it's the part they'll remember.</p>
+
+          <div class="gift-field">
+            <label>From <span>— your name</span></label>
+            <input type="text" id="gift-from" class="form-input" placeholder="e.g. Emma" autocomplete="given-name">
+          </div>
+
+          <div class="gift-field">
+            <label>To <span>— recipient's name, optional</span></label>
+            <input type="text" id="gift-to" class="form-input" placeholder="e.g. Sarah">
+          </div>
+
+          <div class="gift-field">
+            <label>Your message <span>— optional</span></label>
+            <textarea id="gift-message" maxlength="280" placeholder="Write something from the heart…" oninput="updateMessagePreview()"></textarea>
+            <div class="gift-char-count"><span id="gift-char-count">0</span> / 280</div>
+          </div>
+
+          <div class="gift-message-preview">
+            <p class="gift-message-preview__label">Preview</p>
+            <p class="gift-message-preview__text" id="gift-preview-text">Your message will appear here…</p>
+            <p class="gift-message-preview__from" id="gift-preview-from">— </p>
+          </div>
+        </div>
+
+        <!-- ──────────────────────────────────────────────────────
+             STEP 3: Delivery
+        ────────────────────────────────────────────────────── -->
+        <div class="gift-view" id="gift-step-3">
+          <div class="gift-eyebrow">Step 3 of 4</div>
+          <h1 class="gift-title">How should we send it?</h1>
+          <p class="gift-sub">Choose whether you'd like to handle delivery yourself, or we'll send it directly to the recipient.</p>
+
+          <div class="gift-delivery-options">
+            <div class="gift-delivery-card is-selected" data-delivery="self" onclick="selectDelivery(this)">
+              <div class="gift-delivery-card__icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <div class="gift-delivery-card__content">
+                <div class="gift-delivery-card__title">Send to me</div>
+                <div class="gift-delivery-card__desc">We'll email the gift code to your address. You choose when and how to give it — perfect for a physical moment or a surprise.</div>
+              </div>
+              <div class="gift-delivery-card__radio"></div>
+            </div>
+            <div class="gift-delivery-card" data-delivery="recipient" onclick="selectDelivery(this)">
+              <div class="gift-delivery-card__icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <div class="gift-delivery-card__content">
+                <div class="gift-delivery-card__title">Send directly to recipient</div>
+                <div class="gift-delivery-card__desc">We'll email the gift straight to them with your personal message. You can choose to send immediately or schedule a date.</div>
+              </div>
+              <div class="gift-delivery-card__radio"></div>
+            </div>
+          </div>
+
+          <!-- Recipient email (shown when send to recipient selected) -->
+          <div class="gift-recipient-email" id="gift-recipient-email">
+            <div class="gift-field">
+              <label>Recipient's email</label>
+              <input type="email" id="recipient-email" class="form-input" placeholder="their@email.com" autocomplete="off">
+            </div>
+            <div class="gift-schedule" id="gift-schedule">
+              <div class="gift-field">
+                <label>Send on <span>— leave blank to send immediately after payment</span></label>
+                <input type="date" id="gift-send-date" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--sage-pale);border-left:3px solid var(--sage-mid);border-radius:0 var(--r-md) var(--r-md) 0;padding:var(--s4) var(--s5);font-size:var(--t-sm);color:var(--ink);line-height:1.55;">
+            <strong>Your purchase email</strong> will also receive a copy of the gift code, a receipt, and instructions for the recipient.
+          </div>
+        </div>
+
+        <!-- ──────────────────────────────────────────────────────
+             STEP 4: Payment
+        ────────────────────────────────────────────────────── -->
+        <div class="gift-view" id="gift-step-4">
+          <div class="gift-eyebrow">Step 4 of 4</div>
+          <h1 class="gift-title">Secure payment</h1>
+          <p class="gift-sub">Your payment is processed securely. We never store your full card details.</p>
+
+          <!-- Order summary -->
+          <div class="gift-order-summary">
+            <p class="gift-order-summary__label">Order summary</p>
+            <div class="gift-order-row">
+              <span class="gift-order-row__key">Gift card</span>
+              <span class="gift-order-row__val" id="summary-amount">£500</span>
+            </div>
+            <div class="gift-order-row" id="summary-to-row" style="display:none;">
+              <span class="gift-order-row__key">For</span>
+              <span class="gift-order-row__val" id="summary-to">—</span>
+            </div>
+            <div class="gift-order-row" id="summary-delivery-row">
+              <span class="gift-order-row__key">Delivery</span>
+              <span class="gift-order-row__val" id="summary-delivery">Sent to you</span>
+            </div>
+            <div class="gift-order-total">
+              <span class="gift-order-total__label">Total</span>
+              <span class="gift-order-total__amount" id="summary-total">£500</span>
+            </div>
+          </div>
+
+          <!-- Card form -->
+          <div class="form-section">
+            <div class="form-section__header">
+              <h4>Card details</h4>
+            </div>
+            <div class="form-section__body">
+              <div class="form-group">
+                <label class="form-label" for="gift-card-name">Name on card</label>
+                <input class="form-input" type="text" id="gift-card-name" placeholder="As it appears on your card" autocomplete="cc-name">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="gift-card-number">Card number</label>
+                <input class="form-input" type="text" id="gift-card-number" placeholder="0000 0000 0000 0000" maxlength="19" inputmode="numeric" autocomplete="cc-number">
+              </div>
+              <div class="card-field-row">
+                <div class="form-group">
+                  <label class="form-label" for="gift-card-expiry">Expiry date</label>
+                  <input class="form-input" type="text" id="gift-card-expiry" placeholder="MM / YY" maxlength="7" inputmode="numeric" autocomplete="cc-exp">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="gift-card-cvc">CVC</label>
+                  <input class="form-input" type="text" id="gift-card-cvc" placeholder="000" maxlength="4" inputmode="numeric" autocomplete="cc-csc">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="gift-billing-email">Email for receipt</label>
+                <input class="form-input" type="email" id="gift-billing-email" placeholder="your@email.com" autocomplete="email">
+              </div>
+            </div>
+          </div>
+
+          <!-- Security badges -->
+          <div class="payment-security">
+            <div class="payment-security__item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              256-bit SSL encrypted
+            </div>
+            <div class="payment-security__item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              3D Secure verified
+            </div>
+            <div class="payment-security__item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+              Stripe payment processing
+            </div>
+          </div>
+
+          <p style="font-size:var(--t-xs);color:var(--stone);text-align:center;margin-top:var(--s4);line-height:1.55;">
+            By purchasing you agree to our <a href="#" style="color:var(--stone);">Terms of Service</a>. Gift cards are non-refundable once redeemed.
+          </p>
+        </div>
+
+        <!-- ──────────────────────────────────────────────────────
+             STEP 5: Confirmed
+        ────────────────────────────────────────────────────── -->
+        <div class="gift-view" id="gift-step-5">
+          <div class="gift-confirmed">
+            <div class="gift-confirmed__icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="gift-confirmed__eyebrow">Gift purchased</div>
+            <h1 class="gift-confirmed__title">It's on its way</h1>
+            <p class="gift-confirmed__sub" id="conf-sub">Your gift code has been sent to your email address. Share it whenever the moment feels right.</p>
+
+            <div class="gift-code-card">
+              <p class="gift-code-card__label">Gift code</p>
+              <p class="gift-code-card__code" id="conf-code">QOR-GIFT-7842</p>
+              <p class="gift-code-card__amount" id="conf-amount">£500 retreat credit</p>
+            </div>
+
+            <div class="gift-confirmed__actions">
+              <button class="btn btn--primary btn--lg btn--full" onclick="window.print()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                Print gift voucher
+              </button>
+              <a href="listings.html" class="btn btn--secondary btn--full">Browse retreats</a>
+              <a href="account-bookings.html" class="btn btn--ghost btn--full">Go to my account</a>
+            </div>
+
+            <p style="font-size:var(--t-xs);color:var(--mist);margin-top:var(--s5);line-height:1.55;">
+              Gift code valid for 24 months · Redeemable on any QoR retreat · Ref: <span id="conf-ref">—</span>
+            </p>
+          </div>
+        </div>
+
+      </div><!-- /gift-scroll -->
+
+      <!-- ── Footer nav ──────────────────────────────────────────── -->
+      <div class="gift-nav" id="gift-nav">
+        <button class="gift-nav__back" id="gift-back-btn" onclick="giftNav(-1)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          Back
+        </button>
+        <div class="gift-nav__right">
+          <span class="gift-nav__amount" id="gift-nav-amount" style="display:none;"></span>
+          <button class="btn btn--ink btn--lg" id="gift-continue-btn" onclick="giftNav(1)">
+            Continue
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /gift-right -->
+  </div><!-- /gift-layout -->
+
+  <script>
+
+    /* ── State ── */
+    let giftStep = 1;
+    let selectedAmountVal = null;
+    let selectedDelivery = 'self';
+
+    const TOTAL_STEPS = 4;
+
+    /* ── Step rendering ── */
+    function giftRender(step) {
+      // Hide all views
+      document.querySelectorAll('.gift-view').forEach(v => v.classList.remove('is-active'));
+      document.getElementById('gift-step-' + step).classList.add('is-active');
+      document.getElementById('gift-scroll').scrollTop = 0;
+
+      // Progress bar
+      document.getElementById('gift-progress-fill').style.width = ((step / (TOTAL_STEPS + 1)) * 100) + '%';
+
+      // Step pips
+      for (let i = 1; i <= 5; i++) {
+        const pip = document.getElementById('pip-' + i);
+        pip.classList.remove('is-active', 'is-done');
+        if (i < step) pip.classList.add('is-done');
+        if (i === step) pip.classList.add('is-active');
+      }
+
+      // Back button
+      const backBtn = document.getElementById('gift-back-btn');
+      backBtn.classList.toggle('is-visible', step > 1 && step < 5);
+
+      // Continue button label
+      const continueBtn = document.getElementById('gift-continue-btn');
+      const navAmount = document.getElementById('gift-nav-amount');
+
+      if (step === 5) {
+        document.getElementById('gift-nav').style.display = 'none';
+        return;
+      }
+
+      document.getElementById('gift-nav').style.display = '';
+
+      if (step === 4) {
+        const amt = selectedAmountVal ? '£' + Number(selectedAmountVal).toLocaleString() : '';
+        continueBtn.innerHTML = `Pay ${amt} &amp; Send Gift <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`;
+      } else {
+        continueBtn.innerHTML = `Continue <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`;
+      }
+
+      // Show amount in nav from step 2 onwards
+      if (step >= 2 && selectedAmountVal) {
+        navAmount.style.display = '';
+        navAmount.textContent = '£' + Number(selectedAmountVal).toLocaleString();
+      } else {
+        navAmount.style.display = 'none';
+      }
+    }
+
+    function giftNav(dir) {
+      if (dir === 1) {
+        // Validate before advancing
+        if (giftStep === 1 && !selectedAmountVal) {
+          alert('Please choose a gift amount to continue.');
+          return;
+        }
+        if (giftStep === 2) {
+          const from = document.getElementById('gift-from').value.trim();
+          if (!from) { alert('Please enter your name so the recipient knows who it\'s from.'); return; }
+        }
+        if (giftStep === 3 && selectedDelivery === 'recipient') {
+          const recipEmail = document.getElementById('recipient-email').value.trim();
+          if (!recipEmail || !recipEmail.includes('@')) { alert('Please enter the recipient\'s email address.'); return; }
+        }
+        if (giftStep === 4) {
+          // Populate summary and confirm
+          populateConfirmation();
+          giftStep = 5;
+          giftRender(5);
+          return;
+        }
+        if (giftStep === 3) {
+          // Populate payment summary
+          populatePaymentSummary();
+        }
+        giftStep++;
+      } else {
+        giftStep = Math.max(1, giftStep - 1);
+      }
+      giftRender(giftStep);
+    }
+
+    /* ── Amount selection ── */
+    function selectAmount(card) {
+      document.querySelectorAll('.gift-amount-card').forEach(c => c.classList.remove('is-selected'));
+      card.classList.add('is-selected');
+      const amt = card.dataset.amount;
+      if (amt !== 'custom') {
+        selectedAmountVal = amt;
+      } else {
+        const val = document.getElementById('custom-amount-input').value;
+        selectedAmountVal = val && val >= 50 ? val : null;
+      }
+      updateNavAmount();
+    }
+
+    function updateCustomAmount(val) {
+      selectedAmountVal = val && val >= 50 ? val : null;
+      updateNavAmount();
+    }
+
+    function updateNavAmount() {
+      const navAmount = document.getElementById('gift-nav-amount');
+      if (selectedAmountVal && giftStep >= 2) {
+        navAmount.style.display = '';
+        navAmount.textContent = '£' + Number(selectedAmountVal).toLocaleString();
+      }
+    }
+
+    /* ── Message preview ── */
+    function updateMessagePreview() {
+      const msg = document.getElementById('gift-message').value.trim();
+      const from = document.getElementById('gift-from').value.trim();
+      const to = document.getElementById('gift-to').value.trim();
+      const count = document.getElementById('gift-message').value.length;
+      document.getElementById('gift-char-count').textContent = count;
+      document.getElementById('gift-preview-text').textContent = msg || 'Your message will appear here…';
+      document.getElementById('gift-preview-text').style.fontStyle = msg ? 'italic' : 'normal';
+      document.getElementById('gift-preview-from').textContent = '— ' + (from || '');
+    }
+
+    /* ── Delivery selection ── */
+    function selectDelivery(card) {
+      document.querySelectorAll('.gift-delivery-card').forEach(c => c.classList.remove('is-selected'));
+      card.classList.add('is-selected');
+      selectedDelivery = card.dataset.delivery;
+      const recipientSection = document.getElementById('gift-recipient-email');
+      const scheduleSection = document.getElementById('gift-schedule');
+      if (selectedDelivery === 'recipient') {
+        recipientSection.classList.add('is-visible');
+        scheduleSection.classList.add('is-visible');
+      } else {
+        recipientSection.classList.remove('is-visible');
+        scheduleSection.classList.remove('is-visible');
+      }
+    }
+
+    /* ── Payment summary ── */
+    function populatePaymentSummary() {
+      const amt = selectedAmountVal ? '£' + Number(selectedAmountVal).toLocaleString() : '—';
+      document.getElementById('summary-amount').textContent = amt;
+      document.getElementById('summary-total').textContent = amt;
+      const to = document.getElementById('gift-to').value.trim();
+      if (to) {
+        document.getElementById('summary-to').textContent = to;
+        document.getElementById('summary-to-row').style.display = '';
+      } else {
+        document.getElementById('summary-to-row').style.display = 'none';
+      }
+      document.getElementById('summary-delivery').textContent =
+        selectedDelivery === 'recipient' ? 'Sent to recipient' : 'Sent to you';
+    }
+
+    /* ── Confirmation ── */
+    function populateConfirmation() {
+      const amt = selectedAmountVal ? Number(selectedAmountVal).toLocaleString() : '—';
+      const ref = 'QOR-GIFT-' + Math.floor(1000 + Math.random() * 9000);
+      document.getElementById('conf-code').textContent = ref;
+      document.getElementById('conf-amount').textContent = '£' + amt + ' retreat credit';
+      document.getElementById('conf-ref').textContent = ref;
+      // Update sub text based on delivery
+      const recipEmail = document.getElementById('recipient-email').value.trim();
+      if (selectedDelivery === 'recipient' && recipEmail) {
+        document.getElementById('conf-sub').textContent =
+          `The gift has been sent to ${recipEmail} with your message. A copy of the code is also in your inbox.`;
+      } else {
+        document.getElementById('conf-sub').textContent =
+          'Your gift code has been sent to your email address. Share it whenever the moment feels right.';
+      }
+      // Progress to full
+      document.getElementById('gift-progress-fill').style.width = '100%';
+    }
+
+    // Also update preview when 'from' input changes
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('gift-from').addEventListener('input', updateMessagePreview);
+      document.getElementById('gift-to').addEventListener('input', updateMessagePreview);
+      giftRender(1);
+    });
+
+  </script>
+
+</body>
+</html>
